@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<javaee:taglib version="2.1" xmlns:javaee="http://java.sun.com/xml/ns/javaee"
+	xmlns:xml="http://www.w3.org/XML/1998/namespace" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-jsptaglibrary_2_1.xsd ">
+	<javaee:tlib-version>1.0</javaee:tlib-version>
+	<javaee:short-name>rb</javaee:short-name>
+	<javaee:uri>customtags</javaee:uri>
+	<javaee:tag>
+		<javaee:name>text</javaee:name>
+		<javaee:tag-class>com.epam.training.tag.ResourceBundleTag</javaee:tag-class>
+		<javaee:body-content>empty</javaee:body-content>
+		<javaee:attribute>
+			<javaee:name>message</javaee:name>
+			<javaee:required>true</javaee:required>
+		</javaee:attribute>
+	</javaee:tag>
+</javaee:taglib>

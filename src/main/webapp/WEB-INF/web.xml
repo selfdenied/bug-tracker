@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/javaee" xmlns:jsp="http://java.sun.com/xml/ns/javaee/jsp"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+	id="WebApp_ID" version="3.0">
+	<welcome-file-list>
+		<welcome-file>index.jsp</welcome-file>
+	</welcome-file-list>
+	<jsp-config>
+		<taglib>
+			<taglib-uri>customtags</taglib-uri>
+			<taglib-location>/WEB-INF/tld/custom.tld</taglib-location>
+		</taglib>
+	</jsp-config>
+	<context-param>
+		<param-name>adminEmail</param-name>
+		<param-value>selfdenied.by@gmail.com</param-value>
+	</context-param>
+	<error-page>
+		<exception-type>java.lang.Throwable</exception-type>
+		<location>/jsp/error/error.jsp</location>
+	</error-page>
+	<servlet>
+		<description>The main servlet that controls Command - JSP communication</description>
+		<display-name>controller</display-name>
+		<servlet-name>ControllerServlet</servlet-name>
+		<servlet-class>com.epam.training.servlet.ControllerServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ControllerServlet</servlet-name>
+		<url-pattern>/controller</url-pattern>
+	</servlet-mapping>
+	<listener>
+		<listener-class>com.epam.training.listener.ApplicationContextListener</listener-class>
+	</listener>
+	<filter>
+		<filter-name>encodingFilter</filter-name>
+		<filter-class>com.epam.training.filter.EncodingFilter</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+	</filter>
+	<filter>
+		<filter-name>pageRedirectFilter</filter-name>
+		<filter-class>com.epam.training.filter.PageRedirectSecurityFilter</filter-class>
+		<init-param>
+			<param-name>indexPath</param-name>
+			<param-value>/index.jsp</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>encodingFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>pageRedirectFilter</filter-name>
+		<url-pattern>/jsp/*</url-pattern>
+	</filter-mapping>
+</web-app>

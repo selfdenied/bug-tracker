@@ -1,0 +1,110 @@
+@CHARSET "UTF-8";
+.form{
+	width:84%;
+	text-align:center;
+	font-size:20px;
+	float:center;
+}
+.form2{
+	width:84%;
+	text-align:center;
+	font-size:20px;
+	color:red;
+	float:center;
+}
+.form3{
+	width:84%;
+	text-align:center;
+	font-size:17px;
+	color:red;
+	float:center;
+}
+.form4{
+	width:84%;
+	text-align:center;
+	font-size:17px;
+	color:green;
+	float:center;
+}
+.form5{
+	width:84%;
+	text-align:center;
+	font-size:26px;
+	float:center;
+}
+.menu{
+    line-height:30px;
+    background-color:#EBEBEB;
+    height:100%;
+    width:15%;
+    padding:5px;
+    float:right;
+    font-size:20px;
+    text-align:right;
+}
+.usermenu{
+    background-color:white;
+    height:100%;
+    width:15%;
+    padding:5px;
+    float:right;
+    font-size:22px;
+    text-align:right;
+}
+.smallmenu{
+    line-height:30px;
+    background-color:white;
+    height:10%;
+    width:15%;
+    padding:5px;
+    font-size:20px;
+}
+.maintable {
+	text-align: center;
+	color: blue;
+}
+.h1error {
+	text-align: center;
+	color: red;
+}
+a:link {
+	color:blue;
+	background-color:transparent;
+	text-decoration:none;
+}
+a:hover {
+    color:red;
+    background-color:transparent;
+    text-decoration:underline;
+}
+a:visited {
+    color:#000047;
+    background-color:transparent;
+    text-decoration:none;
+}
+table#default{
+	width:100%;
+}
+table {
+    width:84%;
+}
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+    background-color: #f1f1c1;
+}
+th, td {
+    padding: 5px;
+}
+td#critical {
+	background-color: #ff0000;
+}
+td#major {
+	background-color: #ffff00;
+}
+td#important {
+	background-color: #0000ff;
+}
+td#minor {
+	background-color: #00ff00;
+}
