@@ -57,4 +57,7 @@
 		<filter-name>pageRedirectFilter</filter-name>
 		<url-pattern>/jsp/*</url-pattern>
 	</filter-mapping>
+	<session-config>
+		<session-timeout>20</session-timeout>
+	</session-config>
 </web-app>

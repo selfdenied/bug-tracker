@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 
@@ -12,30 +13,28 @@ import com.epam.training.exception.GeneralLogicException;
 import com.epam.training.logic.IssueLogic;
 
 /**
- * Class {@code NoCommand} is invoked when no 'action' parameter is specified in
- * the request object. It redirects the request to default (Welcome) page and
- * puts the list of latest issues in the request.
+ * Class {@code LogoutCommand} is invoked when a Member clicks on Logout button.
+ * It invalidates the session and redirects the request to the index page.
  * 
  * @author Vasili Andreev
  * @version 1.0
  * @see com.epam.training.command.ICommand
  */
-public class NoCommand implements ICommand {
-	private static final Logger LOG = Logger.getLogger(NoCommand.class);
+public class LogoutCommand implements ICommand {
+	private static final Logger LOG = Logger.getLogger(LogoutCommand.class);
 	private static final String URL = "jsp/common/welcome.jsp";
-	private static final String PARAM_LANGUAGE = "lang";
-	private static final String DEFAULT_LANGUAGE = "rus";
-	
+	private static final String PARAM_LOCALE = "locale";
+
 	@Override
 	public String execute(HttpServletRequest request) {
-		IssueLogic issueLogic = new IssueLogic();
+		IssueLogic il = new IssueLogic();
 		List<Issue> recentIssuesList = new ArrayList<>();
-		String language = request.getParameter(PARAM_LANGUAGE);
-		if (language == null) {
-			language = DEFAULT_LANGUAGE;
-		}
+		HttpSession session = request.getSession(false);
+		String language = (String) session.getAttribute(PARAM_LOCALE);
+		session.invalidate();
+		
 		try {
-			recentIssuesList = issueLogic.recentIssuesList();
+			recentIssuesList = il.recentIssuesList();
 		} catch (GeneralLogicException ex) {
 			LOG.error(ex.getMessage());
 		}

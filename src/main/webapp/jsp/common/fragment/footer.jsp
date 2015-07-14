@@ -3,9 +3,9 @@
 <!DOCTYPE html>
 
 <p>
-	<rb:text message="host_message" /> <b>${header["host"]}</b>
+	<rb:text message="host_message" locale="${locale}" /> <b>${header["host"]}</b>
 	<br> 
-	<rb:text message="page_encoding" /> <b>${pageContext.request.characterEncoding}</b>
+	<rb:text message="page_encoding" locale="${locale}" /> <b>${pageContext.request.characterEncoding}</b>
 	<br>
-	<em><rb:text message="email_message" /></em> <b>${initParam.adminEmail}</b>
+	<em><rb:text message="email_message" locale="${locale}" /></em> <b>${initParam.adminEmail}</b>
 </p>

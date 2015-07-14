@@ -1,20 +1,13 @@
 package com.epam.training.command.issue;
 
-import static com.epam.training.dao.factory.DAOFactoryType.MYSQL;
-
-import java.sql.Connection;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
 
 import com.epam.training.bean.Issue;
 import com.epam.training.command.ICommand;
-import com.epam.training.connection.ConnectionPool;
-import com.epam.training.dao.AbstractDAO;
-import com.epam.training.dao.factory.AbstractDAOFactory;
-import com.epam.training.exception.GeneralCommandException;
-import com.epam.training.exception.GeneralDAOException;
+import com.epam.training.exception.GeneralLogicException;
+import com.epam.training.logic.IssueLogic;
 
 /**
  * Class {@code IssueInfoCommand} puts the information about the selected Issue
@@ -27,36 +20,24 @@ import com.epam.training.exception.GeneralDAOException;
 public class IssueInfoCommand implements ICommand {
 	private static final Logger LOG = Logger.getLogger(IssueInfoCommand.class);
 	private static final String URL = "jsp/issue/issueInfo.jsp";
-	private static final String PARAM_NAME_ISSUE_ID = "issueID";
-	private AbstractDAOFactory factory;
-	private ConnectionPool pool;
-
+	private static final String PARAM_ISSUE_ID = "issueID";
+	private static final String PARAM_LANGUAGE = "lang";
+	
 	@Override
-	public String execute(HttpServletRequest request)
-			throws GeneralCommandException {
-		int issueID = Integer.parseInt(request.getParameter(PARAM_NAME_ISSUE_ID));
-		/* initializing the pool */
-		pool = ConnectionPool.getInstance();
-		/* getting connection and DAOFactory */
-		Connection connection = pool.getConnection();
-		factory = AbstractDAOFactory.getDAOFactory(connection, MYSQL);
-		/* putting the selected Issue into request */
-		
-		request.setAttribute("issueToView", issueToView(issueID));
-		pool.releaseConnection(connection);
-		return URL;
-	}
-
-	/* supplementary method that returns the selected Issue (by ID) */
-	private Issue issueToView(int issueID) throws GeneralCommandException {
-		AbstractDAO<Issue> issueDAO = factory.getIssueDAO();
+	public String execute(HttpServletRequest request) {
+		IssueLogic issueLogic = new IssueLogic();
 		Issue issueToView = null;
+		int issueID = Integer.parseInt(request.getParameter(PARAM_ISSUE_ID));
+		String language = request.getParameter(PARAM_LANGUAGE);
+		
 		try {
-			issueToView = issueDAO.findEntityByID(issueID);
-		} catch (GeneralDAOException ex) {
-			LOG.error("Error. Database problem!");
-			throw new GeneralCommandException("Database access error", ex);
+			issueToView = issueLogic.issueToView(issueID);
+		} catch (GeneralLogicException ex) {
+			LOG.error(ex.getMessage());
 		}
-		return issueToView;
+		/* putting the selected Issue into request */
+		request.setAttribute("issueToView", issueToView);
+		request.setAttribute("locale", language);
+		return URL;
 	}
 }

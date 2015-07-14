@@ -13,5 +13,10 @@
 			<javaee:name>message</javaee:name>
 			<javaee:required>true</javaee:required>
 		</javaee:attribute>
+		<javaee:attribute>
+			<javaee:name>locale</javaee:name>
+			<javaee:required>true</javaee:required>
+			<javaee:rtexprvalue>true</javaee:rtexprvalue>
+		</javaee:attribute>
 	</javaee:tag>
 </javaee:taglib>

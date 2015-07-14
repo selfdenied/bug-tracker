@@ -7,11 +7,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.log4j.Logger;
-
 import com.epam.training.command.ICommand;
 import com.epam.training.command.factory.CommandFactory;
-import com.epam.training.exception.GeneralCommandException;
 
 /**
  * Servlet {@code ControllerServlet} is a Servlet implementation class that
@@ -23,7 +20,6 @@ import com.epam.training.exception.GeneralCommandException;
  * @see javax.servlet.http.HttpServlet
  */
 public class ControllerServlet extends HttpServlet {
-	private static final Logger LOG = Logger.getLogger(ControllerServlet.class);
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -86,19 +82,11 @@ public class ControllerServlet extends HttpServlet {
 	 */
 	protected void processRequest(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		String url = null;
-		CommandFactory commandFactory = CommandFactory.getInstance();
-		ICommand command = commandFactory.getCommand(request);
-		try {
-			url = command.execute(request);
-		} catch (GeneralCommandException exception) {
-			LOG.error(exception.getMessage());
-		}
+		ICommand command = CommandFactory.getInstance().getCommand(request);
+		String url = command.execute(request);
+		/* putting the reconstructed ControllerServlet URL into request */
 		request.setAttribute("base", request.getRequestURL().toString());
-		if (url != null) {
-			request.getRequestDispatcher(url).forward(request, response);
-		} else {
-			response.sendError(500);
-		}
+		/* forwarding the request to a proper JSP */
+		request.getRequestDispatcher(url).forward(request, response);
 	}
 }

@@ -2,8 +2,6 @@ package com.epam.training.command;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.epam.training.exception.GeneralCommandException;
-
 /**
  * Interface {@code ICommand} is an interface that will be implemented by all
  * Command classes that process data received from JSPs. It contains just one
@@ -21,8 +19,7 @@ public interface ICommand {
 	 * 
 	 * @param request
 	 *            javax.servlet.http.HttpServletRequest
-	 * @throws GeneralCommandException
-	 *             If a Command exception of some sort has occurred
+	 * @return The URL of the JSP to which the request is forwarded.
 	 */
-	String execute(HttpServletRequest request) throws GeneralCommandException;
+	String execute(HttpServletRequest request);
 }

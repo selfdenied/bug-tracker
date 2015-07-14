@@ -15,14 +15,14 @@
 .form3{
 	width:84%;
 	text-align:center;
-	font-size:17px;
+	font-size:18px;
 	color:red;
 	float:center;
 }
 .form4{
 	width:84%;
 	text-align:center;
-	font-size:17px;
+	font-size:22px;
 	color:green;
 	float:center;
 }
@@ -54,7 +54,7 @@
 .smallmenu{
     line-height:30px;
     background-color:white;
-    height:10%;
+    height:15%;
     width:15%;
     padding:5px;
     font-size:20px;

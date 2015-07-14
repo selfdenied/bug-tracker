@@ -3,5 +3,5 @@
 
 	<h2>
 		<a href="${base}?action=changeLang&amp;lang=eng">ENG</a> | 
-		<a href="${base}?action=changeLang&amp;lang=rus">RUS</a>
+		<a href="${base}?action=changeLang&amp;lang=rus">РУС</a>
 	</h2>

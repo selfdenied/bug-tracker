@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.epam.training.command.*;
 import com.epam.training.command.issue.*;
+import com.epam.training.command.member.*;
 
 /**
  * Class {@code CommandFactory} returns a proper ICommand class depending on the
@@ -24,6 +25,11 @@ public class CommandFactory {
 	private CommandFactory() {
 		commandMap.put("changeLang", new ChangeLanguageCommand());
 		commandMap.put("issueInfo", new IssueInfoCommand());
+		commandMap.put("auth", new AuthCommand());
+		commandMap.put("backHome", new BackHomeCommand());
+		commandMap.put("logout", new LogoutCommand());
+		commandMap.put("updatePass", new UpdatePassCommand());
+		commandMap.put("updatePersonalData", new UpdatePersonalDataCommand());
 	}
 	
 	/*

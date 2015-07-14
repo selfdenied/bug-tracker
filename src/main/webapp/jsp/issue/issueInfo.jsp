@@ -6,33 +6,32 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel='stylesheet' href='css/style.css' type='text/css'/>
-<title><rb:text message="issue_info" /></title>
+<title><rb:text message="issue_info" locale="${locale}" /></title>
 </head>
 <body>
 	<h1 class="maintable">
-		<rb:text message="issue_data" />
+		<rb:text message="issue_data" locale="${locale}" />
 	</h1>
 		
 	<br>
-	
 	<br>
 	
 	<table id="default">
 		<tr align="center">
 			<td><b>ID</b></td>
-			<td><b><rb:text message="created_date" /></b></td>
-			<td><b><rb:text message="created_by" /></b></td>
-			<td><b><rb:text message="modified_date" /></b></td>
-			<td><b><rb:text message="modified_by" /></b></td>
-			<td><b><rb:text message="summary" /></b></td>
-			<td><b><rb:text message="description" /></b></td>
-			<td><b><rb:text message="status" /></b></td>
-			<td><b><rb:text message="resolution" /></b></td>
-			<td><b><rb:text message="type" /></b></td>
-			<td><b><rb:text message="priority" /></b></td>
-			<td><b><rb:text message="project" /></b></td>
-			<td><b><rb:text message="build" /></b></td>
-			<td><b><rb:text message="assignee" /></b></td>
+			<td><b><rb:text message="created_date" locale="${locale}"/></b></td>
+			<td><b><rb:text message="created_by" locale="${locale}"/></b></td>
+			<td><b><rb:text message="modified_date" locale="${locale}"/></b></td>
+			<td><b><rb:text message="modified_by" locale="${locale}"/></b></td>
+			<td><b><rb:text message="summary" locale="${locale}"/></b></td>
+			<td><b><rb:text message="description" locale="${locale}"/></b></td>
+			<td><b><rb:text message="status" locale="${locale}"/></b></td>
+			<td><b><rb:text message="resolution" locale="${locale}"/></b></td>
+			<td><b><rb:text message="type" locale="${locale}"/></b></td>
+			<td><b><rb:text message="priority" locale="${locale}"/></b></td>
+			<td><b><rb:text message="project" locale="${locale}"/></b></td>
+			<td><b><rb:text message="build" locale="${locale}"/></b></td>
+			<td><b><rb:text message="assignee" locale="${locale}"/></b></td>
 		</tr>
 		<tr align="center">
 			<td><c:out value="${issueToView.id}"></c:out></td>
@@ -93,7 +92,10 @@
 	<br>
 	
 	<h2 class="maintable">
-		<a href="${base}"><rb:text message="back_message" /></a>
+		<a href="${base}?lang=${locale}"><rb:text message="back_message" locale="${locale}" /></a>
 	</h2>
+	
+	<jsp:include page="/jsp/common/fragment/footer.jsp"></jsp:include>
+	
 </body>
 </html>
