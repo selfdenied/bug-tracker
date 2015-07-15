@@ -8,32 +8,32 @@
 	</span>
 	<br>
 	<br>
-		<a href="controller?action=listFeatures&amp;feature=1">
+		<a href="controller?action=listFeatures&amp;feature=status">
 		<rb:text message="admin_statuses" locale="${locale}" />
 		</a>
 		<br>
-		<a href="controller?action=listFeatures&amp;feature=2">
+		<a href="controller?action=listFeatures&amp;feature=resolution">
 		<rb:text message="admin_resolutions" locale="${locale}" />
 		</a>
 		<br>
-		<a href="controller?action=addFeature&amp;feature=2">
+		<a href="controller?action=addFeature&amp;feature=resolution">
 		<rb:text message="admin_add_resolution" locale="${locale}" />
 		</a>
 		<br>
-		<a href="controller?action=listFeatures&amp;feature=3">
-		<rb:text message="admin_priorities" locale="${locale}" />
-		</a>
-		<br>
-		<a href="controller?action=addFeature&amp;feature=3">
-		<rb:text message="admin_add_priority" locale="${locale}" />
-		</a>
-		<br>
-		<a href="controller?action=listFeatures&amp;feature=4">
+		<a href="controller?action=listFeatures&amp;feature=type">
 		<rb:text message="admin_types" locale="${locale}" />
 		</a>
 		<br>
-		<a href="controller?action=addFeature&amp;feature=4">
+		<a href="controller?action=addFeature&amp;feature=type">
 		<rb:text message="admin_add_type" locale="${locale}" />
+		</a>
+		<br>
+		<a href="controller?action=listFeatures&amp;feature=priority">
+		<rb:text message="admin_priorities" locale="${locale}" />
+		</a>
+		<br>
+		<a href="controller?action=addFeature&amp;feature=priority">
+		<rb:text message="admin_add_priority" locale="${locale}" />
 		</a>
 		<br>
 		<br>
