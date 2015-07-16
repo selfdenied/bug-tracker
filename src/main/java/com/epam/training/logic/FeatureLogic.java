@@ -61,7 +61,7 @@ public class FeatureLogic {
 	 * Method adds new Feature to the database.
 	 * 
 	 * @param featureType
-	 *            the selected type of Features
+	 *            the selected type of Feature
 	 * @param feature
 	 *            new Feature
 	 * @return {@code true} when new Feature was successfully added and
@@ -82,6 +82,35 @@ public class FeatureLogic {
 			pool.releaseConnection(connection);
 		}
 		return isAdded;
+	}
+
+	/**
+	 * Method updated existing Feature data.
+	 * 
+	 * @param featureType
+	 *            the selected type of Feature
+	 * @param feature
+	 *            new Feature
+	 * @param id
+	 *            Feature's ID
+	 * @return {@code true} when new Feature data was successfully updated and
+	 *         {@code false} otherwise
+	 * @throws GeneralLogicException
+	 *             If a Logic exception of some sort has occurred
+	 */
+	public boolean updateFeature(Feature ft, FeatureType featureType, int id)
+			throws GeneralLogicException {
+		boolean isUpdated = false;
+		AbstractDAO<Feature> featureDAO = obtainFeatureDAO(featureType);
+
+		try {
+			isUpdated = featureDAO.updateEntity(ft, id);
+		} catch (GeneralDAOException ex) {
+			throw new GeneralLogicException("Database access error", ex);
+		} finally {
+			pool.releaseConnection(connection);
+		}
+		return isUpdated;
 	}
 
 	/* Method returns a proper FeatureDAO depending on the selected Feature type */

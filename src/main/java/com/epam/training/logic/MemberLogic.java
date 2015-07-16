@@ -3,6 +3,8 @@ package com.epam.training.logic;
 import static com.epam.training.dao.factory.DAOFactoryType.MYSQL;
 
 import java.sql.Connection;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.epam.training.bean.Member;
 import com.epam.training.connection.ConnectionPool;
@@ -31,6 +33,27 @@ public class MemberLogic {
 	 */
 	public MemberLogic() {
 		pool = ConnectionPool.getInstance();
+	}
+
+	/**
+	 * Method returns the list of Members registered in the application.
+	 * 
+	 * @return The list of recent Members registered in the application
+	 * @throws GeneralLogicException
+	 *             If a Logic exception of some sort has occurred
+	 */
+	public List<Member> membersList() throws GeneralLogicException {
+		AbstractDAO<Member> memberDAO = initDAOFactory().getMemberDAO();
+		List<Member> membersList = new ArrayList<>();
+		
+		try {
+			membersList = memberDAO.findAll();
+		} catch (GeneralDAOException ex) {
+			throw new GeneralLogicException("Database access error", ex);
+		} finally {
+			pool.releaseConnection(connection);
+		}
+		return membersList;
 	}
 
 	/**
@@ -93,9 +116,9 @@ public class MemberLogic {
 	 * @param password
 	 *            Member's new password
 	 * @param memberID
-	 * 			  Member's ID
-	 * @return {@code true} when password was successfully updated
-	 *         and {@code false} otherwise
+	 *            Member's ID
+	 * @return {@code true} when password was successfully updated and
+	 *         {@code false} otherwise
 	 * @throws GeneralLogicException
 	 *             If a Logic exception of some sort has occurred
 	 */
@@ -113,16 +136,16 @@ public class MemberLogic {
 		}
 		return isUpdated;
 	}
-	
+
 	/**
 	 * Method updates Member's data
 	 * 
 	 * @param Member
 	 *            com.epam.training.bean.Member
 	 * @param memberID
-	 * 			  Member's ID
-	 * @return {@code true} when data was successfully updated
-	 *         and {@code false} otherwise
+	 *            Member's ID
+	 * @return {@code true} when data was successfully updated and {@code false}
+	 *         otherwise
 	 * @throws GeneralLogicException
 	 *             If a Logic exception of some sort has occurred
 	 */

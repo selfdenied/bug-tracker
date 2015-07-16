@@ -6,7 +6,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel='stylesheet' href='css/style.css' type='text/css' />
-<title><rb:text message="add_feature" locale="${locale}" /></title>
+<title><rb:text message="edit_feature" locale="${locale}" /></title>
 </head>
 <body>
 
@@ -28,6 +28,10 @@
 	<div class="form5">
 		<c:choose>
 			
+		<c:when test="${feature == 'status'}">
+		<span style="color:red"><rb:text message="admin_statuses" locale="${locale}" /></span>
+		</c:when>
+		
 		<c:when test="${feature == 'resolution'}">
 		<span style="color:red"><rb:text message="admin_resolutions" locale="${locale}" /></span>
 		</c:when>
@@ -40,7 +44,10 @@
 		<span style="color:red"><rb:text message="admin_priorities" locale="${locale}" /></span>
 		</c:when>
 		</c:choose>
-		<rb:text message="add_new_record" locale="${locale}" />	
+		<rb:text message="edit_existing_record" locale="${locale}" />
+		<span style="color:blue">
+		(<rb:text message="id" locale="${locale}" /> <c:out value="${featureID}"></c:out>)
+		</span>
 	</div>
 	
 	<br>
@@ -58,38 +65,33 @@
 		<form method="post">
 			<input type="HIDDEN" name="action" value="addFeature">
 			<input type="HIDDEN" name="feature" value="${feature}">
+			<input type="HIDDEN" name="featureID" value="${featureID}">
 			<rb:text message="feature_name" locale="${locale}" />
 			<br>
 			<input type="text" name="featureName" required="required" pattern="[A-Za-zА-Яа-яЁё| ,]+">
 			<br>
 			<br>
-			<input type="submit" value="<rb:text message='add_button' locale='${locale}' />">		
+			<input type="submit" value="<rb:text message='update_button' locale='${locale}' />">		
 		</form>
 	</div>	
 	</c:if>
 	
 	<br>
 	
-	<c:if test="${newFeatureAdded}">
-	<div class="form4">
-		<rb:text message="data_added" locale="${locale}" />
-	</div>
+	<c:if test="${featureNameUpdated}">
+		<div class="form4">
+			<rb:text message="data_updated" locale="${locale}" />
+		</div>
 	</c:if>
 		
-	<c:if test="${requestScope.featureNameExists}">
-	<div class="form3">
-		<rb:text message="feature_name_exists" locale="${locale}" />
-	</div>
-	</c:if>
-		
-	<c:if test="${requestScope.featureAddError}">
-	<div class="form3">
-		<rb:text message="error_message_2" locale="${locale}" />
-	</div>
+	<c:if test="${featureNameChangeError}">
+		<div class="form3">
+			<rb:text message="error_message_1" locale="${locale}" />
+		</div>
 	</c:if>
 	
 	<br>
-		
+	
 	<jsp:include page="/jsp/common/fragment/footer.jsp"></jsp:include>
 
 </body>

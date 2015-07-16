@@ -8,6 +8,7 @@ import com.epam.training.command.*;
 import com.epam.training.command.issue.*;
 import com.epam.training.command.member.*;
 import com.epam.training.command.feature.*;
+import com.epam.training.command.project.*;
 
 /**
  * Class {@code CommandFactory} returns a proper ICommand class depending on the
@@ -33,6 +34,10 @@ public class CommandFactory {
 		commandMap.put("updatePersonalData", new UpdatePersonalDataCommand());
 		commandMap.put("listFeatures", new ListFeaturesCommand());
 		commandMap.put("addFeature", new AddFeatureCommand());
+		commandMap.put("editFeature", new EditFeatureCommand());
+		commandMap.put("listProjects", new ListProjectsCommand());
+		commandMap.put("addBuild", new AddBuildCommand());
+		commandMap.put("addProject", new AddProjectCommand());
 	}
 	
 	/*

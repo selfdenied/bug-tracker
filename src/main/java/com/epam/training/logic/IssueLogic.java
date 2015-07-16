@@ -46,6 +46,7 @@ public class IssueLogic {
 	public List<Issue> recentIssuesList() throws GeneralLogicException {
 		AbstractDAO<Issue> issueDAO = initDAOFactory().getIssueDAO();
 		List<Issue> issuesList = new ArrayList<>();
+		
 		try {
 			issuesList = issueDAO.findAll();
 			if (issuesList.size() > ISSUES_NUMBER) {
@@ -71,6 +72,7 @@ public class IssueLogic {
 	public Issue issueToView(int issueID) throws GeneralLogicException {
 		AbstractDAO<Issue> issueDAO = initDAOFactory().getIssueDAO();
 		Issue issueToView = null;
+		
 		try {
 			issueToView = issueDAO.findEntityByID(issueID);
 		} catch (GeneralDAOException ex) {

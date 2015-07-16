@@ -42,11 +42,11 @@
 				<input type="HIDDEN" name="action" value="updatePersonalData">
 				<rb:text message="first_name" locale="${locale}" /> 
 				<br>
-				<input type="text" name="firstName" required ="required" pattern="[A-Za-zА-Яа-яЁё]+">
+				<input type="text" name="firstName" required ="required" pattern="[A-Za-zА-Яа-яЁё|- ]+">
 				<br>
 				<rb:text message="last_name" locale="${locale}" /> 
 				<br>
-				<input type="text" name="lastName" required ="required" pattern="[A-Za-zА-Яа-яЁё]+">
+				<input type="text" name="lastName" required ="required" pattern="[A-Za-zА-Яа-яЁё|- ]+">
 				<br>
 				<rb:text message="e-mail" locale="${locale}" /> 
 				<br>

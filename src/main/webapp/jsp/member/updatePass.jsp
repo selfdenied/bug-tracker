@@ -43,11 +43,11 @@
 			<input type="HIDDEN" name="action" value="updatePass">
 			<rb:text message="new_password" locale="${locale}" /> 
 			<br>
-			<input type="password" name="newPassword" required ="required" pattern="[A-Za-z0-9|@%$.,!]{5,20}">
+			<input type="password" name="newPassword" required ="required" pattern="[A-Za-z0-9|@._-]{5,20}">
 			<br>
 			<rb:text message="confirm_password" locale="${locale}" />
 			<br>
-			<input type="password" name="newPasswordConfirm" required ="required" pattern="[A-Za-z0-9|@%$.,!]{5,20}">
+			<input type="password" name="newPasswordConfirm" required ="required" pattern="[A-Za-z0-9|@._-]{5,20}">
 			<br>
 			<br>
 			<input type="submit" value="<rb:text message='update_button' locale='${locale}' />">		
