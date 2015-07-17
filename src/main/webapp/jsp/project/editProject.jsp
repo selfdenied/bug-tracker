@@ -6,7 +6,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel='stylesheet' href='css/style.css' type='text/css' />
-<title><rb:text message="edit_feature" locale="${locale}" /></title>
+<title><rb:text message="edit_project" locale="${locale}" /></title>
 </head>
 <body>
 
@@ -28,72 +28,80 @@
 	
 	<c:if test="${formNotFilled}">
 	<div class="form5">
-		<c:choose>
-			
-		<c:when test="${feature == 'status'}">
-		<span style="color:red"><rb:text message="admin_statuses" locale="${locale}" /></span>
-		</c:when>
-		
-		<c:when test="${feature == 'resolution'}">
-		<span style="color:red"><rb:text message="admin_resolutions" locale="${locale}" /></span>
-		</c:when>
-			
-		<c:when test="${feature == 'type'}">
-		<span style="color:red"><rb:text message="admin_types" locale="${locale}" /></span>
-		</c:when>
-			
-		<c:when test="${feature == 'priority'}">
-		<span style="color:red"><rb:text message="admin_priorities" locale="${locale}" /></span>
-		</c:when>
-		</c:choose>
+		<span style="color:red"><rb:text message="admin_projects" locale="${locale}" /></span>
 		<rb:text message="edit_existing_record" locale="${locale}" />
 		<span style="color:blue">
-		(<rb:text message="id" locale="${locale}" /> <c:out value="${featureID}"></c:out>)
+		(<rb:text message="project_id" locale="${locale}" /> <c:out value="${projectID}"></c:out>)
 		</span>
 	</div>
 	
 	<br>
 	
 	<div class="form">
-		<span><rb:text message="enter_feature_name" locale="${locale}" /></span>
+		<span><rb:text message="enter_project_data" locale="${locale}" /></span>
 		<br>
 		<span style="color:blue; font-size:16px">
 		<rb:text message="empty_fields_message" locale="${locale}" />
 		</span> 
 	</div>
+	
 	<br>
-
+	
 	<div class="form">
 		<form method="post">
-			<input type="HIDDEN" name="action" value="addFeature">
-			<input type="HIDDEN" name="feature" value="${feature}">
-			<input type="HIDDEN" name="featureID" value="${featureID}">
+			<input type="HIDDEN" name="action" value="editProject">
+			<input type="HIDDEN" name="projectID" value="${projectID}">
 			<rb:text message="feature_name" locale="${locale}" />
+			<br>  
+			<input type="text" name="projectName" required="required" size="30" 
+			pattern="[A-Za-zА-Яа-яЁё0-9| -]+">
 			<br>
-			<input type="text" name="featureName" required="required" pattern="[A-Za-zА-Яа-яЁё| ,]+">
+			<br>
+			<rb:text message="project_description" locale="${locale}" />
+			<br> 
+			<textarea name="projectDescription" rows="3" cols="30" 
+			required="required" pattern="[A-Za-zА-Яа-яЁё0-9| .,!?]+"></textarea>
+			<br>
+			<br>
+			<rb:text message="available_builds" locale="${locale}" /> 
+			<br>
+				<c:forEach var="build" items="${buildsList}">
+					<li>
+					<span style="font-size:17px"><c:out value="${build.buildName}"></c:out></span>
+					</li>
+				</c:forEach>
+			<br>
+			<br>
+			<rb:text message="manager" locale="${locale}" />: 
+			<select name="projectManager" required="required">
+				<option></option>
+				<c:forEach var="manager" items="${managersList}">
+					<option value="${manager.id}">
+						<c:out value="${manager.firstName} ${manager.lastName}"/>
+					</option>
+				</c:forEach>
+			</select>
 			<br>
 			<br>
 			<input type="submit" value="<rb:text message='update_button' locale='${locale}' />">		
 		</form>
-	</div>	
+	</div>
 	</c:if>
 	
-	<br>
-	
-	<c:if test="${featureNameUpdated}">
+	<c:if test="${projectDataUpdated}">
 		<div class="form4">
 			<rb:text message="data_updated" locale="${locale}" />
 		</div>
 	</c:if>
 		
-	<c:if test="${featureNameChangeError}">
+	<c:if test="${projectUpdateError}">
 		<div class="form3">
 			<rb:text message="error_message_1" locale="${locale}" />
 		</div>
 	</c:if>
-	
+			
 	<br>
-	
+		
 	<jsp:include page="/jsp/common/fragment/footer.jsp"></jsp:include>
 
 </body>

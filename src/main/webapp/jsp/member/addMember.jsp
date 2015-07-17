@@ -6,7 +6,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel='stylesheet' href='css/style.css' type='text/css' />
-<title><rb:text message="add_project" locale="${locale}" /></title>
+<title><rb:text message="add_member" locale="${locale}" /></title>
 </head>
 <body>
 
@@ -28,15 +28,21 @@
 	
 	<c:if test="${formNotFilled}">
 	<div class="form5">
-		<span style="color:red"><rb:text message="admin_projects" locale="${locale}" /></span>
+		<span style="color:red"><rb:text message="members_2" locale="${locale}" /></span>
 		<rb:text message="add_new_record" locale="${locale}" />
 	</div>
 	
 	<br>
 	
 	<div class="form">
-		<span><rb:text message="enter_project_data" locale="${locale}" /></span>
+		<span>
+		<rb:text message="enter_member_data" locale="${locale}" />
+		</span>
 		<br>
+		<span style="color:red; font-size:17px">
+		<rb:text message="pass_message_2" locale="${locale}" />
+		</span>
+		<br> 
 		<span style="color:blue; font-size:16px">
 		<rb:text message="empty_fields_message" locale="${locale}" />
 		</span> 
@@ -46,34 +52,39 @@
 	
 	<div class="form">
 		<form method="post">
-			<input type="HIDDEN" name="action" value="addProject">
-			<rb:text message="feature_name" locale="${locale}" />
+			<input type="HIDDEN" name="action" value="addMember">
+			<rb:text message="name" locale="${locale}" />
 			<br>  
-			<input type="text" name="projectName" required="required" size="30" 
-			pattern="[A-Za-zА-Яа-яЁё0-9| -]+">
+			<input type="text" name="firstName" required="required" pattern="[A-Za-zА-Яа-яЁё| -]+">
 			<br>
 			<br>
-			<rb:text message="project_description" locale="${locale}" />
+			<rb:text message="last_name" locale="${locale}" />
 			<br> 
-			<textarea name="projectDescription" rows="3" cols="30" 
-			required="required" pattern="[A-Za-zА-Яа-яЁё0-9| .,!?]+"></textarea>
+			<input type="text" name="lastName" required="required" pattern="[A-Za-zА-Яа-яЁё| -]+">
 			<br>
 			<br>
-			<rb:text message="build" locale="${locale}" />: 
-			<select name="projectBuild" disabled="disabled">
-			<option value="ver.0.0.1-SNAPSHOT">вер.0.0.1-SNAPSHOT</option>
-			</select>
+			<rb:text message="e-mail" locale="${locale}" /> 
+			<br>
+			<input type="email" name="login" required="required">
 			<br>
 			<br>
-			<rb:text message="manager" locale="${locale}" />: 
-			<select name="projectManager" required="required">
+			<rb:text message="role" locale="${locale}" />
+			<br>
+			<select name="admin" required="required">
 				<option></option>
-				<c:forEach var="manager" items="${managersList}">
-					<option value="${manager.id}">
-						<c:out value="${manager.firstName} ${manager.lastName}"/>
-					</option>
-				</c:forEach>
+				<option value="true"><rb:text message="admin_2" locale="${locale}" /></option>
+				<option value="false"><rb:text message="user_2" locale="${locale}" /></option>
 			</select>
+			<br>
+			<br>
+			<rb:text message="password" locale="${locale}" />
+			<br>
+			<input type="password" name="pass" required="required" pattern="[A-Za-z0-9|@._-]{5,20}">
+			<br>
+			<br>
+			<rb:text message="confirm_password" locale="${locale}" />
+			<br>
+			<input type="password" name="passConf" required="required" pattern="[A-Za-z0-9|@._-]{5,20}">
 			<br>
 			<br>
 			<input type="submit" value="<rb:text message='add_button' locale='${locale}' />">		
@@ -81,19 +92,21 @@
 	</div>
 	</c:if>
 	
-	<c:if test="${newProjectAdded}">
+	<br>
+	
+	<c:if test="${newMemberAdded}">
 		<div class="form4">
 			<rb:text message="data_added" locale="${locale}" />
 		</div>
 	</c:if>
 	
-	<c:if test="${projectNameExists}">
+	<c:if test="${dataError}">
 		<div class="form3">
-			<rb:text message="project_name_exists" locale="${locale}" />
+			<rb:text message="member_data_error" locale="${locale}" />
 		</div>
 	</c:if>
 		
-	<c:if test="${projectAddError}">
+	<c:if test="${memberAddError}">
 		<div class="form3">
 			<rb:text message="error_message_2" locale="${locale}" />
 		</div>
@@ -102,6 +115,6 @@
 	<br>
 		
 	<jsp:include page="/jsp/common/fragment/footer.jsp"></jsp:include>
-
+	
 </body>
 </html>

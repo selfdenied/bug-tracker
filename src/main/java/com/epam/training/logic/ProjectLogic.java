@@ -130,6 +130,34 @@ public class ProjectLogic {
 	}
 
 	/**
+	 * Method updates existing Project data.
+	 * 
+	 * @param Project
+	 *            new Project
+	 * @param projectID
+	 *            the ID of the Project
+	 * 
+	 * @return {@code true} when new Project data was successfully updated and
+	 *         {@code false} otherwise
+	 * @throws GeneralLogicException
+	 *             If a Logic exception of some sort has occurred
+	 */
+	public boolean updateProject(Project project, int projectID)
+			throws GeneralLogicException {
+		boolean isUpdated = false;
+		AbstractDAO<Project> projectDAO = initDAOFactory().getProjectDAO();
+
+		try {
+			isUpdated = projectDAO.updateEntity(project, projectID);
+		} catch (GeneralDAOException ex) {
+			throw new GeneralLogicException("Database access error", ex);
+		} finally {
+			pool.releaseConnection(connection);
+		}
+		return isUpdated;
+	}
+
+	/**
 	 * Method find the Project's ID by its name.
 	 * 
 	 * @param projectName

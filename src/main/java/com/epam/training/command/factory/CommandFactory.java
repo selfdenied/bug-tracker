@@ -38,8 +38,12 @@ public class CommandFactory {
 		commandMap.put("listProjects", new ListProjectsCommand());
 		commandMap.put("addBuild", new AddBuildCommand());
 		commandMap.put("addProject", new AddProjectCommand());
+		commandMap.put("editProject", new EditProjectCommand());
+		commandMap.put("listMembers", new ListMembersCommand());
+		commandMap.put("changeUserPassword", new EditUserPassCommand());
+		commandMap.put("addMember", new AddMemberCommand());
 	}
-	
+
 	/*
 	 * Private class that contains static field where CommandFactory object is
 	 * created. Such schema prevents creation of 2 or more CommandFactory
@@ -50,7 +54,7 @@ public class CommandFactory {
 	private static class CommandFactoryHolder {
 		private static final CommandFactory commandFactory = new CommandFactory();
 	}
-	
+
 	/**
 	 * Returns the only instance of CommandFactory
 	 * 

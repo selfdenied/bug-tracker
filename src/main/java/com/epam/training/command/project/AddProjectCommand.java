@@ -38,11 +38,11 @@ public class AddProjectCommand implements ICommand {
 		if (projectName != null) {
 			if (projectNameFree(projectName)) {
 				Project project = new Project();
-				Member member = new Member();
-				member.setId(Integer.parseInt(projectManager));
+				Member manager = new Member();
+				manager.setId(Integer.parseInt(projectManager));
 				project.setProjectName(projectName);
 				project.setProjectDescription(projectDesc);
-				project.setManager(member);
+				project.setManager(manager);
 				addNewProject(request, project);
 				addNewBuild(request, projectName);
 				request.setAttribute("newProjectAdded", true);

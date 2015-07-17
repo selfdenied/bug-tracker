@@ -163,6 +163,31 @@ public class MemberLogic {
 		}
 		return isUpdated;
 	}
+	
+	/**
+	 * Method adds new Member to the database
+	 * 
+	 * @param Member
+	 *            com.epam.training.bean.Member
+	 *            
+	 * @return {@code true} when Member was successfully added and {@code false}
+	 *         otherwise
+	 * @throws GeneralLogicException
+	 *             If a Logic exception of some sort has occurred
+	 */
+	public boolean addNewMember(Member member) throws GeneralLogicException {
+		boolean isAdded = false;
+		AbstractDAO<Member> memberDAO = initDAOFactory().getMemberDAO();
+
+		try {
+			isAdded = memberDAO.addNewEntity(member);
+		} catch (GeneralDAOException ex) {
+			throw new GeneralLogicException("Database access error", ex);
+		} finally {
+			pool.releaseConnection(connection);
+		}
+		return isAdded;
+	}
 
 	/* supplementary method that initializes connection and DAO factory */
 	private AbstractDAOFactory initDAOFactory() {

@@ -1,7 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="rb" uri="customtags"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC>
+<!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -10,7 +10,9 @@
 </head>
 <body>
 
-	<jsp:include page="/jsp/common/fragment/adminMenu.jsp"></jsp:include>
+	<c:if test="${sessionScope.member.admin}">
+		<jsp:include page="/jsp/common/fragment/adminMenu.jsp"></jsp:include>
+	</c:if>
 	
 	<jsp:include page="/jsp/member/fragment/greeting.jsp"></jsp:include>
 
@@ -29,9 +31,8 @@
 	<c:when test="${not empty listOfProjects}">
 		<h2 class="maintable">
 			<span style="color:red">
-			<rb:text message="admin_projects" locale="${locale}" />
-			</span> 
-			<rb:text message="available_message_2" locale="${locale}" />
+			<rb:text message="projects" locale="${locale}" />
+			</span><rb:text message="available_message_3" locale="${locale}" />
 		</h2>
 		<h3 style="color:black; text-align:center">
 			<rb:text message="edit_record_message" locale="${locale}" />

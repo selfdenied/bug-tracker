@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 
 	<h2>
-		<rb:text message="access_mode" locale="${locale}" /> 
+		<rb:text message="access_mode" locale="${locale}" />: 
 		<c:choose>
 			<c:when test="${sessionScope.member.admin}">
 				<span style="color:red"><rb:text message="admin" locale="${locale}" /></span>

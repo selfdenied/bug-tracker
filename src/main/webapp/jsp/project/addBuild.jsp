@@ -1,7 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="rb" uri="customtags"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC>
+<!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -10,7 +10,9 @@
 </head>
 <body>
 
-	<jsp:include page="/jsp/common/fragment/adminMenu.jsp"></jsp:include>
+	<c:if test="${sessionScope.member.admin}">
+		<jsp:include page="/jsp/common/fragment/adminMenu.jsp"></jsp:include>
+	</c:if>
 	
 	<jsp:include page="/jsp/member/fragment/greeting.jsp"></jsp:include>
 	

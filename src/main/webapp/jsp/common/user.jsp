@@ -10,6 +10,10 @@
 </head>
 <body>
 
+	<c:if test="${sessionScope.member.admin}">
+		<jsp:include page="/jsp/common/fragment/adminMenu.jsp"></jsp:include>
+	</c:if>
+	
 	<jsp:include page="/jsp/member/fragment/greeting.jsp"></jsp:include>
 
 	<jsp:include page="/jsp/member/fragment/accessMode.jsp"></jsp:include>
