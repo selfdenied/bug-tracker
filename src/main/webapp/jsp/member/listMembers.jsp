@@ -10,21 +10,7 @@
 </head>
 <body>
 
-	<c:if test="${sessionScope.member.admin}">
-		<jsp:include page="/jsp/common/fragment/adminMenu.jsp"></jsp:include>
-	</c:if>
-	
-	<jsp:include page="/jsp/member/fragment/greeting.jsp"></jsp:include>
-
-	<jsp:include page="/jsp/member/fragment/accessMode.jsp"></jsp:include>
-	
-	<br>
-	<br>
-		
-	<jsp:include page="/jsp/common/fragment/smallMenu.jsp"></jsp:include>
-		
-	<br>
-	<br>
+	<rb:header role="${sessionScope.member.admin}" />
 	
 	<h2 class="maintable">
 		<span style="color:red">
@@ -58,11 +44,11 @@
 				<c:choose>
 					<c:when test="${member.admin}">
 						<span style="color:#FFA500">
-						<b><rb:text message="admin_2" locale="${locale}" /></b>
+						<rb:text message="admin_2" locale="${locale}" />
 						</span>
 					</c:when>
 					<c:otherwise>
-						<b><rb:text message="user_2" locale="${locale}" /></b>
+						<rb:text message="user_2" locale="${locale}" />
 					</c:otherwise>
 				</c:choose>
 			</td>

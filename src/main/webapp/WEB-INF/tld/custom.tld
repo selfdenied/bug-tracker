@@ -19,4 +19,14 @@
 			<javaee:rtexprvalue>true</javaee:rtexprvalue>
 		</javaee:attribute>
 	</javaee:tag>
+	<javaee:tag>
+		<javaee:name>header</javaee:name>
+		<javaee:tag-class>com.epam.training.tag.HeaderTag</javaee:tag-class>
+		<javaee:body-content>empty</javaee:body-content>
+		<javaee:attribute>
+			<javaee:name>role</javaee:name>
+			<javaee:required>true</javaee:required>
+			<javaee:rtexprvalue>true</javaee:rtexprvalue>
+		</javaee:attribute>
+	</javaee:tag>
 </javaee:taglib>

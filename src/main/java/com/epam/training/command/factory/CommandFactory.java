@@ -42,6 +42,7 @@ public class CommandFactory {
 		commandMap.put("listMembers", new ListMembersCommand());
 		commandMap.put("changeUserPassword", new EditUserPassCommand());
 		commandMap.put("addMember", new AddMemberCommand());
+		commandMap.put("editMember", new EditMemberCommand());
 	}
 
 	/*

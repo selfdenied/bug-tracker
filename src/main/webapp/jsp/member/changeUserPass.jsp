@@ -10,23 +10,8 @@
 </head>
 <body>
 
-	<c:if test="${sessionScope.member.admin}">
-		<jsp:include page="/jsp/common/fragment/adminMenu.jsp"></jsp:include>
-	</c:if>
-	
-	<jsp:include page="/jsp/member/fragment/greeting.jsp"></jsp:include>
-	
-	<jsp:include page="/jsp/member/fragment/accessMode.jsp"></jsp:include>
-	
-	<br>
-	<br>
-	
-	<jsp:include page="/jsp/common/fragment/smallMenu.jsp"></jsp:include>
+	<rb:header role="${sessionScope.member.admin}" />
 		
-	<br>
-	<br>
-		
-	
 	<c:if test="${formNotFilled}">
 		<div class="form5">
 			<rb:text message="user_id" locale="${locale}" /> <c:out value="${userID}"></c:out>
