@@ -56,6 +56,31 @@ public class FeatureLogic {
 		}
 		return listOfFeatures;
 	}
+	
+	/**
+	 * Method returns the Feature with the given ID.
+	 * 
+	 * @param featureType
+	 *            the selected type of a Feature
+	 * @param id
+	 * 			the Feature's ID
+	 * @return The Feature with the given ID
+	 * @throws GeneralLogicException
+	 *             If a Logic exception of some sort has occurred
+	 */
+	public Feature findFeature(FeatureType featureType, int id)
+			throws GeneralLogicException {
+		Feature feature = new Feature();
+
+		try {
+			feature = obtainFeatureDAO(featureType).findEntityByID(id);
+		} catch (GeneralDAOException ex) {
+			throw new GeneralLogicException("Database access error", ex);
+		} finally {
+			pool.releaseConnection(connection);
+		}
+		return feature;
+	}
 
 	/**
 	 * Method adds new Feature to the database.

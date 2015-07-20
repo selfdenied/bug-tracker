@@ -27,7 +27,7 @@
 		
 	<h2 style="text-align:center">
 	<a href="${base}?action=submitIssue">
-	<rb:text message="report_issue" locale="${locale}" />
+	<rb:text message="submit_issue" locale="${locale}" />
 	</a> | 
 	<a href="${base}?action=listIssues">
 	<rb:text message="search_issues" locale="${locale}" />
