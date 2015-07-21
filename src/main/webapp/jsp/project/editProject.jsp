@@ -39,14 +39,14 @@
 			<input type="HIDDEN" name="projectID" value="${projectID}">
 			<rb:text message="feature_name" locale="${locale}" />
 			<br>  
-			<input type="text" name="projectName" required="required" size="30" 
-			pattern="[A-Za-zА-Яа-яЁё0-9| -]+">
+			<input type="text" name="projectName" size="30" maxlength="50" 
+			pattern="[A-Za-zА-Яа-яЁё0-9| -]{1,50}" required="required">
 			<br>
 			<br>
 			<rb:text message="project_description" locale="${locale}" />
 			<br> 
-			<textarea name="projectDescription" rows="3" cols="30" 
-			required="required" pattern="[A-Za-zА-Яа-яЁё0-9| .,!?]+"></textarea>
+			<textarea name="projectDescription" rows="3" cols="30" maxlength="1000" 
+			required="required"></textarea>
 			<br>
 			<br>
 			<rb:text message="available_builds" locale="${locale}" /> 

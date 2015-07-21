@@ -44,7 +44,7 @@
 		<table>
 			<tr align="center">
 				<td><b>ID</b></td>
-				<td><b><rb:text message="feature_name" locale="${locale}" /></b></td>
+				<td><b><rb:text message="name_2" locale="${locale}" /></b></td>
 			</tr>
 			<c:forEach var="feat" items="${listOfFeatures}">
 			<tr align="center">

@@ -48,7 +48,8 @@
 			<input type="HIDDEN" name="feature" value="${feature}">
 			<rb:text message="feature_name" locale="${locale}" />
 			<br>
-			<input type="text" name="featureName" required="required" pattern="[A-Za-zА-Яа-яЁё| ,]+">
+			<input type="text" name="featureName" maxlength="50" 
+			pattern="[A-Za-zА-Яа-яЁё| ,.]{1,50}" required="required">
 			<br>
 			<br>
 			<input type="submit" value="<rb:text message='add_button' locale='${locale}' />">		

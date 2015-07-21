@@ -13,8 +13,12 @@
 	<rb:header role="${sessionScope.member.admin}" />
 	
 	<c:if test="${formNotFilled}">
-		<div class="form2">
+		<div class="form">
 			<span><rb:text message="enter_newdata_message" locale="${locale}" /></span>
+			<br>
+			<span style="color:red; font-size:17px">
+			<rb:text message="max_symbols_message" locale="${locale}" />
+			</span>
 			<br>
 			<span style="color:blue; font-size:17px">
 			<rb:text message="empty_fields_message" locale="${locale}" />
@@ -23,19 +27,23 @@
 		<br>
 		
 		<div class="form">
-				<form method="post">
+			<form method="post">
 				<input type="HIDDEN" name="action" value="updatePersonalData">
-				<rb:text message="first_name" locale="${locale}" /> 
+				<rb:text message="name" locale="${locale}" /> 
 				<br>
-				<input type="text" name="firstName" required ="required" pattern="[A-Za-zА-Яа-яЁё|- ]+">
+				<input type="text" name="firstName" maxlength="50" 
+				pattern="[A-Za-zА-Яа-яЁё| -]{1,50}" required="required">
+				<br>
 				<br>
 				<rb:text message="last_name" locale="${locale}" /> 
 				<br>
-				<input type="text" name="lastName" required ="required" pattern="[A-Za-zА-Яа-яЁё|- ]+">
+				<input type="text" name="lastName" maxlength="50" 
+				pattern="[A-Za-zА-Яа-яЁё| -]{1,50}" required="required">
+				<br>
 				<br>
 				<rb:text message="e-mail" locale="${locale}" /> 
 				<br>
-				<input type="email" name="login" required="required">
+				<input type="email" name="login" maxlength="50" required="required">
 				<br>
 				<br>
 				<input type="submit" value="<rb:text message='update_button' locale='${locale}' />">		

@@ -11,13 +11,14 @@
 		<form action="controller" method="post">
 			<input type="HIDDEN" name="action" value="auth">
 			<input type="HIDDEN" name="lang" value="${locale}">
-			<rb:text message="e-mail" locale="${locale}" /> 
+			<rb:text message="login" locale="${locale}" /> 
 			<br>
-			<input type="email" name="login" required="required" size="30">
+			<input type="email" name="login" size="30" maxlength="50" required="required">
 			<br>
 			<rb:text message="password" locale="${locale}" /> 
 			<br>
-			<input type="password" name="password" required="required" size="30">
+			<input type="password" name="password" maxlength="20" size="30" 
+			pattern="[A-Za-z0-9|@._-]{5,20}" required="required">
 			<br> <br>
 			<input type="submit" value = "<rb:text message='enter' locale='${locale}' />">		
 		</form>

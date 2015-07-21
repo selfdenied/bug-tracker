@@ -13,7 +13,7 @@
 	<rb:header role="${sessionScope.member.admin}" />
 		
 	<c:choose>
-		<c:when test="${empty sessionScope.assignedIssuesList}">
+		<c:when test="${empty assignedIssuesList}">
 			<h2 style="color:red; text-align:center">
 			<rb:text message="assigned_issues_empty" locale="${locale}" />
 			</h2>

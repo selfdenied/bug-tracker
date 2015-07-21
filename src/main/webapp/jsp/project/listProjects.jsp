@@ -27,7 +27,7 @@
 		<table>
 			<tr align="center">
 				<td><b>ID</b></td>
-				<td><b><rb:text message="feature_name" locale="${locale}" /></b></td>
+				<td><b><rb:text message="name_2" locale="${locale}" /></b></td>
 				<td><b><rb:text message="description" locale="${locale}" /></b></td>
 				<td><b><rb:text message="manager" locale="${locale}" /></b></td>
 				<td><b><rb:text message="build" locale="${locale}" /></b></td>

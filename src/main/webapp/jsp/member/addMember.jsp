@@ -27,6 +27,8 @@
 		<br>
 		<span style="color:red; font-size:17px">
 		<rb:text message="pass_message_2" locale="${locale}" />
+		<br>
+		<rb:text message="max_symbols_message" locale="${locale}" />
 		</span>
 		<br> 
 		<span style="color:blue; font-size:16px">
@@ -41,17 +43,19 @@
 			<input type="HIDDEN" name="action" value="addMember">
 			<rb:text message="name" locale="${locale}" />
 			<br>  
-			<input type="text" name="firstName" required="required" pattern="[A-Za-zА-Яа-яЁё| -]+">
+			<input type="text" name="firstName" maxlength="50" 
+			pattern="[A-Za-zА-Яа-яЁё| -]{1,50}" required="required">
 			<br>
 			<br>
 			<rb:text message="last_name" locale="${locale}" />
 			<br> 
-			<input type="text" name="lastName" required="required" pattern="[A-Za-zА-Яа-яЁё| -]+">
+			<input type="text" name="lastName" maxlength="50" 
+			pattern="[A-Za-zА-Яа-яЁё| -]{1,50}" required="required">
 			<br>
 			<br>
 			<rb:text message="e-mail" locale="${locale}" /> 
 			<br>
-			<input type="email" name="login" required="required">
+			<input type="email" name="login" maxlength="50" required="required">
 			<br>
 			<br>
 			<rb:text message="role" locale="${locale}" />
@@ -65,12 +69,14 @@
 			<br>
 			<rb:text message="password" locale="${locale}" />
 			<br>
-			<input type="password" name="pass" required="required" pattern="[A-Za-z0-9|@._-]{5,20}">
+			<input type="password" name="pass" maxlength="20" 
+			pattern="[A-Za-z0-9|@._-]{5,20}" required="required">
 			<br>
 			<br>
 			<rb:text message="confirm_password" locale="${locale}" />
 			<br>
-			<input type="password" name="passConf" required="required" pattern="[A-Za-z0-9|@._-]{5,20}">
+			<input type="password" name="passConf" maxlength="20" 
+			pattern="[A-Za-z0-9|@._-]{5,20}" required="required">
 			<br>
 			<br>
 			<input type="submit" value="<rb:text message='add_button' locale='${locale}' />">		

@@ -15,7 +15,7 @@ table, th, td {
     background-color: white;
 }
 </style>
-<title><rb:text message="submit_issue" locale="${locale}" /></title>
+<title><rb:text message="edit_issue" locale="${locale}" /></title>
 </head>
 <body>
 
@@ -35,7 +35,7 @@ table, th, td {
 		<span style="color:red">
 			<rb:text message="issues_2" locale="${locale}" />
 		</span>
-		<rb:text message="add_new_record" locale="${locale}" />
+		<rb:text message="edit_existing_record" locale="${locale}" />
 	</div>
 	
 	<br>
@@ -58,7 +58,33 @@ table, th, td {
 	
 	<div class="form">
 		<form method="post">
-			<input type="HIDDEN" name="action" value="submitIssue">
+			<input type="HIDDEN" name="action" value="editIssue">
+			<input type="HIDDEN" name="issueID" value="${issueID}">
+			<rb:text message="id_2" locale="${locale}" />
+			<input type="text" value="${issueID}" disabled="disabled">
+			<br>
+			<br>
+			<rb:text message="created_date" locale="${locale}" />
+			<input type="text" value="${createdDate}" disabled="disabled">
+			<rb:text message="created_by" locale="${locale}" />
+			<input type="text" value="${createdBy.firstName} ${createdBy.lastName}" 
+			disabled="disabled">
+			<br>
+			<br>
+			<rb:text message="modified_date" locale="${locale}" />
+			<input type="text" value="${modifiedDate}" disabled="disabled">
+			<rb:text message="modified_by" locale="${locale}" />
+			<c:choose>
+			<c:when test="${not empty modifiedBy}">
+				<input type="text" value="${modifiedBy.firstName} ${modifiedBy.lastName}" 
+				disabled="disabled">
+			</c:when>
+			<c:otherwise>
+				<input type="text" disabled="disabled">
+			</c:otherwise>
+			</c:choose>
+			<br>
+			<br>
 			<rb:text message="summary_2" locale="${locale}" />
 			<br>  
 			<input type="text" name="summary" size="30" maxlength="100" 
@@ -134,21 +160,21 @@ table, th, td {
 			</select>
 			<br>
 			<br>
-			<input type="submit" value="<rb:text message='add_button' locale='${locale}' />">		
+			<input type="submit" value="<rb:text message='update_button' locale='${locale}' />">		
 		</form>
 	</div>
 	
 	</c:if>
 	
-	<c:if test="${newIssueAdded}">
+	<c:if test="${issueUpdated}">
 		<div class="form4">
-			<rb:text message="data_added" locale="${locale}" />
+			<rb:text message="data_updated" locale="${locale}" />
 		</div>
 	</c:if>
 	
-	<c:if test="${issueAddError}">
+	<c:if test="${issueUpdateError}">
 		<div class="form3">
-			<rb:text message="error_message_2" locale="${locale}" />
+			<rb:text message="error_message_1" locale="${locale}" />
 		</div>
 	</c:if>
 	

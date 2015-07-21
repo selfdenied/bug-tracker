@@ -155,6 +155,7 @@ public class IssueLogic {
 			factory = AbstractDAOFactory.getDAOFactory(connection, MYSQL);
 			request.setAttribute("types", factory.getTypeDAO().findAll());
 			request.setAttribute("priorities", factory.getPriorityDAO().findAll());
+			request.setAttribute("resolutions", factory.getResolutionDAO().findAll());
 			request.setAttribute("projects", factory.getProjectDAO().findAll());
 			request.setAttribute("listOfBuilds", orderedBuildsList(factory));
 			request.setAttribute("members", factory.getMemberDAO().findAll());
@@ -190,6 +191,33 @@ public class IssueLogic {
 			pool.releaseConnection(connection);
 		}
 		return isAdded;
+	}
+	
+	/**
+	 * Method updates existing Issue data.
+	 * 
+	 * @param Issue
+	 *            new Issue
+	 * @param issueID
+	 * 			  the ID of the Issue
+	 * @return {@code true} when Issue data was successfully updated and
+	 *         {@code false} otherwise
+	 * @throws GeneralLogicException
+	 *             If a Logic exception of some sort has occurred
+	 */
+	public boolean updateIssue(Issue issue, int issueID) 
+			throws GeneralLogicException {
+		boolean isUpdated = false;
+		AbstractDAO<Issue> issueDAO = initDAOFactory().getIssueDAO();
+		
+		try {
+			isUpdated = issueDAO.updateEntity(issue, issueID);
+		} catch (GeneralDAOException ex) {
+			throw new GeneralLogicException("Database access error", ex);
+		} finally {
+			pool.releaseConnection(connection);
+		}
+		return isUpdated;
 	}
 
 	/* supplementary method that initializes connection and DAO factory */

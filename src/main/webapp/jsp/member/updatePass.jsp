@@ -13,7 +13,7 @@
 	<rb:header role="${sessionScope.member.admin}" />
 	
 	<c:if test="${formNotFilled}">
-		<div class="form2">
+		<div class="form">
 			<span><rb:text message="pass_message" locale="${locale}" /></span>
 			<br>
 			<span style="color:blue; font-size:17px">
@@ -28,11 +28,14 @@
 			<input type="HIDDEN" name="action" value="updatePass">
 			<rb:text message="new_password" locale="${locale}" /> 
 			<br>
-			<input type="password" name="newPassword" required ="required" pattern="[A-Za-z0-9|@._-]{5,20}">
+			<input type="password" name="newPassword" maxlength="20" 
+			pattern="[A-Za-z0-9|@._-]{5,20}" required ="required">
+			<br>
 			<br>
 			<rb:text message="confirm_password" locale="${locale}" />
 			<br>
-			<input type="password" name="newPasswordConfirm" required ="required" pattern="[A-Za-z0-9|@._-]{5,20}">
+			<input type="password" name="newPasswordConfirm" maxlength="20" 
+			pattern="[A-Za-z0-9|@._-]{5,20}" required ="required">
 			<br>
 			<br>
 			<input type="submit" value="<rb:text message='update_button' locale='${locale}' />">		

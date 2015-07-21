@@ -45,6 +45,7 @@ public class CommandFactory {
 		commandMap.put("editMember", new EditMemberCommand());
 		commandMap.put("listIssues", new ListIssuesCommand());
 		commandMap.put("submitIssue", new SubmitIssueCommand());
+		commandMap.put("editIssue", new EditIssueCommand());
 	}
 
 	/*
