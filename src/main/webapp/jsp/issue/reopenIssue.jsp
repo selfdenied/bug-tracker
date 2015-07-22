@@ -15,7 +15,7 @@ table, th, td {
     background-color: white;
 }
 </style>
-<title><rb:text message="edit_issue" locale="${locale}" /></title>
+<title><rb:text message="reopen_issue" locale="${locale}" /></title>
 </head>
 <body>
 
@@ -46,7 +46,7 @@ table, th, td {
 		</span>
 		<br>
 		<span style="color:green; font-size:16px">
-			<rb:text message="issue_message" locale="${locale}" />
+			<rb:text message="issue_message_3" locale="${locale}" />
 		</span>
 		<br>
 		<span style="color:blue; font-size:16px">
@@ -58,7 +58,7 @@ table, th, td {
 	
 	<div class="form">
 		<form method="post">
-			<input type="HIDDEN" name="action" value="editIssue">
+			<input type="HIDDEN" name="action" value="reopenIssue">
 			<input type="HIDDEN" name="issueID" value="${issueID}">
 			<rb:text message="id_2" locale="${locale}" />
 			<input type="text" value="${issueID}" size="5" disabled="disabled">
@@ -88,25 +88,30 @@ table, th, td {
 			<rb:text message="summary_2" locale="${locale}" />
 			<br>  
 			<input type="text" name="summary" size="50" maxlength="100" value="${summary}"
-			pattern="[A-Za-zА-Яа-яЁё0-9| .,!?]{1,100}" required="required">
+			pattern="[A-Za-zА-Яа-яЁё0-9| .,!?]{1,100}" required="required" 
+			disabled="disabled" id="summary">
 			<br>
 			<br>
 			<rb:text message="description_2" locale="${locale}" />
 			<br> 
 			<textarea name="desc" rows="3" cols="40" maxlength="1000" 
-			required="required">${desc}</textarea>
+			required="required" disabled="disabled" id="description">${desc}</textarea>
 			<br>
 			<br>
 			<rb:text message="status" locale="${locale}" />
-			<select name="status" id="status" required="required" onchange="handleStatus()">
-				<option></option>
+			<select name="status" id="status" required="required" onchange="handleStatusClose()">
 				<c:forEach var="status" items="${statuses}">
 					<option value="${status.id}"><c:out value="${status.featureName}"/></option>
 				</c:forEach>
 			</select>
 			&nbsp;
+			<rb:text message="resolution" locale="${locale}" />
+			<select name="resolution" disabled="disabled">
+				<option><c:out value="${resolution.featureName}"/></option>
+			</select>
+			&nbsp;
 			<rb:text message="type" locale="${locale}" />
-			<select name="type" required="required">
+			<select name="type" required="required" disabled="disabled" id="type">
 				<option></option>
 				<c:forEach var="type" items="${types}">
 					<option value="${type.id}"><c:out value="${type.featureName}"/></option>
@@ -114,7 +119,7 @@ table, th, td {
 			</select>
 			&nbsp;
 			<rb:text message="priority" locale="${locale}" />
-			<select name="priority" required="required">
+			<select name="priority" required="required" disabled="disabled" id="priority">
 				<option></option>
 				<c:forEach var="priority" items="${priorities}">
 					<option value="${priority.id}"><c:out value="${priority.featureName}"/></option>
@@ -123,7 +128,8 @@ table, th, td {
 			<br>
 			<br>
 			<rb:text message="project" locale="${locale}" />
-			<select name="project" id="project" required="required" onchange="hideBuild()">
+			<select name="project" id="project" required="required" 
+			disabled="disabled" onchange="hideBuild()">
 				<option></option>
 				<c:forEach var="project" items="${projects}">
 					<option value="${project.id}" onclick="handleProject(this.value)">
@@ -150,17 +156,13 @@ table, th, td {
 			</table> 
 			<br>
 			<rb:text message="assignee" locale="${locale}" />
-			<select name="assignee" id="assignee" disabled="disabled">
-				<option></option>
-				<c:forEach var="assignee" items="${members}">
-					<option value="${assignee.id}">
-						<c:out value="${assignee.firstName} ${assignee.lastName}"/>
-					</option>
-				</c:forEach>
+			<select name="assignee" disabled="disabled">
+				<option><c:out value="${assignee.firstName} ${assignee.lastName}"/></option>
 			</select>
 			<br>
 			<br>
-			<input type="submit" value="<rb:text message='update_button' locale='${locale}' />">		
+			<input type="submit" value="<rb:text message='update_button' locale='${locale}' />" 
+			disabled="disabled" id="submit">		
 		</form>
 	</div>
 	

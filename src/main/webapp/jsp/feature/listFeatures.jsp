@@ -37,9 +37,13 @@
 			</c:choose>
 			<rb:text message="available_message" locale="${locale}" />
 		</h2>
-		<h3 style="color:black; text-align:center">
-			<rb:text message="edit_record_message" locale="${locale}" />
-		</h3>
+		
+		<c:if test="${feature != 'status'}">
+			<h3 style="color:black; text-align:center">
+				<rb:text message="edit_record_message" locale="${locale}" />
+			</h3>
+		</c:if>
+		
 		<div>
 		<table>
 			<tr align="center">
@@ -49,9 +53,16 @@
 			<c:forEach var="feat" items="${listOfFeatures}">
 			<tr align="center">
 				<td>
+				<c:choose>
+				<c:when test="${feature == 'status'}">
+					<c:out value="${feat.id}"></c:out>
+				</c:when>
+				<c:otherwise>
 				<a href="${base}?action=editFeature&amp;featureID=${feat.id}&amp;feature=${feature}">
-				<c:out value="${feat.id}"></c:out>
+					<c:out value="${feat.id}"></c:out>
 				</a>
+				</c:otherwise>
+				</c:choose>
 				</td>
 				<td><c:out value="${feat.featureName}"></c:out></td>
 			</tr>

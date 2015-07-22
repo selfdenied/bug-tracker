@@ -15,6 +15,58 @@ function handleStatus() {
     }
 }
 
+function handleStatusRes() {
+    if (document.getElementById('status').selectedIndex == 1) {
+        document.getElementById('resolution').disabled = true;
+        document.getElementById('resolution').required = false;
+        document.getElementById('resolution').selectedIndex = 0;
+    }
+    if (document.getElementById('status').selectedIndex == 2) {
+        document.getElementById('resolution').disabled = false;
+        document.getElementById('resolution').required = true;
+        document.getElementById('resolution').selectedIndex = 0;
+    }
+    if (document.getElementById('status').selectedIndex == 3) {
+        document.getElementById('resolution').disabled = false;
+        document.getElementById('resolution').required = true;
+        document.getElementById('resolution').selectedIndex = 0;
+    }
+    if (document.getElementById('status').selectedIndex == 0) {
+        document.getElementById('resolution').disabled = true;
+        document.getElementById('resolution').required = false;
+        document.getElementById('resolution').selectedIndex = 0;
+    }
+}
+
+function handleStatusClose() {
+    if (document.getElementById('status').selectedIndex == 0) {
+        document.getElementById('submit').disabled = true;
+        document.getElementById('summary').disabled = true;
+        document.getElementById('description').disabled = true;
+        document.getElementById('type').disabled = true;
+        document.getElementById('type').selectedIndex = 0;
+        document.getElementById('priority').disabled = true;
+        document.getElementById('priority').selectedIndex = 0;
+        document.getElementById('project').disabled = true;
+        document.getElementById('project').selectedIndex = 0;
+        document.getElementById(idToHide).style.visibility = 'collapse';
+        document.getElementById('select' + idToHide).required = false;
+        document.getElementById('select' + idToHide).selectedIndex = 0;
+        document.getElementById('select' + idToHide).diabled = true;
+    }
+    if (document.getElementById('status').selectedIndex == 1) {
+        document.getElementById('summary').disabled = false;
+        document.getElementById('description').disabled = false;
+        document.getElementById('type').disabled = false;
+        document.getElementById('type').selectedIndex = 0;
+        document.getElementById('priority').disabled = false;
+        document.getElementById('priority').selectedIndex = 0;
+        document.getElementById('project').disabled = false;
+        document.getElementById('project').selectedIndex = 0;
+        document.getElementById('submit').disabled = false;
+    }
+}
+
 var idToHide;
 
 function handleProject(id) {

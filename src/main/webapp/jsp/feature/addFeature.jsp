@@ -12,7 +12,7 @@
 
 	<rb:header role="${sessionScope.member.admin}" />
 	
-	<c:if test="${formNotFilled}">
+	<c:if test="${formNotFilled and feature != 'status'}">
 	<div class="form5">
 		<c:choose>
 			

@@ -1,8 +1,15 @@
 package com.epam.training.listener;
 
+import java.sql.Driver;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.util.Enumeration;
+
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
+
+import org.apache.log4j.Logger;
 
 import com.epam.training.connection.ConnectionPool;
 
@@ -46,6 +53,23 @@ public class ApplicationContextListener implements ServletContextListener {
 	 * @see javax.servlet.ServletContextListener
 	 */
 	public void contextDestroyed(ServletContextEvent event) {
+		Logger LOG = Logger.getLogger(ApplicationContextListener.class);
 		ConnectionPool.getInstance().closeAllConnections();
+	    ClassLoader cl = Thread.currentThread().getContextClassLoader();
+	    Enumeration<Driver> drivers = DriverManager.getDrivers();
+	    while (drivers.hasMoreElements()) {
+	        Driver driver = drivers.nextElement();
+	        if (driver.getClass().getClassLoader() == cl) {
+	            try {
+	                LOG.info("Deregistering JDBC driver: " + driver);
+	                DriverManager.deregisterDriver(driver);
+	            } catch (SQLException ex) {
+	                LOG.error("Error deregistering JDBC driver " + driver, ex);
+	            }
+	        } else {
+	            LOG.trace("JDBC driver " + driver + "doesn't belong to this ClassLoader");
+	        }
+	    }
+		
 	}
 }

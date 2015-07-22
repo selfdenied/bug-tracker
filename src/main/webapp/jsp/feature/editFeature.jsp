@@ -12,14 +12,10 @@
 
 	<rb:header role="${sessionScope.member.admin}" />
 	
-	<c:if test="${formNotFilled}">
+	<c:if test="${formNotFilled and feature != 'status'}">
 	<div class="form5">
 		<c:choose>
 			
-		<c:when test="${feature == 'status'}">
-		<span style="color:red"><rb:text message="admin_statuses" locale="${locale}" /></span>
-		</c:when>
-		
 		<c:when test="${feature == 'resolution'}">
 		<span style="color:red"><rb:text message="admin_resolutions" locale="${locale}" /></span>
 		</c:when>

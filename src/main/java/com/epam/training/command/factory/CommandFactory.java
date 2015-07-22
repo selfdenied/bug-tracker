@@ -46,6 +46,8 @@ public class CommandFactory {
 		commandMap.put("listIssues", new ListIssuesCommand());
 		commandMap.put("submitIssue", new SubmitIssueCommand());
 		commandMap.put("editIssue", new EditIssueCommand());
+		commandMap.put("closeIssue", new CloseIssueCommand());
+		commandMap.put("reopenIssue", new ReopenIssueCommand());
 	}
 
 	/*

@@ -45,10 +45,10 @@ public class EditIssueCommand implements ICommand {
 			Issue issue = new Issue();
 			try {
 				issue = initIssue(request, issueID);
+				updateIssue(request, issue, issueID);
 			} catch (GeneralLogicException ex) {
 				LOG.error(ex.getMessage());
 			}
-			updateIssue(request, issue, issueID);
 			request.setAttribute("issueUpdated", true);
 			request.setAttribute("formNotFilled", false);
 		} else {
@@ -59,15 +59,12 @@ public class EditIssueCommand implements ICommand {
 	}
 
 	/* method updates existing Issue data */
-	private void updateIssue(HttpServletRequest request, Issue issue, String issueID) {
+	private void updateIssue(HttpServletRequest request, Issue issue,
+			String issueID) throws GeneralLogicException {
 		boolean errorFree = false;
 		IssueLogic il = new IssueLogic();
+		errorFree = il.updateIssue(issue, Integer.parseInt(issueID));
 
-		try {
-			errorFree = il.updateIssue(issue, Integer.parseInt(issueID));
-		} catch (GeneralLogicException ex) {
-			LOG.error(ex.getMessage());
-		}
 		if (!errorFree) {
 			setFieldsToRequest(request);
 			request.setAttribute("issueUpdateError", true);
@@ -84,7 +81,7 @@ public class EditIssueCommand implements ICommand {
 		FeatureLogic fl = new FeatureLogic();
 		List<Feature> statuses = new ArrayList<>();
 		String issueID = request.getParameter(PARAM_ISSUE_ID);
-		
+
 		try {
 			il.setFieldsToRequest(request);
 			Issue issue = il.issueToView(Integer.parseInt(issueID));
@@ -95,12 +92,9 @@ public class EditIssueCommand implements ICommand {
 				statuses.add(fl.findFeature(STATUS, 1));
 				statuses.add(fl.findFeature(STATUS, 2));
 			}
-			request.setAttribute("createdDate", issue.getCreatedDate());
-			request.setAttribute("createdBy", issue.getCreatedBy());
-			request.setAttribute("modifiedDate", issue.getModifiedDate());
-			request.setAttribute("modifiedBy", issue.getModifiedBy());
-			request.setAttribute("statuses", statuses);
 			request.setAttribute("issueID", issueID);
+			request.setAttribute("statuses", statuses);
+			setOtherIssueFields(request, issue);
 		} catch (GeneralLogicException ex) {
 			LOG.error(ex.getMessage());
 		}
@@ -115,11 +109,10 @@ public class EditIssueCommand implements ICommand {
 		Build build = new Build();
 		HttpSession session = req.getSession(false);
 		Member modifiedBy = (Member) session.getAttribute("member");
-		Member assignee = il.issueToView(Integer.parseInt(issueID)).getAssignee();
 		project.setId(Integer.parseInt(req.getParameter(PARAM_PROJECT)));
 		build.setId(Integer.parseInt(req.getParameter(PARAM_BUILD)));
 
-		Issue issue = new Issue();
+		Issue issue = il.issueToView(Integer.parseInt(issueID));
 		issue.setModifiedBy(modifiedBy);
 		issue.setSummary(req.getParameter(PARAM_SUMMARY));
 		issue.setDescription(req.getParameter(PARAM_DESC));
@@ -132,9 +125,17 @@ public class EditIssueCommand implements ICommand {
 			Member member = new Member();
 			member.setId(Integer.parseInt(req.getParameter(PARAM_ASSIGNEE)));
 			issue.setAssignee(member);
-		} else {
-			issue.setAssignee(assignee);
 		}
 		return issue;
+	}
+	
+	/* method sets various Issue fields to request */
+	private void setOtherIssueFields(HttpServletRequest req, Issue issue) {
+		req.setAttribute("createdDate", issue.getCreatedDate());
+		req.setAttribute("createdBy", issue.getCreatedBy());
+		req.setAttribute("modifiedDate", issue.getModifiedDate());
+		req.setAttribute("modifiedBy", issue.getModifiedBy());
+		req.setAttribute("summary", issue.getSummary());
+		req.setAttribute("desc", issue.getDescription());
 	}
 }

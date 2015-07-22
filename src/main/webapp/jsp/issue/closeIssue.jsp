@@ -15,7 +15,7 @@ table, th, td {
     background-color: white;
 }
 </style>
-<title><rb:text message="edit_issue" locale="${locale}" /></title>
+<title><rb:text message="close_issue" locale="${locale}" /></title>
 </head>
 <body>
 
@@ -46,7 +46,7 @@ table, th, td {
 		</span>
 		<br>
 		<span style="color:green; font-size:16px">
-			<rb:text message="issue_message" locale="${locale}" />
+			<rb:text message="issue_message_2" locale="${locale}" />
 		</span>
 		<br>
 		<span style="color:blue; font-size:16px">
@@ -58,7 +58,7 @@ table, th, td {
 	
 	<div class="form">
 		<form method="post">
-			<input type="HIDDEN" name="action" value="editIssue">
+			<input type="HIDDEN" name="action" value="closeIssue">
 			<input type="HIDDEN" name="issueID" value="${issueID}">
 			<rb:text message="id_2" locale="${locale}" />
 			<input type="text" value="${issueID}" size="5" disabled="disabled">
@@ -98,10 +98,18 @@ table, th, td {
 			<br>
 			<br>
 			<rb:text message="status" locale="${locale}" />
-			<select name="status" id="status" required="required" onchange="handleStatus()">
+			<select name="status" id="status" required="required" onchange="handleStatusRes()">
 				<option></option>
 				<c:forEach var="status" items="${statuses}">
 					<option value="${status.id}"><c:out value="${status.featureName}"/></option>
+				</c:forEach>
+			</select>
+			&nbsp;
+			<rb:text message="resolution" locale="${locale}" />
+			<select name="resolution" id="resolution" disabled="disabled">
+				<option></option>
+				<c:forEach var="resolution" items="${resolutions}">
+					<option value="${resolution.id}"><c:out value="${resolution.featureName}"/></option>
 				</c:forEach>
 			</select>
 			&nbsp;
@@ -150,13 +158,8 @@ table, th, td {
 			</table> 
 			<br>
 			<rb:text message="assignee" locale="${locale}" />
-			<select name="assignee" id="assignee" disabled="disabled">
-				<option></option>
-				<c:forEach var="assignee" items="${members}">
-					<option value="${assignee.id}">
-						<c:out value="${assignee.firstName} ${assignee.lastName}"/>
-					</option>
-				</c:forEach>
+			<select name="assignee" disabled="disabled">
+				<option><c:out value="${assignee.firstName} ${assignee.lastName}"/></option>
 			</select>
 			<br>
 			<br>
