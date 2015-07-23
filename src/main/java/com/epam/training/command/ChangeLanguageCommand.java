@@ -22,11 +22,12 @@ import com.epam.training.logic.IssueLogic;
  */
 public class ChangeLanguageCommand implements ICommand {
 	private static final Logger LOG = Logger.getLogger(ChangeLanguageCommand.class);
-	private static final String URL = "jsp/common/welcome.jsp";
 	private static final String PARAM_LANGUAGE = "lang";
+	private String url;
 	
 	@Override
 	public String execute(HttpServletRequest request) {
+		url = resBundle.getString("welcome");
 		IssueLogic issueLogic = new IssueLogic();
 		List<Issue> recentIssuesList = new ArrayList<>();
 		String language = request.getParameter(PARAM_LANGUAGE);
@@ -40,6 +41,6 @@ public class ChangeLanguageCommand implements ICommand {
 		request.setAttribute("issuesList", recentIssuesList);
 		/* setting new locale */
 		request.setAttribute("locale", language);
-		return URL;
+		return url;
 	}
 }

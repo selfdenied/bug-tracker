@@ -23,12 +23,13 @@ import com.epam.training.logic.ProjectLogic;
  */
 public class AddBuildCommand implements ICommand {
 	private static final Logger LOG = Logger.getLogger(AddFeatureCommand.class);
-	private static final String URL = "jsp/project/addBuild.jsp";
 	private static final String PARAM_PROJECT_ID = "projectID";
 	private static final String PARAM_BUILD_NAME = "buildName";
+	private String url;
 
 	@Override
 	public String execute(HttpServletRequest request) {
+		url = resBundle.getString("add_build");
 		String buildName = request.getParameter(PARAM_BUILD_NAME);
 		String projectID = request.getParameter(PARAM_PROJECT_ID);
 
@@ -47,7 +48,7 @@ public class AddBuildCommand implements ICommand {
 			request.setAttribute("projectID", projectID);
 			request.setAttribute("formNotFilled", true);
 		}
-		return URL;
+		return url;
 	}
 
 	/* method adds new Build to the database */

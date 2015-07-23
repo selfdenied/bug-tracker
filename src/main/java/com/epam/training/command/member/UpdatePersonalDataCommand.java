@@ -20,14 +20,15 @@ import com.epam.training.logic.MemberLogic;
  */
 public class UpdatePersonalDataCommand implements ICommand {
 	private static final Logger LOG = Logger.getLogger(UpdatePersonalDataCommand.class);
-	private static final String URL = "jsp/member/updatePersonalData.jsp";
 	private static final String PARAM_MEMBER = "member";
 	private static final String PARAM_FIRST_NAME = "firstName";
 	private static final String PARAM_LAST_NAME = "lastName";
 	private static final String PARAM_LOGIN = "login";
+	private String url;
 
 	@Override
 	public String execute(HttpServletRequest request) {
+		url = resBundle.getString("update_pers_data");
 		String firstName = request.getParameter(PARAM_FIRST_NAME);
 		String lastName = request.getParameter(PARAM_LAST_NAME);
 		String login = request.getParameter(PARAM_LOGIN);
@@ -50,7 +51,7 @@ public class UpdatePersonalDataCommand implements ICommand {
 		} else {
 			request.setAttribute("formNotFilled", true);
 		}
-		return URL;
+		return url;
 	}
 
 	/* supplementary method that updates Member's pers. data */

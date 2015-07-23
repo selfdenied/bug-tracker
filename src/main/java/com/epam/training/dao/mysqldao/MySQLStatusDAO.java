@@ -1,8 +1,7 @@
 package com.epam.training.dao.mysqldao;
 
 import java.sql.Connection;
-import static com.epam.training.constant.DBFieldsConstants.STATUS_ID;
-import static com.epam.training.constant.DBFieldsConstants.STATUS_NAME;
+
 import static com.epam.training.dao.mysqldao.MySQLFeatureDAO.FeatureField.*;
 
 /**
@@ -15,6 +14,8 @@ import static com.epam.training.dao.mysqldao.MySQLFeatureDAO.FeatureField.*;
  * @see com.epam.training.dao.mysqldao.MySQLFeatureDAO
  */
 public class MySQLStatusDAO extends MySQLFeatureDAO {
+	private static final String STATUS_ID = "STATUS_ID";
+	private static final String STATUS_NAME = "STATUS_NAME";
 	private static final String FIND_STATUSES = "SELECT * FROM STATUS";
 	private static final String FIND_STATUS_BY_ID = "SELECT * FROM STATUS WHERE STATUS_ID = ?";
 	private static final String ADD_STATUS = "INSERT INTO STATUS (STATUS_NAME) VALUES (?)";

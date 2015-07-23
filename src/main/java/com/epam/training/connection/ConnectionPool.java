@@ -45,8 +45,16 @@ public class ConnectionPool {
 			}
 		} catch (MissingResourceException ex) {
 			LOG.fatal("Error. Unable to find " + PROP_FILE_NAME + " file!");
-			throw new RuntimeException("Missing " + PROP_FILE_NAME + " file",
-					ex);
+			throw new RuntimeException("Missing " + PROP_FILE_NAME + " file", ex);
+		} catch (IOException ex) {
+			LOG.fatal("Error. Unable to read from " + PROP_FILE_NAME + " file!");
+			throw new RuntimeException("Database connection failure", ex);
+		} catch (SQLException ex) {
+			LOG.fatal("Error. Unable to access the database!");
+			throw new RuntimeException("Database connection failure", ex);
+		} catch (ClassNotFoundException ex) {
+			LOG.fatal("Error. Unable to find " + rb.getString("driver") + "!");
+			throw new RuntimeException("Database connection failure", ex);
 		}
 	}
 
@@ -133,31 +141,22 @@ public class ConnectionPool {
 	}
 
 	/* opens a connection with a database */
-	private Connection openOneConnection() {
+	private Connection openOneConnection() throws IOException,
+			ClassNotFoundException, SQLException {
 		Connection connection = null;
 		ClassLoader cl = Thread.currentThread().getContextClassLoader();
-
-		try (InputStream is = cl.getResourceAsStream(PROP_FILE_NAME + ".properties")) {
-			if (is != null) {
-				prop.load(is); // loads properties using InputStream
-			} else {
-				LOG.fatal("Error. Unable to find " + PROP_FILE_NAME + " file!");
-				throw new RuntimeException("Missing " + PROP_FILE_NAME
-						+ " file");
-			}
-			Class.forName(rb.getString("driver"));
-			/* gets connection using the url and properties loaded from file */
-			connection = DriverManager.getConnection(rb.getString("url"), prop);
-		} catch (IOException exception) {
-			LOG.fatal("Error. Unable to read from " + PROP_FILE_NAME + " file!");
-			throw new RuntimeException("Database connection failure", exception);
-		} catch (SQLException exception) {
-			LOG.fatal("Error. Unable to access the database!");
-			throw new RuntimeException("Database connection failure", exception);
-		} catch (ClassNotFoundException exception) {
-			LOG.fatal("Error. Unable to find " + rb.getString("driver") + "!");
-			throw new RuntimeException("Database connection failure", exception);
+		InputStream is = cl.getResourceAsStream(PROP_FILE_NAME + ".properties");
+		
+		if (is != null) {
+			prop.load(is); // loads properties using InputStream
+		} else {
+			LOG.fatal("Error. Unable to find " + PROP_FILE_NAME + " file!");
+			throw new RuntimeException("Missing " + PROP_FILE_NAME + " file");
 		}
+		is.close(); // closing the InputStream
+		Class.forName(rb.getString("driver"));
+		/* gets connection using the url and properties loaded from file */
+		connection = DriverManager.getConnection(rb.getString("url"), prop);
 		return connection;
 	}
 }

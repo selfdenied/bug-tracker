@@ -22,10 +22,11 @@ import com.epam.training.logic.MemberLogic;
  */
 public class ListMembersCommand implements ICommand {
 	private static final Logger LOG = Logger.getLogger(ListMembersCommand.class);
-	private static final String URL = "jsp/member/listMembers.jsp";
+	private String url;
 
 	@Override
 	public String execute(HttpServletRequest request) {
+		url = resBundle.getString("list_members");
 		MemberLogic ml = new MemberLogic();
 		List<Member> listOfMembers = new ArrayList<>();
 
@@ -35,6 +36,6 @@ public class ListMembersCommand implements ICommand {
 			LOG.error(ex.getMessage());
 		}
 		request.setAttribute("listOfMembers", listOfMembers);
-		return URL;
+		return url;
 	}
 }

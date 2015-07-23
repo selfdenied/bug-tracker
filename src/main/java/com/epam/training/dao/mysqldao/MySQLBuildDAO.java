@@ -9,9 +9,7 @@ import java.util.List;
 
 import com.epam.training.bean.Build;
 import com.epam.training.bean.Project;
-import static com.epam.training.constant.DBFieldsConstants.BUILD_ID;
-import static com.epam.training.constant.DBFieldsConstants.BUILD_NAME;
-import static com.epam.training.constant.DBFieldsConstants.BUILD_PROJECT;
+
 import com.epam.training.dao.AbstractDAO;
 import com.epam.training.exception.GeneralDAOException;
 
@@ -25,6 +23,9 @@ import com.epam.training.exception.GeneralDAOException;
  * @see com.epam.training.dao.AbstractDAO
  */
 public class MySQLBuildDAO extends AbstractDAO<Build> {
+	private static final String BUILD_ID = "BUILD_ID";
+	private static final String BUILD_NAME = "BUILD_NAME";
+	private static final String BUILD_PROJECT = "PROJECT_ID";
 	private static final String FIND_BUILDS = "SELECT * FROM BUILD";
 	private static final String FIND_BUILDS_BY_PROJECT_ID = "SELECT * FROM BUILD WHERE PROJECT_ID = ?";
 	private static final String FIND_BUILD_BY_ID = "SELECT * FROM BUILD WHERE BUILD_ID = ?";

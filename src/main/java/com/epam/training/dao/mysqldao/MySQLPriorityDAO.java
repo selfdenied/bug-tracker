@@ -2,8 +2,6 @@ package com.epam.training.dao.mysqldao;
 
 import java.sql.Connection;
 
-import static com.epam.training.constant.DBFieldsConstants.PRIORITY_ID;
-import static com.epam.training.constant.DBFieldsConstants.PRIORITY_NAME;
 import static com.epam.training.dao.mysqldao.MySQLFeatureDAO.FeatureField.*;
 
 /**
@@ -17,6 +15,8 @@ import static com.epam.training.dao.mysqldao.MySQLFeatureDAO.FeatureField.*;
  * @see com.epam.training.dao.mysqldao.MySQLFeatureDAO
  */
 public class MySQLPriorityDAO extends MySQLFeatureDAO {
+	private static final String PRIORITY_ID = "PRIORITY_ID";
+	private static final String PRIORITY_NAME = "PRIORITY_NAME";
 	private static final String FIND_PRIORITIES = "SELECT * FROM PRIORITY";
 	private static final String FIND_PRIORITY_BY_ID = "SELECT * FROM PRIORITY WHERE PRIORITY_ID = ?";
 	private static final String ADD_PRIORITY = "INSERT INTO PRIORITY (PRIORITY_NAME) VALUES (?)";

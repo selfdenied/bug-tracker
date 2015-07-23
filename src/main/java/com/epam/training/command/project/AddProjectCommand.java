@@ -24,13 +24,14 @@ import com.epam.training.logic.ProjectLogic;
  */
 public class AddProjectCommand implements ICommand {
 	private static final Logger LOG = Logger.getLogger(AddProjectCommand.class);
-	private static final String URL = "jsp/project/addProject.jsp";
 	private static final String PARAM_PROJECT_NAME = "projectName";
 	private static final String PARAM_PROJECT_DESC = "projectDescription";
 	private static final String PARAM_PROJECT_MANAGER = "projectManager";
+	private String url;
 
 	@Override
 	public String execute(HttpServletRequest request) {
+		url = resBundle.getString("add_project");
 		String projectName = request.getParameter(PARAM_PROJECT_NAME);
 		String projectDesc = request.getParameter(PARAM_PROJECT_DESC);
 		String projectManager = request.getParameter(PARAM_PROJECT_MANAGER);
@@ -56,7 +57,7 @@ public class AddProjectCommand implements ICommand {
 			request.setAttribute("managersList", membersList());
 			request.setAttribute("formNotFilled", true);
 		}
-		return URL;
+		return url;
 	}
 
 	/* method adds new Project to the database */

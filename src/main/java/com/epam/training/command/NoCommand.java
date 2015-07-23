@@ -22,12 +22,13 @@ import com.epam.training.logic.IssueLogic;
  */
 public class NoCommand implements ICommand {
 	private static final Logger LOG = Logger.getLogger(NoCommand.class);
-	private static final String URL = "jsp/common/welcome.jsp";
 	private static final String PARAM_LANGUAGE = "lang";
 	private static final String DEFAULT_LANGUAGE = "rus";
+	private String url;
 	
 	@Override
 	public String execute(HttpServletRequest request) {
+		url = resBundle.getString("welcome");
 		IssueLogic issueLogic = new IssueLogic();
 		List<Issue> recentIssuesList = new ArrayList<>();
 		String language = request.getParameter(PARAM_LANGUAGE);
@@ -42,6 +43,6 @@ public class NoCommand implements ICommand {
 		/* putting the list of latest Issues into request */
 		request.setAttribute("issuesList", recentIssuesList);
 		request.setAttribute("locale", language);
-		return URL;
+		return url;
 	}
 }

@@ -18,16 +18,17 @@ import com.epam.training.logic.MemberLogic;
  */
 public class AddMemberCommand implements ICommand {
 	private static final Logger LOG = Logger.getLogger(AddMemberCommand.class);
-	private static final String URL = "jsp/member/addMember.jsp";
 	private static final String PARAM_MEMBER_FNAME = "firstName";
 	private static final String PARAM_MEMBER_LNAME = "lastName";
 	private static final String PARAM_MEMBER_LOGIN = "login";
 	private static final String PARAM_MEMBER_ADMIN = "admin";
 	private static final String PARAM_MEMBER_PASS = "pass";
 	private static final String PARAM_MEMBER_PASS_CONF = "passConf";
+	private String url;
 
 	@Override
 	public String execute(HttpServletRequest request) {
+		url = resBundle.getString("add_member");
 		String firstName = request.getParameter(PARAM_MEMBER_FNAME);
 
 		if (firstName != null) {
@@ -49,7 +50,7 @@ public class AddMemberCommand implements ICommand {
 		} else {
 			request.setAttribute("formNotFilled", true);
 		}
-		return URL;
+		return url;
 	}
 
 	/* method adds new Member to the database */

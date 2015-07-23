@@ -19,13 +19,14 @@ import com.epam.training.logic.MemberLogic;
  */
 public class UpdatePassCommand implements ICommand {
 	private static final Logger LOG = Logger.getLogger(UpdatePassCommand.class);
-	private static final String URL = "jsp/member/updatePass.jsp";
 	private static final String PARAM_MEMBER = "member";
 	private static final String PARAM_PASS = "newPassword";
 	private static final String PARAM_PASS_CONFIRM = "newPasswordConfirm";
+	private String url;
 
 	@Override
 	public String execute(HttpServletRequest request) {
+		url = resBundle.getString("update_pass");
 		String password = request.getParameter(PARAM_PASS);
 		String passwordConfirm = request.getParameter(PARAM_PASS_CONFIRM);
 		
@@ -43,7 +44,7 @@ public class UpdatePassCommand implements ICommand {
 		} else {
 			request.setAttribute("formNotFilled", true);
 		}
-		return URL;
+		return url;
 	}
 	
 	/* supplementary method that updates Member's password */

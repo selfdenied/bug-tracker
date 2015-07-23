@@ -25,7 +25,6 @@ import com.epam.training.logic.IssueLogic;
  */
 public class EditIssueCommand implements ICommand {
 	private static final Logger LOG = Logger.getLogger(EditIssueCommand.class);
-	private static final String URL = "jsp/issue/editIssue.jsp";
 	private static final String PARAM_ISSUE_ID = "issueID";
 	private static final String PARAM_SUMMARY = "summary";
 	private static final String PARAM_DESC = "desc";
@@ -35,9 +34,11 @@ public class EditIssueCommand implements ICommand {
 	private static final String PARAM_PROJECT = "project";
 	private static final String PARAM_BUILD = "build";
 	private static final String PARAM_ASSIGNEE = "assignee";
+	private String url;
 
 	@Override
 	public String execute(HttpServletRequest request) {
+		url = resBundle.getString("edit_issue");
 		String summary = request.getParameter(PARAM_SUMMARY);
 		String issueID = request.getParameter(PARAM_ISSUE_ID);
 
@@ -55,7 +56,7 @@ public class EditIssueCommand implements ICommand {
 			setFieldsToRequest(request);
 			request.setAttribute("formNotFilled", true);
 		}
-		return URL;
+		return url;
 	}
 
 	/* method updates existing Issue data */

@@ -24,8 +24,6 @@ import com.epam.training.logic.IssueLogic;
  */
 public class BackHomeCommand implements ICommand {
 	private static final Logger LOG = Logger.getLogger(BackHomeCommand.class);
-	private static final String USER_URL = "jsp/common/user.jsp";
-	private static final String ADMIN_URL = "jsp/common/admin.jsp";
 	private static final String PARAM_MEMBER = "member";
 
 	@Override
@@ -49,9 +47,9 @@ public class BackHomeCommand implements ICommand {
 		String url;
 
 		if (isAdmin) {
-			url = ADMIN_URL;
+			url = resBundle.getString("admin");
 		} else {
-			url = USER_URL;
+			url = resBundle.getString("user");
 		}
 		return url;
 	}

@@ -19,12 +19,13 @@ import com.epam.training.logic.IssueLogic;
  */
 public class IssueInfoCommand implements ICommand {
 	private static final Logger LOG = Logger.getLogger(IssueInfoCommand.class);
-	private static final String URL = "jsp/issue/issueInfo.jsp";
 	private static final String PARAM_ISSUE_ID = "issueID";
 	private static final String PARAM_LANGUAGE = "lang";
+	private String url;
 	
 	@Override
 	public String execute(HttpServletRequest request) {
+		url = resBundle.getString("issue_info");
 		IssueLogic issueLogic = new IssueLogic();
 		Issue issueToView = null;
 		int issueID = Integer.parseInt(request.getParameter(PARAM_ISSUE_ID));
@@ -38,6 +39,6 @@ public class IssueInfoCommand implements ICommand {
 		/* putting the selected Issue into request */
 		request.setAttribute("issueToView", issueToView);
 		request.setAttribute("locale", language);
-		return URL;
+		return url;
 	}
 }

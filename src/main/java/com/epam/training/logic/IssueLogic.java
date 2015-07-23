@@ -14,6 +14,7 @@ import com.epam.training.connection.ConnectionPool;
 import com.epam.training.dao.AbstractDAO;
 import com.epam.training.dao.factory.AbstractDAOFactory;
 import com.epam.training.dao.mysqldao.MySQLBuildDAO;
+import com.epam.training.dao.mysqldao.MySQLIssueDAO;
 import com.epam.training.exception.GeneralDAOException;
 import com.epam.training.exception.GeneralLogicException;
 
@@ -218,6 +219,31 @@ public class IssueLogic {
 			pool.releaseConnection(connection);
 		}
 		return isUpdated;
+	}
+	
+	/**
+	 * Method deletes existing Issue from the database.
+	 * 
+	 * @param issueID
+	 *            the ID of the Issue to be deleted
+	 * 
+	 * @return {@code true} when new Issue was successfully deleted and
+	 *         {@code false} otherwise
+	 * @throws GeneralLogicException
+	 *             If a Logic exception of some sort has occurred
+	 */
+	public boolean deleteIssue(int issueID) throws GeneralLogicException {
+		boolean isDeleted = false;
+		MySQLIssueDAO issueDAO = (MySQLIssueDAO) initDAOFactory().getIssueDAO();
+		
+		try {
+			isDeleted = issueDAO.deleteIssue(issueID);
+		} catch (GeneralDAOException ex) {
+			throw new GeneralLogicException("Database access error", ex);
+		} finally {
+			pool.releaseConnection(connection);
+		}
+		return isDeleted;
 	}
 
 	/* supplementary method that initializes connection and DAO factory */

@@ -19,7 +19,6 @@ import com.epam.training.dao.factory.AbstractDAOFactory;
 import com.epam.training.exception.GeneralDAOException;
 
 import static com.epam.training.dao.factory.DAOFactoryType.MYSQL;
-import static com.epam.training.constant.DBFieldsConstants.*;
 
 /**
  * Class {@code MySQLIssueDAO} contains methods allowing to extract information
@@ -32,6 +31,20 @@ import static com.epam.training.constant.DBFieldsConstants.*;
  * @see com.epam.training.dao.AbstractDAO
  */
 public class MySQLIssueDAO extends AbstractDAO<Issue> {
+	private static final String ISSUE_ID = "ISSUE_ID";
+	private static final String ISSUE_CREATED_DATE = "CREATED_DATE";
+	private static final String ISSUE_CREATED_BY = "CREATED_BY";
+	private static final String ISSUE_MOD_DATE = "MOD_DATE";
+	private static final String ISSUE_MOD_BY = "MOD_BY";
+	private static final String ISSUE_SUMMARY = "SUMMARY";
+	private static final String ISSUE_DESCRIPTION = "DESCRIPTION";
+	private static final String ISSUE_STATUS = "STATUS_ID";
+	private static final String ISSUE_RESOLUTION = "RESOLUTION_ID";
+	private static final String ISSUE_TYPE = "TYPE_ID";
+	private static final String ISSUE_PRIORITY = "PRIORITY_ID";
+	private static final String ISSUE_PROJECT = "PROJECT_ID";
+	private static final String ISSUE_BUILD = "BUILD_ID";
+	private static final String ISSUE_ASSIGNEE = "ASSIGNEE";
 	private static final String FIND_ISSUES = "SELECT * FROM ISSUE";
 	private static final String FIND_ISSUE_BY_ID = "SELECT * FROM ISSUE WHERE ISSUE_ID = ?";
 	private static final String ADD_ISSUE = "INSERT INTO ISSUE"

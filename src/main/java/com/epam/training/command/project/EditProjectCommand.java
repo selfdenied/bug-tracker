@@ -24,16 +24,16 @@ import com.epam.training.logic.ProjectLogic;
  * @see com.epam.training.command.ICommand
  */
 public class EditProjectCommand implements ICommand {
-	private static final Logger LOG = Logger
-			.getLogger(EditProjectCommand.class);
-	private static final String URL = "jsp/project/editProject.jsp";
+	private static final Logger LOG = Logger.getLogger(EditProjectCommand.class);
 	private static final String PARAM_PROJECT_ID = "projectID";
 	private static final String PARAM_PROJECT_NAME = "projectName";
 	private static final String PARAM_PROJECT_DESC = "projectDescription";
 	private static final String PARAM_PROJECT_MANAGER = "projectManager";
+	private String url;
 
 	@Override
 	public String execute(HttpServletRequest request) {
+		url = resBundle.getString("edit_project");
 		String projectID = request.getParameter(PARAM_PROJECT_ID);
 		String projectName = request.getParameter(PARAM_PROJECT_NAME);
 		String projectDesc = request.getParameter(PARAM_PROJECT_DESC);
@@ -46,38 +46,32 @@ public class EditProjectCommand implements ICommand {
 			project.setProjectName(projectName);
 			project.setProjectDescription(projectDesc);
 			project.setManager(manager);
-			updateProject(request, project);
+			updateProject(request, project, projectID);
 			request.setAttribute("projectDataUpdated", true);
 			request.setAttribute("formNotFilled", false);
 		} else {
-			request.setAttribute("projectID", projectID);
-			request.setAttribute("buildsList", buildsList(projectID));
-			request.setAttribute("managersList", membersList());
-			request.setAttribute("formNotFilled", true);
+			setAttrsToRequest(request, projectID);
 		}
-		return URL;
+		return url;
 	}
 
 	/* method updates existing Project's data */
-	private void updateProject(HttpServletRequest request, Project project) {
+	private void updateProject(HttpServletRequest request, Project project,
+			String projectID) {
 		boolean errorFree = false;
 		ProjectLogic pl = new ProjectLogic();
-		String projectID = request.getParameter(PARAM_PROJECT_ID);
-		
+
 		try {
 			errorFree = pl.updateProject(project, Integer.parseInt(projectID));
 		} catch (GeneralLogicException ex) {
 			LOG.error(ex.getMessage());
 		}
 		if (!errorFree) {
-			request.setAttribute("projectID", projectID);
-			request.setAttribute("buildsList", buildsList(projectID));
-			request.setAttribute("managersList", membersList());
+			setAttrsToRequest(request, projectID);
 			request.setAttribute("projectUpdateError", true);
-			request.setAttribute("formNotFilled", true);
 		}
 	}
-	
+
 	/* method returns the list of all Members */
 	private List<Member> membersList() {
 		List<Member> listOfMembers = new ArrayList<>();
@@ -102,5 +96,22 @@ public class EditProjectCommand implements ICommand {
 			LOG.error(ex.getMessage());
 		}
 		return listOfBuilds;
+	}
+
+	private void setAttrsToRequest(HttpServletRequest request, String projectID) {
+		ProjectLogic pl = new ProjectLogic();
+		Project project = new Project();
+
+		try {
+			project = pl.receiveProject(Integer.parseInt(projectID));
+		} catch (GeneralLogicException ex) {
+			LOG.error(ex.getMessage());
+		}
+		request.setAttribute("projectID", projectID);
+		request.setAttribute("name", project.getProjectName());
+		request.setAttribute("desc", project.getProjectDescription());
+		request.setAttribute("buildsList", buildsList(projectID));
+		request.setAttribute("managersList", membersList());
+		request.setAttribute("formNotFilled", true);
 	}
 }

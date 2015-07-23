@@ -20,12 +20,13 @@ import com.epam.training.logic.featuretype.FeatureType;
  */
 public class AddFeatureCommand implements ICommand {
 	private static final Logger LOG = Logger.getLogger(AddFeatureCommand.class);
-	private static final String URL = "jsp/feature/addFeature.jsp";
 	private static final String PARAM_FEATURE = "feature";
 	private static final String PARAM_FEATURE_NAME = "featureName";
+	private String url;
 
 	@Override
 	public String execute(HttpServletRequest request) {
+		url = resBundle.getString("add_feature");
 		String feature = request.getParameter(PARAM_FEATURE);
 		String featureName = request.getParameter(PARAM_FEATURE_NAME);
 		FeatureType type = FeatureType.valueOf(feature.toUpperCase());
@@ -46,7 +47,7 @@ public class AddFeatureCommand implements ICommand {
 			request.setAttribute("feature", feature);
 			request.setAttribute("formNotFilled", true);
 		}
-		return URL;
+		return url;
 	}
 
 	/* method adds new feature to the database */

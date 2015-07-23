@@ -20,13 +20,14 @@ import com.epam.training.logic.featuretype.FeatureType;
  */
 public class EditFeatureCommand implements ICommand {
 	private static final Logger LOG = Logger.getLogger(EditFeatureCommand.class);
-	private static final String URL = "jsp/feature/editFeature.jsp";
 	private static final String PARAM_FEATURE = "feature";
 	private static final String PARAM_FEATURE_NAME = "featureName";
 	private static final String PARAM_FEATURE_ID = "featureID";
+	private String url;
 
 	@Override
 	public String execute(HttpServletRequest request) {
+		url = resBundle.getString("edit_feature");
 		String feature = request.getParameter(PARAM_FEATURE);
 		String featureID = request.getParameter(PARAM_FEATURE_ID);
 		String featureName = request.getParameter(PARAM_FEATURE_NAME);
@@ -43,7 +44,7 @@ public class EditFeatureCommand implements ICommand {
 			request.setAttribute("featureID", featureID);
 			request.setAttribute("formNotFilled", true);
 		}
-		return URL;
+		return url;
 	}
 
 	/* method updates Feature's data */

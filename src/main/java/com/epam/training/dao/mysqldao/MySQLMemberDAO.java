@@ -7,8 +7,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.epam.training.constant.DBFieldsConstants.*;
-
 import com.epam.training.bean.Member;
 import com.epam.training.dao.AbstractDAO;
 import com.epam.training.exception.GeneralDAOException;
@@ -25,6 +23,12 @@ import com.epam.training.exception.GeneralDAOException;
  * @see com.epam.training.dao.AbstractDAO
  */
 public class MySQLMemberDAO extends AbstractDAO<Member> {
+	private static final String MEMBER_ID = "MEMBER_ID";
+	private static final String LOGIN = "LOGIN";
+	private static final String PASSWORD = "PASSWORD";
+	private static final String FIRST_NAME = "FIRST_NAME";
+	private static final String LAST_NAME = "LAST_NAME";
+	private static final String ROLE = "ROLE";
 	private static final String FIND_MEMBERS = "SELECT * FROM MEMBER";
 	private static final String FIND_MEMBER_BY_ID = "SELECT * FROM MEMBER WHERE MEMBER_ID = ?";
 	private static final String FIND_MEMBER_BY_LOGIN = "SELECT * FROM MEMBER WHERE LOGIN = ?";

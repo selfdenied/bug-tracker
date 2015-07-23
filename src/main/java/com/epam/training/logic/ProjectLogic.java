@@ -186,6 +186,30 @@ public class ProjectLogic {
 		}
 		return projectID;
 	}
+	
+	/**
+	 * Method returns the Project with the given ID.
+	 * 
+	 * @param id
+	 *            the ID of the Project
+	 * 
+	 * @return the Project with the given ID
+	 * @throws GeneralLogicException
+	 *             If a Logic exception of some sort has occurred
+	 */
+	public Project receiveProject(int id) throws GeneralLogicException {
+		AbstractDAO<Project> projectDAO = initDAOFactory().getProjectDAO();
+		Project project = new Project();
+
+		try {
+			project = projectDAO.findEntityByID(id);
+		} catch (GeneralDAOException ex) {
+			throw new GeneralLogicException("Database access error", ex);
+		} finally {
+			pool.releaseConnection(connection);
+		}
+		return project;
+	}
 
 	/* supplementary method that initializes connection and DAO factory */
 	private AbstractDAOFactory initDAOFactory() {

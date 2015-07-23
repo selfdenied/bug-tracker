@@ -25,7 +25,6 @@ import static com.epam.training.logic.featuretype.FeatureType.*;
  */
 public class SubmitIssueCommand implements ICommand {
 	private static final Logger LOG = Logger.getLogger(SubmitIssueCommand.class);
-	private static final String URL = "jsp/issue/submitIssue.jsp";
 	private static final String PARAM_SUMMARY = "summary";
 	private static final String PARAM_DESC = "desc";
 	private static final String PARAM_STATUS = "status";
@@ -34,9 +33,11 @@ public class SubmitIssueCommand implements ICommand {
 	private static final String PARAM_PROJECT = "project";
 	private static final String PARAM_BUILD = "build";
 	private static final String PARAM_ASSIGNEE = "assignee";
+	private String url;
 
 	@Override
 	public String execute(HttpServletRequest request) {
+		url = resBundle.getString("add_issue");
 		String summary = request.getParameter(PARAM_SUMMARY);
 
 		if (summary != null) {
@@ -53,7 +54,7 @@ public class SubmitIssueCommand implements ICommand {
 			setFieldsToRequest(request);
 			request.setAttribute("formNotFilled", true);
 		}
-		return URL;
+		return url;
 	}
 
 	/* method adds new Issue to the database */

@@ -18,15 +18,16 @@ import com.epam.training.logic.MemberLogic;
  */
 public class EditMemberCommand implements ICommand {
 	private static final Logger LOG = Logger.getLogger(EditMemberCommand.class);
-	private static final String URL = "jsp/member/editMember.jsp";
 	private static final String PARAM_USER_ID = "userID";
 	private static final String PARAM_MEMBER_FNAME = "firstName";
 	private static final String PARAM_MEMBER_LNAME = "lastName";
 	private static final String PARAM_MEMBER_LOGIN = "login";
 	private static final String PARAM_MEMBER_ADMIN = "admin";
+	private String url;
 
 	@Override
 	public String execute(HttpServletRequest request) {
+		url = resBundle.getString("edit_member");
 		String firstName = request.getParameter(PARAM_MEMBER_FNAME);
 		String userID = request.getParameter(PARAM_USER_ID);
 
@@ -49,7 +50,7 @@ public class EditMemberCommand implements ICommand {
 			request.setAttribute("userID", userID);
 			request.setAttribute("formNotFilled", true);
 		}
-		return URL;
+		return url;
 	}
 
 	/* method updates existing Member data */

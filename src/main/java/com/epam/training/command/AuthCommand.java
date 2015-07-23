@@ -21,16 +21,14 @@ import com.epam.training.logic.MemberLogic;
  */
 public class AuthCommand implements ICommand {
 	private static final Logger LOG = Logger.getLogger(AuthCommand.class);
-	private static final String DEFAULT_URL = "jsp/common/welcome.jsp";
-	private static final String USER_URL = "jsp/common/user.jsp";
-	private static final String ADMIN_URL = "jsp/common/admin.jsp";
 	private static final String PARAM_LANGUAGE = "lang";
 	private static final String PARAM_LOGIN = "login";
 	private static final String PARAM_PASSWORD = "password";
+	private String url;
 
 	@Override
 	public String execute(HttpServletRequest request) {
-		String url = DEFAULT_URL;
+		url = resBundle.getString("welcome");
 		MemberLogic memberLogic = new MemberLogic();
 		IssueLogic il = new IssueLogic();
 		String login = request.getParameter(PARAM_LOGIN);
@@ -62,9 +60,9 @@ public class AuthCommand implements ICommand {
 		String url;
 
 		if (isAdmin) {
-			url = ADMIN_URL;
+			url = resBundle.getString("admin");
 		} else {
-			url = USER_URL;
+			url = resBundle.getString("user");
 		}
 		return url;
 	}

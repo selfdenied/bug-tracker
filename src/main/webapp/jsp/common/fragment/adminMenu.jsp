@@ -62,4 +62,8 @@
 		<a href="controller?action=submitIssue">
 		<rb:text message="admin_add_issue" locale="${locale}" />
 		</a>
+		<br>
+		<a href="controller?action=deleteIssue">
+		<rb:text message="admin_delete_issues" locale="${locale}"/>
+		</a>
 	</div>

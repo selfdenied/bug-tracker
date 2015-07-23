@@ -2,8 +2,6 @@ package com.epam.training.dao.mysqldao;
 
 import java.sql.Connection;
 
-import static com.epam.training.constant.DBFieldsConstants.TYPE_ID;
-import static com.epam.training.constant.DBFieldsConstants.TYPE_NAME;
 import static com.epam.training.dao.mysqldao.MySQLFeatureDAO.FeatureField.*;
 
 /**
@@ -16,6 +14,8 @@ import static com.epam.training.dao.mysqldao.MySQLFeatureDAO.FeatureField.*;
  * @see com.epam.training.dao.mysqldao.MySQLFeatureDAO
  */
 public class MySQLTypeDAO extends MySQLFeatureDAO {
+	private static final String TYPE_ID = "TYPE_ID";
+	private static final String TYPE_NAME = "TYPE_NAME";
 	private static final String FIND_TYPES = "SELECT * FROM TYPE";
 	private static final String FIND_TYPE_BY_ID = "SELECT * FROM TYPE WHERE TYPE_ID = ?";
 	private static final String ADD_TYPE = "INSERT INTO TYPE (TYPE_NAME) VALUES (?)";

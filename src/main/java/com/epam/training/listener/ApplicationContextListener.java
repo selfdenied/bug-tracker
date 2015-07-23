@@ -12,6 +12,7 @@ import javax.servlet.ServletContextListener;
 import org.apache.log4j.Logger;
 
 import com.epam.training.connection.ConnectionPool;
+import com.mysql.jdbc.AbandonedConnectionCleanupThread;
 
 /**
  * Class {@code ApplicationContextListener} is a Listener which sets a new
@@ -46,7 +47,7 @@ public class ApplicationContextListener implements ServletContextListener {
 
 	/**
 	 * This method is invoked when the application context is destroyed. Here
-	 * all DB connections are closed.
+	 * all DB connections are closed and Drivers get unregistered.
 	 * 
 	 * @param event
 	 *            javax.servlet.ServletContextEvent
@@ -55,21 +56,30 @@ public class ApplicationContextListener implements ServletContextListener {
 	public void contextDestroyed(ServletContextEvent event) {
 		Logger LOG = Logger.getLogger(ApplicationContextListener.class);
 		ConnectionPool.getInstance().closeAllConnections();
-	    ClassLoader cl = Thread.currentThread().getContextClassLoader();
-	    Enumeration<Driver> drivers = DriverManager.getDrivers();
-	    while (drivers.hasMoreElements()) {
-	        Driver driver = drivers.nextElement();
-	        if (driver.getClass().getClassLoader() == cl) {
-	            try {
-	                LOG.info("Deregistering JDBC driver: " + driver);
-	                DriverManager.deregisterDriver(driver);
-	            } catch (SQLException ex) {
-	                LOG.error("Error deregistering JDBC driver " + driver, ex);
-	            }
-	        } else {
-	            LOG.trace("JDBC driver " + driver + "doesn't belong to this ClassLoader");
-	        }
-	    }
-		
+
+		/* manually deregistering MySQL JDBC drivers to prevent Tomcat warnings */
+		ClassLoader cl = Thread.currentThread().getContextClassLoader();
+		Enumeration<Driver> drivers = DriverManager.getDrivers();
+
+		while (drivers.hasMoreElements()) {
+			Driver driver = drivers.nextElement();
+			if (driver.getClass().getClassLoader() == cl) {
+				try {
+					LOG.info("Deregistering JDBC driver: " + driver);
+					DriverManager.deregisterDriver(driver);
+				} catch (SQLException ex) {
+					LOG.error("Error deregistering JDBC driver " + driver, ex);
+				}
+			} else {
+				LOG.trace("JDBC driver " + driver
+						+ "doesn't belong to this ClassLoader");
+			}
+		}
+		/* manually shutting down the CleanupThread to prevent Tomcat warnings */
+		try {
+			AbandonedConnectionCleanupThread.shutdown();
+		} catch (InterruptedException ex) {
+			LOG.warn("Problem with Thread Cleanup: " + ex.getMessage());
+		}
 	}
 }

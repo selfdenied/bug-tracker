@@ -22,10 +22,11 @@ import com.epam.training.logic.IssueLogic;
  */
 public class ListIssuesCommand implements ICommand {
 	private static final Logger LOG = Logger.getLogger(ListIssuesCommand.class);
-	private static final String URL = "jsp/issue/listIssues.jsp";
+	private String url;
 
 	@Override
 	public String execute(HttpServletRequest request) {
+		url = resBundle.getString("list_issues");
 		IssueLogic il = new IssueLogic();
 		List<Issue> listOfIssues = new ArrayList<>();
 
@@ -35,6 +36,6 @@ public class ListIssuesCommand implements ICommand {
 			LOG.error(ex.getMessage());
 		}
 		request.setAttribute("listOfIssues", listOfIssues);
-		return URL;
+		return url;
 	}
 }

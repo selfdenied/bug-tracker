@@ -23,11 +23,12 @@ import com.epam.training.logic.featuretype.FeatureType;
  */
 public class ListFeaturesCommand implements ICommand {
 	private static final Logger LOG = Logger.getLogger(ListFeaturesCommand.class);
-	private static final String URL = "jsp/feature/listFeatures.jsp";
 	private static final String PARAM_FEATURE = "feature";
+	private String url;
 
 	@Override
 	public String execute(HttpServletRequest request) {
+		url = resBundle.getString("list_features");
 		FeatureLogic fl = new FeatureLogic();
 		List<Feature> listOfFeatures = new ArrayList<>();
 		String feature = request.getParameter(PARAM_FEATURE);
@@ -40,6 +41,6 @@ public class ListFeaturesCommand implements ICommand {
 		}
 		request.setAttribute("feature", feature);
 		request.setAttribute("listOfFeatures", listOfFeatures);
-		return URL;
+		return url;
 	}
 }

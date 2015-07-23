@@ -23,10 +23,11 @@ import com.epam.training.logic.ProjectLogic;
  */
 public class ListProjectsCommand implements ICommand {
 	private static final Logger LOG = Logger.getLogger(ListFeaturesCommand.class);
-	private static final String URL = "jsp/project/listProjects.jsp";
+	private String url;
 
 	@Override
 	public String execute(HttpServletRequest request) {
+		url = resBundle.getString("list_projects");
 		ProjectLogic pl = new ProjectLogic();
 		List<Project> listOfProjects = new ArrayList<>();
 
@@ -36,6 +37,6 @@ public class ListProjectsCommand implements ICommand {
 			LOG.error(ex.getMessage());
 		}
 		request.setAttribute("listOfProjects", listOfProjects);
-		return URL;
+		return url;
 	}
 }

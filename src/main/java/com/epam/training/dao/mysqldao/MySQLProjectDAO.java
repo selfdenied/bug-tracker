@@ -7,8 +7,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.epam.training.constant.DBFieldsConstants.*;
-
 import com.epam.training.bean.Member;
 import com.epam.training.bean.Project;
 import com.epam.training.dao.AbstractDAO;
@@ -25,6 +23,10 @@ import com.epam.training.exception.GeneralDAOException;
  * @see com.epam.training.dao.AbstractDAO
  */
 public class MySQLProjectDAO extends AbstractDAO<Project> {
+	private static final String PROJECT_ID = "PROJECT_ID";
+	private static final String PROJECT_NAME = "PROJECT_NAME";
+	private static final String PROJECT_DESCRIPTION = "PROJECT_DESCRIPTION";
+	private static final String PROJECT_MANAGER = "PROJECT_MANAGER";
 	private static final String FIND_PROJECTS = "SELECT * FROM PROJECT";
 	private static final String FIND_PROJECT_BY_ID = "SELECT * FROM PROJECT WHERE PROJECT_ID = ?";
 	private static final String ADD_PROJECT = "INSERT INTO PROJECT (PROJECT_NAME,"

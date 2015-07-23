@@ -2,8 +2,6 @@ package com.epam.training.dao.mysqldao;
 
 import java.sql.Connection;
 
-import static com.epam.training.constant.DBFieldsConstants.RESOLUTION_ID;
-import static com.epam.training.constant.DBFieldsConstants.RESOLUTION_NAME;
 import static com.epam.training.dao.mysqldao.MySQLFeatureDAO.FeatureField.*;
 
 /**
@@ -17,6 +15,8 @@ import static com.epam.training.dao.mysqldao.MySQLFeatureDAO.FeatureField.*;
  * @see com.epam.training.dao.mysqldao.MySQLFeatureDAO
  */
 public class MySQLResolutionDAO extends MySQLFeatureDAO {
+	private static final String RESOLUTION_ID = "RESOLUTION_ID";
+	private static final String RESOLUTION_NAME = "RESOLUTION_NAME";
 	private static final String FIND_RESOLUTIONS = "SELECT * FROM RESOLUTION";
 	private static final String FIND_RESOLUTION_BY_ID = "SELECT * FROM RESOLUTION WHERE RESOLUTION_ID = ?";
 	private static final String ADD_RESOLUTION = "INSERT INTO RESOLUTION (RESOLUTION_NAME) VALUES (?)";

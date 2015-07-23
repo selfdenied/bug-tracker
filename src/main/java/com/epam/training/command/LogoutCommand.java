@@ -22,11 +22,12 @@ import com.epam.training.logic.IssueLogic;
  */
 public class LogoutCommand implements ICommand {
 	private static final Logger LOG = Logger.getLogger(LogoutCommand.class);
-	private static final String URL = "jsp/common/welcome.jsp";
 	private static final String PARAM_LOCALE = "locale";
+	private String url;
 
 	@Override
 	public String execute(HttpServletRequest request) {
+		url = resBundle.getString("welcome");
 		IssueLogic il = new IssueLogic();
 		List<Issue> recentIssuesList = new ArrayList<>();
 		HttpSession session = request.getSession(false);
@@ -41,6 +42,6 @@ public class LogoutCommand implements ICommand {
 		/* putting the list of latest Issues into request */
 		request.setAttribute("issuesList", recentIssuesList);
 		request.setAttribute("locale", language);
-		return URL;
+		return url;
 	}
 }

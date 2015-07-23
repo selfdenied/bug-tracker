@@ -1,5 +1,7 @@
 package com.epam.training.command;
 
+import java.util.ResourceBundle;
+
 import javax.servlet.http.HttpServletRequest;
 
 /**
@@ -12,6 +14,8 @@ import javax.servlet.http.HttpServletRequest;
  * @version 1.0
  */
 public interface ICommand {
+	/* needed to get JSP URLs from a properties file */
+	ResourceBundle resBundle = ResourceBundle.getBundle("jspURLs");
 
 	/**
 	 * Method is called by a a Servlet (Controller) in order to process the
