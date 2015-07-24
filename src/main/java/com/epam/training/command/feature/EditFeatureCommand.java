@@ -6,7 +6,7 @@ import org.apache.log4j.Logger;
 
 import com.epam.training.bean.Feature;
 import com.epam.training.command.ICommand;
-import com.epam.training.exception.GeneralLogicException;
+import com.epam.training.exception.LogicException;
 import com.epam.training.logic.FeatureLogic;
 import com.epam.training.logic.featuretype.FeatureType;
 
@@ -36,9 +36,9 @@ public class EditFeatureCommand implements ICommand {
 			FeatureType type = FeatureType.valueOf(feature.toUpperCase());
 			Feature ft = new Feature();
 			ft.setFeatureName(featureName);
-			updateFeature(request, ft, type, Integer.parseInt(featureID));
 			request.setAttribute("featureNameUpdated", true);
 			request.setAttribute("formNotFilled", false);
+			updateFeature(request, ft, type, Integer.parseInt(featureID));
 		} else {
 			request.setAttribute("feature", feature);
 			request.setAttribute("featureID", featureID);
@@ -55,16 +55,25 @@ public class EditFeatureCommand implements ICommand {
 
 		try {
 			errorFree = fl.updateFeature(ft, type, id);
-		} catch (GeneralLogicException ex) {
+		} catch (LogicException ex) {
 			LOG.error(ex.getMessage());
+			request.setAttribute("exception", ex);
+			url = resBundle.getString("error500");
 		}
 		if (!errorFree) {
 			String feature = request.getParameter(PARAM_FEATURE);
 			String featureID = request.getParameter(PARAM_FEATURE_ID);
-			request.setAttribute("feature", feature);
-			request.setAttribute("featureID", featureID);
-			request.setAttribute("featureNameChangeError", true);
-			request.setAttribute("formNotFilled", true);
+			setAttrsToRequest(request, feature, featureID);
 		}
+	}
+	
+	/* method sets some important attributes to request */
+	private void setAttrsToRequest(HttpServletRequest request, 
+			String feature, String featureID) {
+		request.setAttribute("feature", feature);
+		request.setAttribute("featureID", featureID);
+		request.setAttribute("featureNameUpdated", false);
+		request.setAttribute("featureNameChangeError", true);
+		request.setAttribute("formNotFilled", true);
 	}
 }

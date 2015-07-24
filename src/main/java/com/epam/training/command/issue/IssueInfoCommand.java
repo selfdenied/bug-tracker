@@ -6,7 +6,7 @@ import org.apache.log4j.Logger;
 
 import com.epam.training.bean.Issue;
 import com.epam.training.command.ICommand;
-import com.epam.training.exception.GeneralLogicException;
+import com.epam.training.exception.LogicException;
 import com.epam.training.logic.IssueLogic;
 
 /**
@@ -33,8 +33,10 @@ public class IssueInfoCommand implements ICommand {
 		
 		try {
 			issueToView = issueLogic.issueToView(issueID);
-		} catch (GeneralLogicException ex) {
+		} catch (LogicException ex) {
 			LOG.error(ex.getMessage());
+			request.setAttribute("exception", ex);
+			url = resBundle.getString("error500");
 		}
 		/* putting the selected Issue into request */
 		request.setAttribute("issueToView", issueToView);

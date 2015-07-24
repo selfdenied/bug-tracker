@@ -8,7 +8,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 
 import com.epam.training.bean.Entity;
-import com.epam.training.exception.GeneralDAOException;
+import com.epam.training.exception.DAOException;
 
 /**
  * Abstract class {@code AbstractDAO} is a generic class that contains methods
@@ -40,10 +40,10 @@ public abstract class AbstractDAO<T extends Entity> {
 	 * 
 	 * @return The list of type T Entity objects (Members, Projects, Builds,
 	 *         etc.)
-	 * @throws GeneralDAOException
+	 * @throws DAOException
 	 *             If a database access/handling error occurs.
 	 */
-	public abstract List<T> findAll() throws GeneralDAOException;
+	public abstract List<T> findAll() throws DAOException;
 
 	/**
 	 * Returns an object of type T Entity (T can be a Member, Project, Issue,
@@ -53,10 +53,10 @@ public abstract class AbstractDAO<T extends Entity> {
 	 * @param id
 	 *            The id of the Entity (Member, Project, Build, etc.)
 	 * @return Type T Entity object (Member, Project, Build, etc.)
-	 * @throws GeneralDAOException
+	 * @throws DAOException
 	 *             If a database access/handling error occurs.
 	 */
-	public abstract T findEntityByID(int id) throws GeneralDAOException;
+	public abstract T findEntityByID(int id) throws DAOException;
 
 	/**
 	 * Adds new object of type T Entity (T can be a Member, Project, Issue,
@@ -66,10 +66,10 @@ public abstract class AbstractDAO<T extends Entity> {
 	 *            new type T Entity object (Member, Project, Build, etc.)
 	 * @return {@code true} if the object is successfully added and
 	 *         {@code false} otherwise
-	 * @throws GeneralDAOException
+	 * @throws DAOException
 	 *             If a database access/handling error occurs.
 	 */
-	public abstract boolean addNewEntity(T entity) throws GeneralDAOException;
+	public abstract boolean addNewEntity(T entity) throws DAOException;
 
 	/**
 	 * Updates the data of type T Entity object (T can be a Member, Project,
@@ -81,18 +81,18 @@ public abstract class AbstractDAO<T extends Entity> {
 	 *            the ID of type T Entity object to be updated
 	 * @return {@code true} if the object's data is successfully updated and
 	 *         {@code false} otherwise
-	 * @throws GeneralDAOException
+	 * @throws DAOException
 	 *             If a database access/handling error occurs.
 	 */
 	public abstract boolean updateEntity(T entity, int id)
-			throws GeneralDAOException;
+			throws DAOException;
 
 	/**
 	 * Closes the opened statement.
 	 * 
 	 * @param statement
 	 *            java.sql.Statement
-	 * @throws GeneralDAOException
+	 * @throws DAOException
 	 *             If a there was an error while statement closing.
 	 */
 	public void close(Statement statement) {

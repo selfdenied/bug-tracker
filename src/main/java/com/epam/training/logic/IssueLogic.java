@@ -15,8 +15,8 @@ import com.epam.training.dao.AbstractDAO;
 import com.epam.training.dao.factory.AbstractDAOFactory;
 import com.epam.training.dao.mysqldao.MySQLBuildDAO;
 import com.epam.training.dao.mysqldao.MySQLIssueDAO;
-import com.epam.training.exception.GeneralDAOException;
-import com.epam.training.exception.GeneralLogicException;
+import com.epam.training.exception.DAOException;
+import com.epam.training.exception.LogicException;
 
 /**
  * Class {@code IssueLogic} contains various methods that use DAO layer to
@@ -43,17 +43,18 @@ public class IssueLogic {
 	 * Method returns the list of all Issues registered in the application.
 	 * 
 	 * @return The list of all Issues registered in the application
-	 * @throws GeneralLogicException
+	 * @throws LogicException
 	 *             If a Logic exception of some sort has occurred
 	 */
-	public List<Issue> allIssueList() throws GeneralLogicException {
+	public List<Issue> allIssueList() throws LogicException {
 		AbstractDAO<Issue> issueDAO = initDAOFactory().getIssueDAO();
 		List<Issue> issuesList = new ArrayList<>();
 
 		try {
 			issuesList = issueDAO.findAll();
-		} catch (GeneralDAOException ex) {
-			throw new GeneralLogicException("Database access error", ex);
+		} catch (DAOException ex) {
+			throw new LogicException(
+					"Error. Unable to retrieve the list of Issues!", ex);
 		} finally {
 			pool.releaseConnection(connection);
 		}
@@ -66,10 +67,10 @@ public class IssueLogic {
 	 * 
 	 * @return The list of recent (up to 10) Issues registered in the
 	 *         application
-	 * @throws GeneralLogicException
+	 * @throws LogicException
 	 *             If a Logic exception of some sort has occurred
 	 */
-	public List<Issue> recentIssuesList() throws GeneralLogicException {
+	public List<Issue> recentIssuesList() throws LogicException {
 		AbstractDAO<Issue> issueDAO = initDAOFactory().getIssueDAO();
 		List<Issue> issuesList = new ArrayList<>();
 
@@ -78,8 +79,9 @@ public class IssueLogic {
 			if (issuesList.size() > ISSUES_NUMBER) {
 				issuesList = issuesList.subList(0, ISSUES_NUMBER);
 			}
-		} catch (GeneralDAOException ex) {
-			throw new GeneralLogicException("Database access error", ex);
+		} catch (DAOException ex) {
+			throw new LogicException(
+					"Error. Unable to retrieve the list of Issues!", ex);
 		} finally {
 			pool.releaseConnection(connection);
 		}
@@ -92,17 +94,17 @@ public class IssueLogic {
 	 * @param issueID
 	 *            the ID of the Issue
 	 * @return The Issue with the given ID
-	 * @throws GeneralLogicException
+	 * @throws LogicException
 	 *             If a Logic exception of some sort has occurred
 	 */
-	public Issue issueToView(int issueID) throws GeneralLogicException {
+	public Issue issueToView(int issueID) throws LogicException {
 		AbstractDAO<Issue> issueDAO = initDAOFactory().getIssueDAO();
 		Issue issueToView = null;
 
 		try {
 			issueToView = issueDAO.findEntityByID(issueID);
-		} catch (GeneralDAOException ex) {
-			throw new GeneralLogicException("Database access error", ex);
+		} catch (DAOException ex) {
+			throw new LogicException("Error. Unable to retrieve an Issue!", ex);
 		} finally {
 			pool.releaseConnection(connection);
 		}
@@ -115,10 +117,10 @@ public class IssueLogic {
 	 * @param id
 	 *            Member's ID
 	 * @return The list of Issues assigned to a given Member
-	 * @throws GeneralLogicException
+	 * @throws LogicException
 	 *             If a Logic exception of some sort has occurred
 	 */
-	public List<Issue> assignedIssues(int id) throws GeneralLogicException {
+	public List<Issue> assignedIssues(int id) throws LogicException {
 		AbstractDAO<Issue> issueDAO = initDAOFactory().getIssueDAO();
 		List<Issue> issuesList = new ArrayList<>();
 
@@ -130,8 +132,9 @@ public class IssueLogic {
 					issuesList.add(issue);
 				}
 			}
-		} catch (GeneralDAOException ex) {
-			throw new GeneralLogicException("Database access error", ex);
+		} catch (DAOException ex) {
+			throw new LogicException(
+					"Error. Unable to retrieve the list of Issues!", ex);
 		} finally {
 			pool.releaseConnection(connection);
 		}
@@ -144,11 +147,11 @@ public class IssueLogic {
 	 * 
 	 * @param request
 	 *            javax.servlet.http.HttpServletRequest
-	 * @throws GeneralLogicException
+	 * @throws LogicException
 	 *             If a Logic exception of some sort has occurred
 	 */
 	public void setFieldsToRequest(HttpServletRequest request)
-			throws GeneralLogicException {
+			throws LogicException {
 		connection = pool.getConnection();
 
 		try {
@@ -162,13 +165,17 @@ public class IssueLogic {
 			request.setAttribute("members", factory.getMemberDAO().findAll());
 			connection.commit();
 			connection.setAutoCommit(true);
-		} catch (SQLException | GeneralDAOException ex) {
-			throw new GeneralLogicException("Database access error", ex);
+		} catch (SQLException ex) {
+			throw new LogicException(
+					"Error. Unable to perform a transaction!", ex);
+		} catch (DAOException ex) {
+			throw new LogicException(
+					"Error. Unable to retrieve requested data!", ex);
 		} finally {
 			pool.releaseConnection(connection);
 		}
 	}
-	
+
 	/**
 	 * Method adds new Issue to the database.
 	 * 
@@ -177,50 +184,50 @@ public class IssueLogic {
 	 * 
 	 * @return {@code true} when new Issue was successfully added and
 	 *         {@code false} otherwise
-	 * @throws GeneralLogicException
+	 * @throws LogicException
 	 *             If a Logic exception of some sort has occurred
 	 */
-	public boolean addNewIssue(Issue issue) throws GeneralLogicException {
+	public boolean addNewIssue(Issue issue) throws LogicException {
 		boolean isAdded = false;
 		AbstractDAO<Issue> issueDAO = initDAOFactory().getIssueDAO();
-		
+
 		try {
 			isAdded = issueDAO.addNewEntity(issue);
-		} catch (GeneralDAOException ex) {
-			throw new GeneralLogicException("Database access error", ex);
+		} catch (DAOException ex) {
+			throw new LogicException(
+					"Error. Unable to add Issue to the database!", ex);
 		} finally {
 			pool.releaseConnection(connection);
 		}
 		return isAdded;
 	}
-	
+
 	/**
 	 * Method updates existing Issue data.
 	 * 
 	 * @param Issue
 	 *            new Issue
 	 * @param issueID
-	 * 			  the ID of the Issue
+	 *            the ID of the Issue
 	 * @return {@code true} when Issue data was successfully updated and
 	 *         {@code false} otherwise
-	 * @throws GeneralLogicException
+	 * @throws LogicException
 	 *             If a Logic exception of some sort has occurred
 	 */
-	public boolean updateIssue(Issue issue, int issueID) 
-			throws GeneralLogicException {
+	public boolean updateIssue(Issue issue, int issueID) throws LogicException {
 		boolean isUpdated = false;
 		AbstractDAO<Issue> issueDAO = initDAOFactory().getIssueDAO();
-		
+
 		try {
 			isUpdated = issueDAO.updateEntity(issue, issueID);
-		} catch (GeneralDAOException ex) {
-			throw new GeneralLogicException("Database access error", ex);
+		} catch (DAOException ex) {
+			throw new LogicException("Error. Unable to update Issue's data!", ex);
 		} finally {
 			pool.releaseConnection(connection);
 		}
 		return isUpdated;
 	}
-	
+
 	/**
 	 * Method deletes existing Issue from the database.
 	 * 
@@ -229,17 +236,17 @@ public class IssueLogic {
 	 * 
 	 * @return {@code true} when new Issue was successfully deleted and
 	 *         {@code false} otherwise
-	 * @throws GeneralLogicException
+	 * @throws LogicException
 	 *             If a Logic exception of some sort has occurred
 	 */
-	public boolean deleteIssue(int issueID) throws GeneralLogicException {
+	public boolean deleteIssue(int issueID) throws LogicException {
 		boolean isDeleted = false;
 		MySQLIssueDAO issueDAO = (MySQLIssueDAO) initDAOFactory().getIssueDAO();
-		
+
 		try {
 			isDeleted = issueDAO.deleteIssue(issueID);
-		} catch (GeneralDAOException ex) {
-			throw new GeneralLogicException("Database access error", ex);
+		} catch (DAOException ex) {
+			throw new LogicException("Error. Unable to delete Issue!", ex);
 		} finally {
 			pool.releaseConnection(connection);
 		}
@@ -256,7 +263,7 @@ public class IssueLogic {
 	/* method returns the list of all builds lists */
 	/* each builds list corresponds to the given project */
 	private List<? extends List<Build>> orderedBuildsList(
-			AbstractDAOFactory factory) throws GeneralDAOException {
+			AbstractDAOFactory factory) throws DAOException {
 		MySQLBuildDAO buildDAO = (MySQLBuildDAO) factory.getBuildDAO();
 		List<List<Build>> buildsList = new ArrayList<>();
 		List<Project> projectsList = factory.getProjectDAO().findAll();

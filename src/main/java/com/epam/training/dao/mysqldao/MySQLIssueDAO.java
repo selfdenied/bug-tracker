@@ -16,7 +16,7 @@ import com.epam.training.bean.Issue;
 import com.epam.training.bean.Member;
 import com.epam.training.dao.AbstractDAO;
 import com.epam.training.dao.factory.AbstractDAOFactory;
-import com.epam.training.exception.GeneralDAOException;
+import com.epam.training.exception.DAOException;
 
 import static com.epam.training.dao.factory.DAOFactoryType.MYSQL;
 
@@ -69,9 +69,8 @@ public class MySQLIssueDAO extends AbstractDAO<Issue> {
 
 	/* finds all Issues in the application */
 	@Override
-	public List<Issue> findAll() throws GeneralDAOException {
-		AbstractDAOFactory ft = AbstractDAOFactory.getDAOFactory(connection,
-				MYSQL);
+	public List<Issue> findAll() throws DAOException {
+		AbstractDAOFactory ft = AbstractDAOFactory.getDAOFactory(connection, MYSQL);
 		List<Issue> issuesList = new ArrayList<Issue>();
 		PreparedStatement prepStatement = null;
 
@@ -85,7 +84,7 @@ public class MySQLIssueDAO extends AbstractDAO<Issue> {
 				issuesList.add(issue);
 			}
 		} catch (SQLException ex) {
-			throw new GeneralDAOException("Database access error", ex);
+			throw new DAOException("Database error", ex);
 		} finally {
 			close(prepStatement);
 		}
@@ -94,9 +93,8 @@ public class MySQLIssueDAO extends AbstractDAO<Issue> {
 
 	/* returns Issue with the given ID */
 	@Override
-	public Issue findEntityByID(int id) throws GeneralDAOException {
-		AbstractDAOFactory ft = AbstractDAOFactory.getDAOFactory(connection,
-				MYSQL);
+	public Issue findEntityByID(int id) throws DAOException {
+		AbstractDAOFactory ft = AbstractDAOFactory.getDAOFactory(connection, MYSQL);
 		Issue issue = null;
 		PreparedStatement prepStatement = null;
 
@@ -110,7 +108,7 @@ public class MySQLIssueDAO extends AbstractDAO<Issue> {
 				initializeIssue(issue, rs, ft);
 			}
 		} catch (SQLException ex) {
-			throw new GeneralDAOException("Database access error", ex);
+			throw new DAOException("Database error", ex);
 		} finally {
 			close(prepStatement);
 		}
@@ -119,7 +117,7 @@ public class MySQLIssueDAO extends AbstractDAO<Issue> {
 
 	/* adds new Issue to the database */
 	@Override
-	public boolean addNewEntity(Issue issue) throws GeneralDAOException {
+	public boolean addNewEntity(Issue issue) throws DAOException {
 		boolean isAdded = false;
 		PreparedStatement prepStatement = null;
 
@@ -142,7 +140,7 @@ public class MySQLIssueDAO extends AbstractDAO<Issue> {
 			prepStatement.executeUpdate();
 			isAdded = true;
 		} catch (SQLException ex) {
-			throw new GeneralDAOException("Database access error", ex);
+			throw new DAOException("Database error", ex);
 		} finally {
 			close(prepStatement);
 		}
@@ -151,7 +149,7 @@ public class MySQLIssueDAO extends AbstractDAO<Issue> {
 
 	/* updates Issue's data */
 	@Override
-	public boolean updateEntity(Issue issue, int id) throws GeneralDAOException {
+	public boolean updateEntity(Issue issue, int id) throws DAOException {
 		boolean isUpdated = false;
 		PreparedStatement prepStatement = null;
 
@@ -180,7 +178,7 @@ public class MySQLIssueDAO extends AbstractDAO<Issue> {
 			prepStatement.executeUpdate();
 			isUpdated = true;
 		} catch (SQLException ex) {
-			throw new GeneralDAOException("Database access error", ex);
+			throw new DAOException("Database error", ex);
 		} finally {
 			close(prepStatement);
 		}
@@ -194,10 +192,10 @@ public class MySQLIssueDAO extends AbstractDAO<Issue> {
 	 *            The ID of the Issue to be deleted
 	 * @return {@code true} if the selected Issue was successfully deleted and
 	 *         {@code false} otherwise
-	 * @throws GeneralDAOException
+	 * @throws DAOException
 	 *             If a database access/handling error occurs.
 	 */
-	public boolean deleteIssue(int issueID) throws GeneralDAOException {
+	public boolean deleteIssue(int issueID) throws DAOException {
 		boolean isDeleted = false;
 		PreparedStatement prepStatement = null;
 
@@ -207,7 +205,7 @@ public class MySQLIssueDAO extends AbstractDAO<Issue> {
 			prepStatement.executeUpdate();
 			isDeleted = true;
 		} catch (SQLException ex) {
-			throw new GeneralDAOException("Database access error", ex);
+			throw new DAOException("Database error", ex);
 		} finally {
 			close(prepStatement);
 		}
@@ -216,7 +214,7 @@ public class MySQLIssueDAO extends AbstractDAO<Issue> {
 
 	/* supplementary method that initializes Issue's fields */
 	private void initializeIssue(Issue issue, ResultSet rs,
-			AbstractDAOFactory ft) throws SQLException, GeneralDAOException {
+			AbstractDAOFactory ft) throws SQLException, DAOException {
 		AbstractDAO<Member> md = ft.getMemberDAO();
 
 		issue.setId(rs.getInt(ISSUE_ID));

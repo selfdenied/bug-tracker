@@ -7,7 +7,7 @@ import org.apache.log4j.Logger;
 
 import com.epam.training.bean.Member;
 import com.epam.training.command.ICommand;
-import com.epam.training.exception.GeneralLogicException;
+import com.epam.training.exception.LogicException;
 import com.epam.training.logic.MemberLogic;
 
 /**
@@ -34,9 +34,9 @@ public class UpdatePassCommand implements ICommand {
 			if (password.equals(passwordConfirm)) {
 				HttpSession session = request.getSession(false);
 				Member member = (Member) session.getAttribute(PARAM_MEMBER);
-				updatePass(request, password, member.getId());
 				request.setAttribute("passChanged", true);
 				request.setAttribute("formNotFilled", false);
+				updatePass(request, password, member.getId());
 			} else {
 				request.setAttribute("passNotEqual", true);
 				request.setAttribute("formNotFilled", true);
@@ -54,10 +54,13 @@ public class UpdatePassCommand implements ICommand {
 		
 		try {
 			errorFree = ml.updateMemberPass(password, memberID);
-		} catch (GeneralLogicException ex) {
+		} catch (LogicException ex) {
 			LOG.error(ex.getMessage());
+			request.setAttribute("exception", ex);
+			url = resBundle.getString("error500");
 		}
 		if (!errorFree) {
+			request.setAttribute("passChanged", false);
 			request.setAttribute("passChangeError", true);
 			request.setAttribute("formNotFilled", true);
 		}

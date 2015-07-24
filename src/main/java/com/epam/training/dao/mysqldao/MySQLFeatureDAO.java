@@ -10,7 +10,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import com.epam.training.bean.Feature;
 import com.epam.training.dao.AbstractDAO;
-import com.epam.training.exception.GeneralDAOException;
+import com.epam.training.exception.DAOException;
 
 /**
  * Abstract class {@code MySQLFeatureDAO} contains methods allowing to extract
@@ -38,24 +38,22 @@ public abstract class MySQLFeatureDAO extends AbstractDAO<Feature> {
 
 	/* finds all Features in the application */
 	@Override
-	public List<Feature> findAll() throws GeneralDAOException {
+	public List<Feature> findAll() throws DAOException {
 		List<Feature> featuresList = new ArrayList<Feature>();
 		PreparedStatement prepStatement = null;
 
 		try {
-			prepStatement = connection.prepareStatement(queryMap
-					.get(FeatureField.FIND_FEATURES));
+			prepStatement = connection.prepareStatement(queryMap.get(FeatureField.FIND_FEATURES));
 			ResultSet rs = prepStatement.executeQuery();
 			while (rs.next()) {
 				/* creating a new Feature and initializing its fields */
 				Feature feature = new Feature();
 				feature.setId(rs.getInt(queryMap.get(FeatureField.FEATURE_ID)));
-				feature.setFeatureName(rs.getString(queryMap
-						.get(FeatureField.FEATURE_NAME)));
+				feature.setFeatureName(rs.getString(queryMap.get(FeatureField.FEATURE_NAME)));
 				featuresList.add(feature);
 			}
 		} catch (SQLException ex) {
-			throw new GeneralDAOException("Database access error", ex);
+			throw new DAOException("Database error", ex);
 		} finally {
 			close(prepStatement);
 		}
@@ -64,24 +62,22 @@ public abstract class MySQLFeatureDAO extends AbstractDAO<Feature> {
 
 	/* returns Feature with the given ID */
 	@Override
-	public Feature findEntityByID(int id) throws GeneralDAOException {
+	public Feature findEntityByID(int id) throws DAOException {
 		Feature feature = null;
 		PreparedStatement prepStatement = null;
 
 		try {
-			prepStatement = connection.prepareStatement(queryMap
-					.get(FeatureField.FIND_FEATURE_BY_ID));
+			prepStatement = connection.prepareStatement(queryMap.get(FeatureField.FIND_FEATURE_BY_ID));
 			prepStatement.setInt(1, id);
 			ResultSet rs = prepStatement.executeQuery();
 			while (rs.next()) {
 				/* creating a new Feature and initializing its fields */
 				feature = new Feature();
 				feature.setId(rs.getInt(queryMap.get(FeatureField.FEATURE_ID)));
-				feature.setFeatureName(rs.getString(queryMap
-						.get(FeatureField.FEATURE_NAME)));
+				feature.setFeatureName(rs.getString(queryMap.get(FeatureField.FEATURE_NAME)));
 			}
 		} catch (SQLException ex) {
-			throw new GeneralDAOException("Database access error", ex);
+			throw new DAOException("Database error", ex);
 		} finally {
 			close(prepStatement);
 		}
@@ -90,18 +86,17 @@ public abstract class MySQLFeatureDAO extends AbstractDAO<Feature> {
 
 	/* adds new Feature to the database */
 	@Override
-	public boolean addNewEntity(Feature feature) throws GeneralDAOException {
+	public boolean addNewEntity(Feature feature) throws DAOException {
 		boolean isAdded = false;
 		PreparedStatement prepStatement = null;
 
 		try {
-			prepStatement = connection.prepareStatement(queryMap
-					.get(FeatureField.ADD_FEATURE));
+			prepStatement = connection.prepareStatement(queryMap.get(FeatureField.ADD_FEATURE));
 			prepStatement.setString(1, feature.getFeatureName());
 			prepStatement.executeUpdate();
 			isAdded = true;
 		} catch (SQLException ex) {
-			throw new GeneralDAOException("Database access error", ex);
+			throw new DAOException("Database error", ex);
 		} finally {
 			close(prepStatement);
 		}
@@ -111,19 +106,18 @@ public abstract class MySQLFeatureDAO extends AbstractDAO<Feature> {
 	/* updates Feature's data */
 	@Override
 	public boolean updateEntity(Feature feature, int id)
-			throws GeneralDAOException {
+			throws DAOException {
 		boolean isUpdated = false;
 		PreparedStatement prepStatement = null;
 
 		try {
-			prepStatement = connection.prepareStatement(queryMap
-					.get(FeatureField.UPDATE_FEATURE));
+			prepStatement = connection.prepareStatement(queryMap.get(FeatureField.UPDATE_FEATURE));
 			prepStatement.setString(1, feature.getFeatureName());
 			prepStatement.setInt(2, id);
 			prepStatement.executeUpdate();
 			isUpdated = true;
 		} catch (SQLException ex) {
-			throw new GeneralDAOException("Database access error", ex);
+			throw new DAOException("Database error", ex);
 		} finally {
 			close(prepStatement);
 		}

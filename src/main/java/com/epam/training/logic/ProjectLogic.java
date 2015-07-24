@@ -12,8 +12,8 @@ import com.epam.training.connection.ConnectionPool;
 import com.epam.training.dao.AbstractDAO;
 import com.epam.training.dao.factory.AbstractDAOFactory;
 import com.epam.training.dao.mysqldao.MySQLBuildDAO;
-import com.epam.training.exception.GeneralDAOException;
-import com.epam.training.exception.GeneralLogicException;
+import com.epam.training.exception.DAOException;
+import com.epam.training.exception.LogicException;
 
 /**
  * Class {@code ProjectLogic} contains various methods that use DAO layer to
@@ -39,17 +39,18 @@ public class ProjectLogic {
 	 * Method returns the list of Projects registered in the application.
 	 * 
 	 * @return The list of Projects registered in the application
-	 * @throws GeneralLogicException
+	 * @throws LogicException
 	 *             If a Logic exception of some sort has occurred
 	 */
-	public List<Project> projectsList() throws GeneralLogicException {
+	public List<Project> projectsList() throws LogicException {
 		AbstractDAO<Project> projectDAO = initDAOFactory().getProjectDAO();
 		List<Project> projectsList = new ArrayList<>();
 
 		try {
 			projectsList = projectDAO.findAll();
-		} catch (GeneralDAOException ex) {
-			throw new GeneralLogicException("Database access error", ex);
+		} catch (DAOException ex) {
+			throw new LogicException(
+					"Error. Unable to retrieve the list of Projects!", ex);
 		} finally {
 			pool.releaseConnection(connection);
 		}
@@ -62,17 +63,18 @@ public class ProjectLogic {
 	 * @param projectID
 	 *            the ID of the given Project
 	 * @return The list of Builds
-	 * @throws GeneralLogicException
+	 * @throws LogicException
 	 *             If a Logic exception of some sort has occurred
 	 */
-	public List<Build> buildsList(int projectID) throws GeneralLogicException {
+	public List<Build> buildsList(int projectID) throws LogicException {
 		MySQLBuildDAO buildDAO = (MySQLBuildDAO) initDAOFactory().getBuildDAO();
 		List<Build> buildsList = new ArrayList<>();
 
 		try {
 			buildsList = buildDAO.findBuildsOfProject(projectID);
-		} catch (GeneralDAOException ex) {
-			throw new GeneralLogicException("Database access error", ex);
+		} catch (DAOException ex) {
+			throw new LogicException(
+					"Error. Unable to retrieve the list of Builds!", ex);
 		} finally {
 			pool.releaseConnection(connection);
 		}
@@ -87,17 +89,18 @@ public class ProjectLogic {
 	 * 
 	 * @return {@code true} when new Build was successfully added and
 	 *         {@code false} otherwise
-	 * @throws GeneralLogicException
+	 * @throws LogicException
 	 *             If a Logic exception of some sort has occurred
 	 */
-	public boolean addNewBuild(Build build) throws GeneralLogicException {
+	public boolean addNewBuild(Build build) throws LogicException {
 		boolean isAdded = false;
 		AbstractDAO<Build> buildDAO = initDAOFactory().getBuildDAO();
 
 		try {
 			isAdded = buildDAO.addNewEntity(build);
-		} catch (GeneralDAOException ex) {
-			throw new GeneralLogicException("Database access error", ex);
+		} catch (DAOException ex) {
+			throw new LogicException(
+					"Error. Unable to add Build to the database!", ex);
 		} finally {
 			pool.releaseConnection(connection);
 		}
@@ -112,17 +115,18 @@ public class ProjectLogic {
 	 * 
 	 * @return {@code true} when new Project was successfully added and
 	 *         {@code false} otherwise
-	 * @throws GeneralLogicException
+	 * @throws LogicException
 	 *             If a Logic exception of some sort has occurred
 	 */
-	public boolean addNewProject(Project project) throws GeneralLogicException {
+	public boolean addNewProject(Project project) throws LogicException {
 		boolean isAdded = false;
 		AbstractDAO<Project> projectDAO = initDAOFactory().getProjectDAO();
 
 		try {
 			isAdded = projectDAO.addNewEntity(project);
-		} catch (GeneralDAOException ex) {
-			throw new GeneralLogicException("Database access error", ex);
+		} catch (DAOException ex) {
+			throw new LogicException(
+					"Error. Unable to add Project to the database!", ex);
 		} finally {
 			pool.releaseConnection(connection);
 		}
@@ -139,18 +143,19 @@ public class ProjectLogic {
 	 * 
 	 * @return {@code true} when new Project data was successfully updated and
 	 *         {@code false} otherwise
-	 * @throws GeneralLogicException
+	 * @throws LogicException
 	 *             If a Logic exception of some sort has occurred
 	 */
 	public boolean updateProject(Project project, int projectID)
-			throws GeneralLogicException {
+			throws LogicException {
 		boolean isUpdated = false;
 		AbstractDAO<Project> projectDAO = initDAOFactory().getProjectDAO();
 
 		try {
 			isUpdated = projectDAO.updateEntity(project, projectID);
-		} catch (GeneralDAOException ex) {
-			throw new GeneralLogicException("Database access error", ex);
+		} catch (DAOException ex) {
+			throw new LogicException(
+					"Error. Unable to update Project's data!", ex);
 		} finally {
 			pool.releaseConnection(connection);
 		}
@@ -164,10 +169,10 @@ public class ProjectLogic {
 	 *            the name of the Project
 	 * 
 	 * @return the Project's ID
-	 * @throws GeneralLogicException
+	 * @throws LogicException
 	 *             If a Logic exception of some sort has occurred
 	 */
-	public int findProjectID(String projectName) throws GeneralLogicException {
+	public int findProjectID(String projectName) throws LogicException {
 		int projectID = 0;
 		AbstractDAO<Project> projectDAO = initDAOFactory().getProjectDAO();
 		List<Project> projectsList = new ArrayList<>();
@@ -179,8 +184,9 @@ public class ProjectLogic {
 					projectID = pr.getId();
 				}
 			}
-		} catch (GeneralDAOException ex) {
-			throw new GeneralLogicException("Database access error", ex);
+		} catch (DAOException ex) {
+			throw new LogicException(
+					"Error. Unable to retrieve the requested data!", ex);
 		} finally {
 			pool.releaseConnection(connection);
 		}
@@ -194,17 +200,17 @@ public class ProjectLogic {
 	 *            the ID of the Project
 	 * 
 	 * @return the Project with the given ID
-	 * @throws GeneralLogicException
+	 * @throws LogicException
 	 *             If a Logic exception of some sort has occurred
 	 */
-	public Project receiveProject(int id) throws GeneralLogicException {
+	public Project receiveProject(int id) throws LogicException {
 		AbstractDAO<Project> projectDAO = initDAOFactory().getProjectDAO();
 		Project project = new Project();
 
 		try {
 			project = projectDAO.findEntityByID(id);
-		} catch (GeneralDAOException ex) {
-			throw new GeneralLogicException("Database access error", ex);
+		} catch (DAOException ex) {
+			throw new LogicException("Error. Unable to retrieve a Project!", ex);
 		} finally {
 			pool.releaseConnection(connection);
 		}

@@ -5,7 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.log4j.Logger;
 
 import com.epam.training.command.ICommand;
-import com.epam.training.exception.GeneralLogicException;
+import com.epam.training.exception.LogicException;
 import com.epam.training.logic.MemberLogic;
 
 /**
@@ -32,9 +32,9 @@ public class EditUserPassCommand implements ICommand {
 		
 		if (password != null) {
 			if (password.equals(passwordConfirm)) {
-				updatePass(request, password, Integer.parseInt(userID));
 				request.setAttribute("passChanged", true);
 				request.setAttribute("formNotFilled", false);
+				updatePass(request, password, Integer.parseInt(userID));
 			} else {
 				request.setAttribute("userID", userID);
 				request.setAttribute("passNotEqual", true);
@@ -48,18 +48,22 @@ public class EditUserPassCommand implements ICommand {
 	}
 	
 	/* supplementary method that updates Member's password */
-	private void updatePass(HttpServletRequest request, String password, int memberID) {
+	private void updatePass(HttpServletRequest request, String password, 
+			int memberID) {
 		boolean errorFree = false;
 		MemberLogic ml = new MemberLogic();
 		
 		try {
 			errorFree = ml.updateMemberPass(password, memberID);
-		} catch (GeneralLogicException ex) {
+		} catch (LogicException ex) {
 			LOG.error(ex.getMessage());
+			request.setAttribute("exception", ex);
+			url = resBundle.getString("error500");
 		}
 		if (!errorFree) {
 			String userID = request.getParameter(PARAM_USER_ID);
 			request.setAttribute("userID", userID);
+			request.setAttribute("passChanged", false);
 			request.setAttribute("passChangeError", true);
 			request.setAttribute("formNotFilled", true);
 		}

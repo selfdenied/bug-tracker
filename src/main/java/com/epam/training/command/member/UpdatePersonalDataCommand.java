@@ -7,7 +7,7 @@ import org.apache.log4j.Logger;
 
 import com.epam.training.bean.Member;
 import com.epam.training.command.ICommand;
-import com.epam.training.exception.GeneralLogicException;
+import com.epam.training.exception.LogicException;
 import com.epam.training.logic.MemberLogic;
 
 /**
@@ -34,16 +34,16 @@ public class UpdatePersonalDataCommand implements ICommand {
 		String login = request.getParameter(PARAM_LOGIN);
 		
 		if (login != null) {
-			if (checkLoginFree(login)) {
+			if (checkLoginFree(request, login)) {
 				HttpSession session = request.getSession(false);
 				Member member = (Member) session.getAttribute(PARAM_MEMBER);
 				member.setFirstName(firstName);
 				member.setLastName(lastName);
 				member.setLogin(login);
-				updateData(request, member, member.getId());
-				session.setAttribute("member", member);
 				request.setAttribute("dataUpdated", true);
 				request.setAttribute("formNotFilled", false);
+				updateData(request, member, member.getId());
+				session.setAttribute("member", member);
 			} else {
 				request.setAttribute("suchLoginExists", true);
 				request.setAttribute("formNotFilled", true);
@@ -61,25 +61,31 @@ public class UpdatePersonalDataCommand implements ICommand {
 
 		try {
 			errorFree = ml.updateMemberData(member, id);
-		} catch (GeneralLogicException ex) {
+		} catch (LogicException ex) {
 			LOG.error(ex.getMessage());
+			request.setAttribute("exception", ex);
+			url = resBundle.getString("error500");
 		}
 		if (!errorFree) {
+			request.setAttribute("dataUpdated", false);
 			request.setAttribute("dataChangeError", true);
 			request.setAttribute("formNotFilled", true);
 		}
 	}
 
 	/* supplementary method that checks if the entered login is free */
-	private boolean checkLoginFree(String login) {
+	private boolean checkLoginFree(HttpServletRequest request, 
+			String login) {
 		boolean loginFree = false;
 		MemberLogic ml = new MemberLogic();
 		
 		try {
 			Member member = ml.findMemberByLogin(login);
 			loginFree = (member == null);
-		} catch (GeneralLogicException ex) {
+		} catch (LogicException ex) {
 			LOG.error(ex.getMessage());
+			request.setAttribute("exception", ex);
+			url = resBundle.getString("error500");
 		}
 		return loginFree;
 	}

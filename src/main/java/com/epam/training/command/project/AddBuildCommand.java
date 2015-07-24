@@ -10,7 +10,7 @@ import com.epam.training.bean.Build;
 import com.epam.training.bean.Project;
 import com.epam.training.command.ICommand;
 import com.epam.training.command.feature.AddFeatureCommand;
-import com.epam.training.exception.GeneralLogicException;
+import com.epam.training.exception.LogicException;
 import com.epam.training.logic.ProjectLogic;
 
 /**
@@ -34,11 +34,11 @@ public class AddBuildCommand implements ICommand {
 		String projectID = request.getParameter(PARAM_PROJECT_ID);
 
 		if (buildName != null) {
-			if (buildNameFree(buildName, Integer.parseInt(projectID))) {
+			if (buildNameFree(request, buildName, Integer.parseInt(projectID))) {
 				Build build = initBuild(buildName, projectID);
-				addNewBuild(request, build);
 				request.setAttribute("newBuildAdded", true);
 				request.setAttribute("formNotFilled", false);
+				addNewBuild(request, build);
 			} else {
 				request.setAttribute("projectID", projectID);
 				request.setAttribute("buildNameExists", true);
@@ -58,19 +58,23 @@ public class AddBuildCommand implements ICommand {
 
 		try {
 			errorFree = pl.addNewBuild(build);
-		} catch (GeneralLogicException ex) {
+		} catch (LogicException ex) {
 			LOG.error(ex.getMessage());
+			request.setAttribute("exception", ex);
+			url = resBundle.getString("error500");
 		}
 		if (!errorFree) {
 			String projectID = request.getParameter(PARAM_PROJECT_ID);
 			request.setAttribute("projectID", projectID);
+			request.setAttribute("newBuildAdded", false);
 			request.setAttribute("buildAddError", true);
 			request.setAttribute("formNotFilled", true);
 		}
 	}
 
 	/* method checks if the Build name exists for the given Project */
-	private boolean buildNameFree(String buildName, int projectID) {
+	private boolean buildNameFree(HttpServletRequest request, String buildName, 
+			int projectID) {
 		boolean nameFree = true;
 		ProjectLogic pl = new ProjectLogic();
 
@@ -81,8 +85,10 @@ public class AddBuildCommand implements ICommand {
 					nameFree = false;
 				}
 			}
-		} catch (GeneralLogicException ex) {
+		} catch (LogicException ex) {
 			LOG.error(ex.getMessage());
+			request.setAttribute("exception", ex);
+			url = resBundle.getString("error500");
 		}
 		return nameFree;
 	}

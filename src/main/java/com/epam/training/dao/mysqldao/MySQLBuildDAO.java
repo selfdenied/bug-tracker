@@ -11,7 +11,7 @@ import com.epam.training.bean.Build;
 import com.epam.training.bean.Project;
 
 import com.epam.training.dao.AbstractDAO;
-import com.epam.training.exception.GeneralDAOException;
+import com.epam.training.exception.DAOException;
 
 /**
  * Class {@code MySQLBuildDAO} contains methods allowing to extract information
@@ -43,7 +43,7 @@ public class MySQLBuildDAO extends AbstractDAO<Build> {
 
 	/* finds all Builds in the application */
 	@Override
-	public List<Build> findAll() throws GeneralDAOException {
+	public List<Build> findAll() throws DAOException {
 		AbstractDAO<Project> projectDAO = new MySQLProjectDAO(connection);
 		List<Build> buildsList = new ArrayList<Build>();
 		PreparedStatement prepStatement = null;
@@ -60,7 +60,7 @@ public class MySQLBuildDAO extends AbstractDAO<Build> {
 				buildsList.add(build);
 			}
 		} catch (SQLException ex) {
-			throw new GeneralDAOException("Database access error", ex);
+			throw new DAOException("Database error", ex);
 		} finally {
 			close(prepStatement);
 		}
@@ -69,7 +69,7 @@ public class MySQLBuildDAO extends AbstractDAO<Build> {
 
 	/* returns Build with the given ID */
 	@Override
-	public Build findEntityByID(int id) throws GeneralDAOException {
+	public Build findEntityByID(int id) throws DAOException {
 		AbstractDAO<Project> projectDAO = new MySQLProjectDAO(connection);
 		Build build = null;
 		PreparedStatement prepStatement = null;
@@ -86,7 +86,7 @@ public class MySQLBuildDAO extends AbstractDAO<Build> {
 				build.setProject(projectDAO.findEntityByID(rs.getInt(BUILD_PROJECT)));
 			}
 		} catch (SQLException ex) {
-			throw new GeneralDAOException("Database access error", ex);
+			throw new DAOException("Database error", ex);
 		} finally {
 			close(prepStatement);
 		}
@@ -99,10 +99,10 @@ public class MySQLBuildDAO extends AbstractDAO<Build> {
 	 * @param id
 	 *            The ID of the Project
 	 * @return The list of Build for a given Project
-	 * @throws GeneralDAOException
+	 * @throws DAOException
 	 *             If a database access/handling error occurs.
 	 */
-	public List<Build> findBuildsOfProject(int id) throws GeneralDAOException {
+	public List<Build> findBuildsOfProject(int id) throws DAOException {
 		AbstractDAO<Project> projectDAO = new MySQLProjectDAO(connection);
 		List<Build> buildsList = new ArrayList<Build>();
 		PreparedStatement prepStatement = null;
@@ -120,7 +120,7 @@ public class MySQLBuildDAO extends AbstractDAO<Build> {
 				buildsList.add(build);
 			}
 		} catch (SQLException ex) {
-			throw new GeneralDAOException("Database access error", ex);
+			throw new DAOException("Database error", ex);
 		} finally {
 			close(prepStatement);
 		}
@@ -129,7 +129,7 @@ public class MySQLBuildDAO extends AbstractDAO<Build> {
 
 	/* adds new Build to the database */
 	@Override
-	public boolean addNewEntity(Build build) throws GeneralDAOException {
+	public boolean addNewEntity(Build build) throws DAOException {
 		boolean isAdded = false;
 		PreparedStatement prepStatement = null;
 
@@ -140,7 +140,7 @@ public class MySQLBuildDAO extends AbstractDAO<Build> {
 			prepStatement.executeUpdate();
 			isAdded = true;
 		} catch (SQLException ex) {
-			throw new GeneralDAOException("Database access error", ex);
+			throw new DAOException("Database error", ex);
 		} finally {
 			close(prepStatement);
 		}		

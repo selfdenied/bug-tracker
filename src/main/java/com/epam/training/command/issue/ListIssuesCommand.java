@@ -9,7 +9,7 @@ import org.apache.log4j.Logger;
 
 import com.epam.training.bean.Issue;
 import com.epam.training.command.ICommand;
-import com.epam.training.exception.GeneralLogicException;
+import com.epam.training.exception.LogicException;
 import com.epam.training.logic.IssueLogic;
 
 /**
@@ -32,8 +32,10 @@ public class ListIssuesCommand implements ICommand {
 
 		try {
 			listOfIssues = il.allIssueList();
-		} catch (GeneralLogicException ex) {
+		} catch (LogicException ex) {
 			LOG.error(ex.getMessage());
+			request.setAttribute("exception", ex);
+			url = resBundle.getString("error500");
 		}
 		request.setAttribute("listOfIssues", listOfIssues);
 		return url;

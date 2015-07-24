@@ -17,17 +17,25 @@
 		<param-value>selfdenied.by@gmail.com</param-value>
 	</context-param>
 	<error-page>
-		<exception-type>java.lang.Throwable</exception-type>
+		<error-code>404</error-code>
+		<location>/jsp/error/error404.jsp</location>
+	</error-page>
+	<error-page>
+		<error-code>500</error-code>
+		<location>/jsp/error/error500.jsp</location>
+	</error-page>
+	<error-page>
+		<exception-type>java.lang.Exception</exception-type>
 		<location>/jsp/error/error500.jsp</location>
 	</error-page>
 	<servlet>
 		<description>The main servlet that controls Command - JSP communication</description>
 		<display-name>controller</display-name>
-		<servlet-name>ControllerServlet</servlet-name>
+		<servlet-name>controller</servlet-name>
 		<servlet-class>com.epam.training.servlet.ControllerServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>ControllerServlet</servlet-name>
+		<servlet-name>controller</servlet-name>
 		<url-pattern>/controller</url-pattern>
 	</servlet-mapping>
 	<listener>

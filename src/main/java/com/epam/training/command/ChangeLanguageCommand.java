@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.log4j.Logger;
 
 import com.epam.training.bean.Issue;
-import com.epam.training.exception.GeneralLogicException;
+import com.epam.training.exception.LogicException;
 import com.epam.training.logic.IssueLogic;
 
 /**
@@ -28,14 +28,16 @@ public class ChangeLanguageCommand implements ICommand {
 	@Override
 	public String execute(HttpServletRequest request) {
 		url = resBundle.getString("welcome");
-		IssueLogic issueLogic = new IssueLogic();
+		IssueLogic il = new IssueLogic();
 		List<Issue> recentIssuesList = new ArrayList<>();
 		String language = request.getParameter(PARAM_LANGUAGE);
 
 		try {
-			recentIssuesList = issueLogic.recentIssuesList();
-		} catch (GeneralLogicException ex) {
+			recentIssuesList = il.recentIssuesList();
+		} catch (LogicException ex) {
 			LOG.error(ex.getMessage());
+			request.setAttribute("exception", ex);
+			url = resBundle.getString("error500");
 		}
 		/* putting the list of latest Issues into request */
 		request.setAttribute("issuesList", recentIssuesList);

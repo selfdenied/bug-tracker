@@ -9,7 +9,7 @@ import org.apache.log4j.Logger;
 
 import com.epam.training.bean.Issue;
 import com.epam.training.command.ICommand;
-import com.epam.training.exception.GeneralLogicException;
+import com.epam.training.exception.LogicException;
 import com.epam.training.logic.IssueLogic;
 
 /**
@@ -31,11 +31,11 @@ public class DeleteIssueCommand implements ICommand {
 		String issueID = request.getParameter(PARAM_ISSUE_ID);
 		
 		if (issueID != null) {
-			deleteIssue(request, issueID);
 			request.setAttribute("issueDeleted", true);
 			request.setAttribute("formNotFilled", false);
+			deleteIssue(request, issueID);
 		} else {
-			request.setAttribute("listOfIssues", listOfIssues());
+			request.setAttribute("listOfIssues", listOfIssues(request));
 			request.setAttribute("formNotFilled", true);
 		}
 		return url;
@@ -48,25 +48,30 @@ public class DeleteIssueCommand implements ICommand {
 		
 		try {
 			errorFree = il.deleteIssue(Integer.parseInt(issueID));
-		} catch (GeneralLogicException ex) {
+		} catch (LogicException ex) {
 			LOG.error(ex.getMessage());
+			request.setAttribute("exception", ex);
+			url = resBundle.getString("error500");
 		}
 		if (!errorFree) {
-			request.setAttribute("listOfIssues", listOfIssues());
+			request.setAttribute("listOfIssues", listOfIssues(request));
+			request.setAttribute("issueDeleted", false);
 			request.setAttribute("issueDeleteError", true);
 			request.setAttribute("formNotFilled", true);
 		}
 	}
 	
 	/* method returns the list of Issues submitted to the app */
-	private List<Issue> listOfIssues() {
+	private List<Issue> listOfIssues(HttpServletRequest request) {
 		IssueLogic il = new IssueLogic();
 		List<Issue> listOfIssues = new ArrayList<>();
 		
 		try {
 			listOfIssues = il.allIssueList();
-		} catch (GeneralLogicException ex) {
+		} catch (LogicException ex) {
 			LOG.error(ex.getMessage());
+			request.setAttribute("exception", ex);
+			url = resBundle.getString("error500");
 		}
 		return listOfIssues;
 	}

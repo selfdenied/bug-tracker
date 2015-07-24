@@ -11,7 +11,7 @@ import org.apache.log4j.Logger;
 import com.epam.training.bean.Issue;
 import com.epam.training.bean.Member;
 import com.epam.training.command.ICommand;
-import com.epam.training.exception.GeneralLogicException;
+import com.epam.training.exception.LogicException;
 import com.epam.training.logic.IssueLogic;
 
 /**
@@ -25,21 +25,25 @@ import com.epam.training.logic.IssueLogic;
 public class BackHomeCommand implements ICommand {
 	private static final Logger LOG = Logger.getLogger(BackHomeCommand.class);
 	private static final String PARAM_MEMBER = "member";
+	private String url;
 
 	@Override
 	public String execute(HttpServletRequest request) {
 		IssueLogic il = new IssueLogic();
+		List<Issue> issuesList = new ArrayList<>();
 		HttpSession session = request.getSession(false);
 		Member member = (Member) session.getAttribute(PARAM_MEMBER);
-		List<Issue> issuesList = new ArrayList<>();
-		
+		url = findProperURL(member.isAdmin());
+				
 		try {
 			issuesList = il.assignedIssues(member.getId());
-		} catch (GeneralLogicException ex) {
+		} catch (LogicException ex) {
 			LOG.error(ex.getMessage());
+			request.setAttribute("exception", ex);
+			url = resBundle.getString("error500");
 		}
 		request.setAttribute("assignedIssuesList", issuesList);
-		return findProperURL(member.isAdmin());
+		return url;
 	}
 
 	/* supplementary method that redirects the request to a proper JSP */

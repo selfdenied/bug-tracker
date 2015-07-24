@@ -12,7 +12,7 @@ import org.apache.log4j.Logger;
 
 import com.epam.training.bean.*;
 import com.epam.training.command.ICommand;
-import com.epam.training.exception.GeneralLogicException;
+import com.epam.training.exception.LogicException;
 import com.epam.training.logic.FeatureLogic;
 import com.epam.training.logic.IssueLogic;
 
@@ -44,14 +44,16 @@ public class EditIssueCommand implements ICommand {
 
 		if (summary != null) {
 			Issue issue = new Issue();
+			request.setAttribute("issueUpdated", true);
+			request.setAttribute("formNotFilled", false);
 			try {
 				issue = initIssue(request, issueID);
 				updateIssue(request, issue, issueID);
-			} catch (GeneralLogicException ex) {
+			} catch (LogicException ex) {
 				LOG.error(ex.getMessage());
+				request.setAttribute("exception", ex);
+				url = resBundle.getString("error500");
 			}
-			request.setAttribute("issueUpdated", true);
-			request.setAttribute("formNotFilled", false);
 		} else {
 			setFieldsToRequest(request);
 			request.setAttribute("formNotFilled", true);
@@ -61,13 +63,14 @@ public class EditIssueCommand implements ICommand {
 
 	/* method updates existing Issue data */
 	private void updateIssue(HttpServletRequest request, Issue issue,
-			String issueID) throws GeneralLogicException {
+			String issueID) throws LogicException {
 		boolean errorFree = false;
 		IssueLogic il = new IssueLogic();
 		errorFree = il.updateIssue(issue, Integer.parseInt(issueID));
 
 		if (!errorFree) {
 			setFieldsToRequest(request);
+			request.setAttribute("issueUpdated", false);
 			request.setAttribute("issueUpdateError", true);
 			request.setAttribute("formNotFilled", true);
 		}
@@ -96,14 +99,16 @@ public class EditIssueCommand implements ICommand {
 			request.setAttribute("issueID", issueID);
 			request.setAttribute("statuses", statuses);
 			setOtherIssueFields(request, issue);
-		} catch (GeneralLogicException ex) {
+		} catch (LogicException ex) {
 			LOG.error(ex.getMessage());
+			request.setAttribute("exception", ex);
+			url = resBundle.getString("error500");
 		}
 	}
 
 	/* method initializes Issue fields */
 	private Issue initIssue(HttpServletRequest req, String issueID)
-			throws GeneralLogicException {
+			throws LogicException {
 		FeatureLogic fl = new FeatureLogic();
 		IssueLogic il = new IssueLogic();
 		Project project = new Project();

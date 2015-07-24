@@ -9,7 +9,7 @@ import org.apache.log4j.Logger;
 
 import com.epam.training.bean.Feature;
 import com.epam.training.command.ICommand;
-import com.epam.training.exception.GeneralLogicException;
+import com.epam.training.exception.LogicException;
 import com.epam.training.logic.FeatureLogic;
 import com.epam.training.logic.featuretype.FeatureType;
 
@@ -36,8 +36,10 @@ public class ListFeaturesCommand implements ICommand {
 
 		try {
 			listOfFeatures = fl.featuresList(featureType);
-		} catch (GeneralLogicException ex) {
+		} catch (LogicException ex) {
 			LOG.error(ex.getMessage());
+			request.setAttribute("exception", ex);
+			url = resBundle.getString("error500");
 		}
 		request.setAttribute("feature", feature);
 		request.setAttribute("listOfFeatures", listOfFeatures);

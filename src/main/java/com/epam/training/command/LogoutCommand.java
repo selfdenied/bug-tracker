@@ -9,7 +9,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.log4j.Logger;
 
 import com.epam.training.bean.Issue;
-import com.epam.training.exception.GeneralLogicException;
+import com.epam.training.exception.LogicException;
 import com.epam.training.logic.IssueLogic;
 
 /**
@@ -36,8 +36,10 @@ public class LogoutCommand implements ICommand {
 		
 		try {
 			recentIssuesList = il.recentIssuesList();
-		} catch (GeneralLogicException ex) {
+		} catch (LogicException ex) {
 			LOG.error(ex.getMessage());
+			request.setAttribute("exception", ex);
+			url = resBundle.getString("error500");
 		}
 		/* putting the list of latest Issues into request */
 		request.setAttribute("issuesList", recentIssuesList);

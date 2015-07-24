@@ -11,7 +11,7 @@ import com.epam.training.bean.Build;
 import com.epam.training.bean.Member;
 import com.epam.training.bean.Project;
 import com.epam.training.command.ICommand;
-import com.epam.training.exception.GeneralLogicException;
+import com.epam.training.exception.LogicException;
 import com.epam.training.logic.MemberLogic;
 import com.epam.training.logic.ProjectLogic;
 
@@ -46,9 +46,9 @@ public class EditProjectCommand implements ICommand {
 			project.setProjectName(projectName);
 			project.setProjectDescription(projectDesc);
 			project.setManager(manager);
-			updateProject(request, project, projectID);
 			request.setAttribute("projectDataUpdated", true);
 			request.setAttribute("formNotFilled", false);
+			updateProject(request, project, projectID);
 		} else {
 			setAttrsToRequest(request, projectID);
 		}
@@ -63,37 +63,45 @@ public class EditProjectCommand implements ICommand {
 
 		try {
 			errorFree = pl.updateProject(project, Integer.parseInt(projectID));
-		} catch (GeneralLogicException ex) {
+		} catch (LogicException ex) {
 			LOG.error(ex.getMessage());
+			request.setAttribute("exception", ex);
+			url = resBundle.getString("error500");
 		}
 		if (!errorFree) {
 			setAttrsToRequest(request, projectID);
+			request.setAttribute("projectDataUpdated", false);
 			request.setAttribute("projectUpdateError", true);
 		}
 	}
 
 	/* method returns the list of all Members */
-	private List<Member> membersList() {
+	private List<Member> membersList(HttpServletRequest request) {
 		List<Member> listOfMembers = new ArrayList<>();
 		MemberLogic ml = new MemberLogic();
 
 		try {
 			listOfMembers = ml.membersList();
-		} catch (GeneralLogicException ex) {
+		} catch (LogicException ex) {
 			LOG.error(ex.getMessage());
+			request.setAttribute("exception", ex);
+			url = resBundle.getString("error500");
 		}
 		return listOfMembers;
 	}
 
 	/* method returns the list of all Builds of the given Project */
-	private List<Build> buildsList(String projectID) {
+	private List<Build> buildsList(HttpServletRequest request, 
+			String projectID) {
 		List<Build> listOfBuilds = new ArrayList<>();
 		ProjectLogic pl = new ProjectLogic();
 
 		try {
 			listOfBuilds = pl.buildsList(Integer.parseInt(projectID));
-		} catch (GeneralLogicException ex) {
+		} catch (LogicException ex) {
 			LOG.error(ex.getMessage());
+			request.setAttribute("exception", ex);
+			url = resBundle.getString("error500");
 		}
 		return listOfBuilds;
 	}
@@ -104,14 +112,16 @@ public class EditProjectCommand implements ICommand {
 
 		try {
 			project = pl.receiveProject(Integer.parseInt(projectID));
-		} catch (GeneralLogicException ex) {
+		} catch (LogicException ex) {
 			LOG.error(ex.getMessage());
+			request.setAttribute("exception", ex);
+			url = resBundle.getString("error500");
 		}
 		request.setAttribute("projectID", projectID);
 		request.setAttribute("name", project.getProjectName());
 		request.setAttribute("desc", project.getProjectDescription());
-		request.setAttribute("buildsList", buildsList(projectID));
-		request.setAttribute("managersList", membersList());
+		request.setAttribute("buildsList", buildsList(request, projectID));
+		request.setAttribute("managersList", membersList(request));
 		request.setAttribute("formNotFilled", true);
 	}
 }

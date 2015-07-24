@@ -9,7 +9,7 @@ import java.util.List;
 
 import com.epam.training.bean.Member;
 import com.epam.training.dao.AbstractDAO;
-import com.epam.training.exception.GeneralDAOException;
+import com.epam.training.exception.DAOException;
 
 /**
  * Class {@code MySQLMemberDAO} contains methods allowing to extract information
@@ -50,7 +50,7 @@ public class MySQLMemberDAO extends AbstractDAO<Member> {
 
 	/* finds all Members registered in the application */
 	@Override
-	public List<Member> findAll() throws GeneralDAOException {
+	public List<Member> findAll() throws DAOException {
 		List<Member> membersList = new ArrayList<Member>();
 		PreparedStatement prepStatement = null;
 
@@ -69,7 +69,7 @@ public class MySQLMemberDAO extends AbstractDAO<Member> {
 				membersList.add(member);
 			}
 		} catch (SQLException ex) {
-			throw new GeneralDAOException("Database access error", ex);
+			throw new DAOException("Database error", ex);
 		} finally {
 			close(prepStatement);
 		}
@@ -78,7 +78,7 @@ public class MySQLMemberDAO extends AbstractDAO<Member> {
 
 	/* returns Member with the given ID */
 	@Override
-	public Member findEntityByID(int id) throws GeneralDAOException {
+	public Member findEntityByID(int id) throws DAOException {
 		PreparedStatement prepStatement = null;
 		Member member = null;
 
@@ -97,7 +97,7 @@ public class MySQLMemberDAO extends AbstractDAO<Member> {
 				member.setAdmin(rs.getBoolean(ROLE));
 			}
 		} catch (SQLException ex) {
-			throw new GeneralDAOException("Database access error", ex);
+			throw new DAOException("Database error", ex);
 		} finally {
 			close(prepStatement);
 		}
@@ -110,10 +110,10 @@ public class MySQLMemberDAO extends AbstractDAO<Member> {
 	 * @param login
 	 *            The Member's login
 	 * @return Member with the given Login
-	 * @throws GeneralDAOException
+	 * @throws DAOException
 	 *             If a database access/handling error occurs.
 	 */
-	public Member findMemberByLogin(String login) throws GeneralDAOException {
+	public Member findMemberByLogin(String login) throws DAOException {
 		PreparedStatement prepStatement = null;
 		Member member = null;
 
@@ -132,7 +132,7 @@ public class MySQLMemberDAO extends AbstractDAO<Member> {
 				member.setAdmin(rs.getBoolean(ROLE));
 			}
 		} catch (SQLException ex) {
-			throw new GeneralDAOException("Database access error", ex);
+			throw new DAOException("Database error", ex);
 		} finally {
 			close(prepStatement);
 		}
@@ -141,7 +141,7 @@ public class MySQLMemberDAO extends AbstractDAO<Member> {
 
 	/* adds new Member to the database */
 	@Override
-	public boolean addNewEntity(Member member) throws GeneralDAOException {
+	public boolean addNewEntity(Member member) throws DAOException {
 		boolean isAdded = false;
 		PreparedStatement prepStatement = null;
 
@@ -155,7 +155,7 @@ public class MySQLMemberDAO extends AbstractDAO<Member> {
 			prepStatement.executeUpdate();
 			isAdded = true;
 		} catch (SQLException ex) {
-			throw new GeneralDAOException("Database access error", ex);
+			throw new DAOException("Database error", ex);
 		} finally {
 			close(prepStatement);
 		}
@@ -164,8 +164,7 @@ public class MySQLMemberDAO extends AbstractDAO<Member> {
 
 	/* updates Member's data */
 	@Override
-	public boolean updateEntity(Member member, int id)
-			throws GeneralDAOException {
+	public boolean updateEntity(Member member, int id) throws DAOException {
 		boolean isUpdated = false;
 		PreparedStatement prepStatement = null;
 
@@ -179,7 +178,7 @@ public class MySQLMemberDAO extends AbstractDAO<Member> {
 			prepStatement.executeUpdate();
 			isUpdated = true;
 		} catch (SQLException ex) {
-			throw new GeneralDAOException("Database access error", ex);
+			throw new DAOException("Database error", ex);
 		} finally {
 			close(prepStatement);
 		}
@@ -193,11 +192,11 @@ public class MySQLMemberDAO extends AbstractDAO<Member> {
 	 * @param id	Member's ID
 	 * @return {@code true} if password was successfully updated and
 	 *         {@code false} otherwise
-	 * @throws GeneralDAOException
+	 * @throws DAOException
 	 *             If a database access/handling error occurs.
 	 */
 	public boolean updateMemberPass(String newPassword, int id)
-			throws GeneralDAOException {
+			throws DAOException {
 		boolean isUpdated = false;
 		PreparedStatement prepStatement = null;
 
@@ -208,7 +207,7 @@ public class MySQLMemberDAO extends AbstractDAO<Member> {
 			prepStatement.executeUpdate();
 			isUpdated = true;
 		} catch (SQLException ex) {
-			throw new GeneralDAOException("Database access error", ex);
+			throw new DAOException("Database error", ex);
 		} finally {
 			close(prepStatement);
 		}

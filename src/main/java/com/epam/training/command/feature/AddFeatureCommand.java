@@ -6,7 +6,7 @@ import org.apache.log4j.Logger;
 
 import com.epam.training.bean.Feature;
 import com.epam.training.command.ICommand;
-import com.epam.training.exception.GeneralLogicException;
+import com.epam.training.exception.LogicException;
 import com.epam.training.logic.FeatureLogic;
 import com.epam.training.logic.featuretype.FeatureType;
 
@@ -32,12 +32,12 @@ public class AddFeatureCommand implements ICommand {
 		FeatureType type = FeatureType.valueOf(feature.toUpperCase());
 
 		if (featureName != null) {
-			if (checkNameFree(featureName, type)) {
+			if (checkNameFree(request, featureName, type)) {
 				Feature ft = new Feature();
 				ft.setFeatureName(featureName);
-				addNewFeature(request, ft, type);
 				request.setAttribute("newFeatureAdded", true);
 				request.setAttribute("formNotFilled", false);
+				addNewFeature(request, ft, type);
 			} else {
 				request.setAttribute("feature", feature);
 				request.setAttribute("featureNameExists", true);
@@ -58,19 +58,23 @@ public class AddFeatureCommand implements ICommand {
 
 		try {
 			errorFree = fl.addNewFeature(ft, type);
-		} catch (GeneralLogicException ex) {
+		} catch (LogicException ex) {
 			LOG.error(ex.getMessage());
+			request.setAttribute("exception", ex);
+			url = resBundle.getString("error500");
 		}
 		if (!errorFree) {
 			String feature = request.getParameter(PARAM_FEATURE);
 			request.setAttribute("feature", feature);
+			request.setAttribute("newFeatureAdded", false);
 			request.setAttribute("featureAddError", true);
 			request.setAttribute("formNotFilled", true);
 		}
 	}
 
 	/* method checks if such Feature name already exists */
-	private boolean checkNameFree(String featureName, FeatureType type) {
+	private boolean checkNameFree(HttpServletRequest request, 
+			String featureName, FeatureType type) {
 		boolean nameFree = true;
 		FeatureLogic fl = new FeatureLogic();
 
@@ -80,8 +84,10 @@ public class AddFeatureCommand implements ICommand {
 					nameFree = false;
 				}
 			}
-		} catch (GeneralLogicException ex) {
+		} catch (LogicException ex) {
 			LOG.error(ex.getMessage());
+			request.setAttribute("exception", ex);
+			url = resBundle.getString("error500");
 		}
 		return nameFree;
 	}

@@ -10,7 +10,7 @@ import java.util.List;
 import com.epam.training.bean.Member;
 import com.epam.training.bean.Project;
 import com.epam.training.dao.AbstractDAO;
-import com.epam.training.exception.GeneralDAOException;
+import com.epam.training.exception.DAOException;
 
 /**
  * Class {@code MySQLProjectDAO} contains methods allowing to extract
@@ -46,7 +46,7 @@ public class MySQLProjectDAO extends AbstractDAO<Project> {
 
 	/* finds all Projects in the application */
 	@Override
-	public List<Project> findAll() throws GeneralDAOException {
+	public List<Project> findAll() throws DAOException {
 		AbstractDAO<Member> memberDAO = new MySQLMemberDAO(connection);
 		List<Project> projectsList = new ArrayList<Project>();
 		PreparedStatement prepStatement = null;
@@ -64,7 +64,7 @@ public class MySQLProjectDAO extends AbstractDAO<Project> {
 				projectsList.add(project);
 			}
 		} catch (SQLException ex) {
-			throw new GeneralDAOException("Database access error", ex);
+			throw new DAOException("Database error", ex);
 		} finally {
 			close(prepStatement);
 		}
@@ -73,7 +73,7 @@ public class MySQLProjectDAO extends AbstractDAO<Project> {
 
 	/* returns Project with the given ID */
 	@Override
-	public Project findEntityByID(int id) throws GeneralDAOException {
+	public Project findEntityByID(int id) throws DAOException {
 		AbstractDAO<Member> memberDAO = new MySQLMemberDAO(connection);
 		Project project = null;
 		PreparedStatement prepStatement = null;
@@ -91,7 +91,7 @@ public class MySQLProjectDAO extends AbstractDAO<Project> {
 				project.setManager(memberDAO.findEntityByID(rs.getInt(PROJECT_MANAGER)));
 			}
 		} catch (SQLException ex) {
-			throw new GeneralDAOException("Database access error", ex);
+			throw new DAOException("Database error", ex);
 		} finally {
 			close(prepStatement);
 		}
@@ -100,7 +100,7 @@ public class MySQLProjectDAO extends AbstractDAO<Project> {
 
 	/* adds new Project to the database */
 	@Override
-	public boolean addNewEntity(Project project) throws GeneralDAOException {
+	public boolean addNewEntity(Project project) throws DAOException {
 		boolean isAdded = false;
 		PreparedStatement prepStatement = null;
 
@@ -112,7 +112,7 @@ public class MySQLProjectDAO extends AbstractDAO<Project> {
 			prepStatement.executeUpdate();
 			isAdded = true;
 		} catch (SQLException ex) {
-			throw new GeneralDAOException("Database access error", ex);
+			throw new DAOException("Database error", ex);
 		} finally {
 			close(prepStatement);
 		}
@@ -121,8 +121,7 @@ public class MySQLProjectDAO extends AbstractDAO<Project> {
 
 	/* updates Project's data */
 	@Override
-	public boolean updateEntity(Project project, int id)
-			throws GeneralDAOException {
+	public boolean updateEntity(Project project, int id) throws DAOException {
 		boolean isUpdated = false;
 		PreparedStatement prepStatement = null;
 
@@ -135,7 +134,7 @@ public class MySQLProjectDAO extends AbstractDAO<Project> {
 			prepStatement.executeUpdate();
 			isUpdated = true;
 		} catch (SQLException ex) {
-			throw new GeneralDAOException("Database access error", ex);
+			throw new DAOException("Database error", ex);
 		} finally {
 			close(prepStatement);
 		}

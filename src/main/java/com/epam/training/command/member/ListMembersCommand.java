@@ -9,7 +9,7 @@ import org.apache.log4j.Logger;
 
 import com.epam.training.bean.Member;
 import com.epam.training.command.ICommand;
-import com.epam.training.exception.GeneralLogicException;
+import com.epam.training.exception.LogicException;
 import com.epam.training.logic.MemberLogic;
 
 /**
@@ -32,8 +32,10 @@ public class ListMembersCommand implements ICommand {
 
 		try {
 			listOfMembers = ml.membersList();
-		} catch (GeneralLogicException ex) {
+		} catch (LogicException ex) {
 			LOG.error(ex.getMessage());
+			request.setAttribute("exception", ex);
+			url = resBundle.getString("error500");
 		}
 		request.setAttribute("listOfMembers", listOfMembers);
 		return url;

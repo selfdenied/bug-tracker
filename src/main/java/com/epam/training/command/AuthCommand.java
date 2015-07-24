@@ -6,7 +6,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.log4j.Logger;
 
 import com.epam.training.bean.Member;
-import com.epam.training.exception.GeneralLogicException;
+import com.epam.training.exception.LogicException;
 import com.epam.training.logic.IssueLogic;
 import com.epam.training.logic.MemberLogic;
 
@@ -49,8 +49,10 @@ public class AuthCommand implements ICommand {
 				request.setAttribute("locale", language);
 				request.setAttribute("issuesList", il.recentIssuesList());
 			}
-		} catch (GeneralLogicException ex) {
+		} catch (LogicException ex) {
 			LOG.error(ex.getMessage());
+			request.setAttribute("exception", ex);
+			url = resBundle.getString("error500");
 		}
 		return url;
 	}

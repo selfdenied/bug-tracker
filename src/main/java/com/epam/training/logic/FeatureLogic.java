@@ -10,8 +10,8 @@ import com.epam.training.bean.Feature;
 import com.epam.training.connection.ConnectionPool;
 import com.epam.training.dao.AbstractDAO;
 import com.epam.training.dao.factory.AbstractDAOFactory;
-import com.epam.training.exception.GeneralDAOException;
-import com.epam.training.exception.GeneralLogicException;
+import com.epam.training.exception.DAOException;
+import com.epam.training.exception.LogicException;
 import com.epam.training.logic.featuretype.FeatureType;
 
 /**
@@ -40,42 +40,43 @@ public class FeatureLogic {
 	 * @param featureType
 	 *            the selected type of Features
 	 * @return The list of Features of selected type
-	 * @throws GeneralLogicException
+	 * @throws LogicException
 	 *             If a Logic exception of some sort has occurred
 	 */
 	public List<Feature> featuresList(FeatureType featureType)
-			throws GeneralLogicException {
+			throws LogicException {
 		List<Feature> listOfFeatures = new ArrayList<>();
 
 		try {
 			listOfFeatures = obtainFeatureDAO(featureType).findAll();
-		} catch (GeneralDAOException ex) {
-			throw new GeneralLogicException("Database access error", ex);
+		} catch (DAOException ex) {
+			throw new LogicException(
+					"Error. Unable to retrieve the list of Features!", ex);
 		} finally {
 			pool.releaseConnection(connection);
 		}
 		return listOfFeatures;
 	}
-	
+
 	/**
 	 * Method returns the Feature with the given ID.
 	 * 
 	 * @param featureType
 	 *            the selected type of a Feature
 	 * @param id
-	 * 			the Feature's ID
+	 *            the Feature's ID
 	 * @return The Feature with the given ID
-	 * @throws GeneralLogicException
+	 * @throws LogicException
 	 *             If a Logic exception of some sort has occurred
 	 */
 	public Feature findFeature(FeatureType featureType, int id)
-			throws GeneralLogicException {
+			throws LogicException {
 		Feature feature = new Feature();
 
 		try {
 			feature = obtainFeatureDAO(featureType).findEntityByID(id);
-		} catch (GeneralDAOException ex) {
-			throw new GeneralLogicException("Database access error", ex);
+		} catch (DAOException ex) {
+			throw new LogicException("Error. Unable to retrieve a Feature!", ex);
 		} finally {
 			pool.releaseConnection(connection);
 		}
@@ -91,18 +92,19 @@ public class FeatureLogic {
 	 *            new Feature
 	 * @return {@code true} when new Feature was successfully added and
 	 *         {@code false} otherwise
-	 * @throws GeneralLogicException
+	 * @throws LogicException
 	 *             If a Logic exception of some sort has occurred
 	 */
 	public boolean addNewFeature(Feature ft, FeatureType featureType)
-			throws GeneralLogicException {
+			throws LogicException {
 		boolean isAdded = false;
 		AbstractDAO<Feature> featureDAO = obtainFeatureDAO(featureType);
 
 		try {
 			isAdded = featureDAO.addNewEntity(ft);
-		} catch (GeneralDAOException ex) {
-			throw new GeneralLogicException("Database access error", ex);
+		} catch (DAOException ex) {
+			throw new LogicException(
+					"Error. Unable to add Feature to the database!", ex);
 		} finally {
 			pool.releaseConnection(connection);
 		}
@@ -120,18 +122,18 @@ public class FeatureLogic {
 	 *            Feature's ID
 	 * @return {@code true} when new Feature data was successfully updated and
 	 *         {@code false} otherwise
-	 * @throws GeneralLogicException
+	 * @throws LogicException
 	 *             If a Logic exception of some sort has occurred
 	 */
 	public boolean updateFeature(Feature ft, FeatureType featureType, int id)
-			throws GeneralLogicException {
+			throws LogicException {
 		boolean isUpdated = false;
 		AbstractDAO<Feature> featureDAO = obtainFeatureDAO(featureType);
 
 		try {
 			isUpdated = featureDAO.updateEntity(ft, id);
-		} catch (GeneralDAOException ex) {
-			throw new GeneralLogicException("Database access error", ex);
+		} catch (DAOException ex) {
+			throw new LogicException("Error. Unable to update Feature's data!", ex);
 		} finally {
 			pool.releaseConnection(connection);
 		}

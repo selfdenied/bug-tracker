@@ -11,8 +11,8 @@ import com.epam.training.connection.ConnectionPool;
 import com.epam.training.dao.AbstractDAO;
 import com.epam.training.dao.factory.AbstractDAOFactory;
 import com.epam.training.dao.mysqldao.MySQLMemberDAO;
-import com.epam.training.exception.GeneralDAOException;
-import com.epam.training.exception.GeneralLogicException;
+import com.epam.training.exception.DAOException;
+import com.epam.training.exception.LogicException;
 
 /**
  * Class {@code MemberLogic} contains various methods that use DAO layer to
@@ -39,17 +39,18 @@ public class MemberLogic {
 	 * Method returns the list of Members registered in the application.
 	 * 
 	 * @return The list of recent Members registered in the application
-	 * @throws GeneralLogicException
+	 * @throws LogicException
 	 *             If a Logic exception of some sort has occurred
 	 */
-	public List<Member> membersList() throws GeneralLogicException {
+	public List<Member> membersList() throws LogicException {
 		AbstractDAO<Member> memberDAO = initDAOFactory().getMemberDAO();
 		List<Member> membersList = new ArrayList<>();
 		
 		try {
 			membersList = memberDAO.findAll();
-		} catch (GeneralDAOException ex) {
-			throw new GeneralLogicException("Database access error", ex);
+		} catch (DAOException ex) {
+			throw new LogicException(
+					"Error. Unable to retrieve the list of Members!", ex);
 		} finally {
 			pool.releaseConnection(connection);
 		}
@@ -65,19 +66,20 @@ public class MemberLogic {
 	 *            Member's password
 	 * @return {@code true} when login and password are correct and
 	 *         {@code false} otherwise
-	 * @throws GeneralLogicException
+	 * @throws LogicException
 	 *             If a Logic exception of some sort has occurred
 	 */
 	public boolean checkMemberData(String login, String password)
-			throws GeneralLogicException {
+			throws LogicException {
 		boolean dataCorrect = false;
 		Member member = null;
 		MySQLMemberDAO memberDAO = (MySQLMemberDAO) initDAOFactory().getMemberDAO();
 
 		try {
 			member = memberDAO.findMemberByLogin(login);
-		} catch (GeneralDAOException ex) {
-			throw new GeneralLogicException("Database access error", ex);
+		} catch (DAOException ex) {
+			throw new LogicException(
+					"Error. Unable to retrieve a Member!", ex);
 		} finally {
 			pool.releaseConnection(connection);
 		}
@@ -93,17 +95,18 @@ public class MemberLogic {
 	 * @param login
 	 *            Member's login
 	 * @return Member with the given login
-	 * @throws GeneralLogicException
+	 * @throws LogicException
 	 *             If a Logic exception of some sort has occurred
 	 */
-	public Member findMemberByLogin(String login) throws GeneralLogicException {
+	public Member findMemberByLogin(String login) throws LogicException {
 		Member member = null;
 		MySQLMemberDAO memberDAO = (MySQLMemberDAO) initDAOFactory().getMemberDAO();
 
 		try {
 			member = memberDAO.findMemberByLogin(login);
-		} catch (GeneralDAOException ex) {
-			throw new GeneralLogicException("Database access error", ex);
+		} catch (DAOException ex) {
+			throw new LogicException(
+					"Error. Unable to retrieve a Member!", ex);
 		} finally {
 			pool.releaseConnection(connection);
 		}
@@ -119,18 +122,19 @@ public class MemberLogic {
 	 *            Member's ID
 	 * @return {@code true} when password was successfully updated and
 	 *         {@code false} otherwise
-	 * @throws GeneralLogicException
+	 * @throws LogicException
 	 *             If a Logic exception of some sort has occurred
 	 */
 	public boolean updateMemberPass(String password, int memberID)
-			throws GeneralLogicException {
+			throws LogicException {
 		boolean isUpdated = false;
 		MySQLMemberDAO memberDAO = (MySQLMemberDAO) initDAOFactory().getMemberDAO();
 
 		try {
 			isUpdated = memberDAO.updateMemberPass(password, memberID);
-		} catch (GeneralDAOException ex) {
-			throw new GeneralLogicException("Database access error", ex);
+		} catch (DAOException ex) {
+			throw new LogicException(
+					"Error. Unable to update Member's password!", ex);
 		} finally {
 			pool.releaseConnection(connection);
 		}
@@ -146,18 +150,18 @@ public class MemberLogic {
 	 *            Member's ID
 	 * @return {@code true} when data was successfully updated and {@code false}
 	 *         otherwise
-	 * @throws GeneralLogicException
+	 * @throws LogicException
 	 *             If a Logic exception of some sort has occurred
 	 */
 	public boolean updateMemberData(Member member, int memberID)
-			throws GeneralLogicException {
+			throws LogicException {
 		boolean isUpdated = false;
 		AbstractDAO<Member> memberDAO = initDAOFactory().getMemberDAO();
 
 		try {
 			isUpdated = memberDAO.updateEntity(member, memberID);
-		} catch (GeneralDAOException ex) {
-			throw new GeneralLogicException("Database access error", ex);
+		} catch (DAOException ex) {
+			throw new LogicException("Error. Unable to update Member's data!", ex);
 		} finally {
 			pool.releaseConnection(connection);
 		}
@@ -172,17 +176,18 @@ public class MemberLogic {
 	 *            
 	 * @return {@code true} when Member was successfully added and {@code false}
 	 *         otherwise
-	 * @throws GeneralLogicException
+	 * @throws LogicException
 	 *             If a Logic exception of some sort has occurred
 	 */
-	public boolean addNewMember(Member member) throws GeneralLogicException {
+	public boolean addNewMember(Member member) throws LogicException {
 		boolean isAdded = false;
 		AbstractDAO<Member> memberDAO = initDAOFactory().getMemberDAO();
 
 		try {
 			isAdded = memberDAO.addNewEntity(member);
-		} catch (GeneralDAOException ex) {
-			throw new GeneralLogicException("Database access error", ex);
+		} catch (DAOException ex) {
+			throw new LogicException(
+					"Error. Unable to add Member to the database!", ex);
 		} finally {
 			pool.releaseConnection(connection);
 		}
