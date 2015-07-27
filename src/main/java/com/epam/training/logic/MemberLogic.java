@@ -1,7 +1,10 @@
 package com.epam.training.logic;
 
 import static com.epam.training.dao.factory.DAOFactoryType.MYSQL;
+import static com.epam.training.util.HashPassword.*;
 
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
@@ -77,14 +80,17 @@ public class MemberLogic {
 
 		try {
 			member = memberDAO.findMemberByLogin(login);
+			if (member != null && validatePassword(password, member.getPassword())) {
+				dataCorrect = true;
+			}
 		} catch (DAOException ex) {
 			throw new LogicException(
 					"Error. Unable to retrieve a Member!", ex);
-		} finally {
+		} catch (NoSuchAlgorithmException | InvalidKeySpecException ex) {
+			throw new LogicException(
+					"Error. Unable to validate password!", ex);
+		}	finally {
 			pool.releaseConnection(connection);
-		}
-		if (member != null && member.getPassword().equals(password)) {
-			dataCorrect = true;
 		}
 		return dataCorrect;
 	}
@@ -131,10 +137,14 @@ public class MemberLogic {
 		MySQLMemberDAO memberDAO = (MySQLMemberDAO) initDAOFactory().getMemberDAO();
 
 		try {
-			isUpdated = memberDAO.updateMemberPass(password, memberID);
+			String hashedPass = createHash(password);
+			isUpdated = memberDAO.updateMemberPass(hashedPass, memberID);
 		} catch (DAOException ex) {
 			throw new LogicException(
 					"Error. Unable to update Member's password!", ex);
+		} catch (NoSuchAlgorithmException | InvalidKeySpecException ex) {
+			throw new LogicException(
+					"Error. Unable to hash password!", ex);
 		} finally {
 			pool.releaseConnection(connection);
 		}
@@ -182,12 +192,18 @@ public class MemberLogic {
 	public boolean addNewMember(Member member) throws LogicException {
 		boolean isAdded = false;
 		AbstractDAO<Member> memberDAO = initDAOFactory().getMemberDAO();
+		String password = member.getPassword();
 
 		try {
+			String hashedPass = createHash(password);
+			member.setPassword(hashedPass);
 			isAdded = memberDAO.addNewEntity(member);
 		} catch (DAOException ex) {
 			throw new LogicException(
 					"Error. Unable to add Member to the database!", ex);
+		} catch (NoSuchAlgorithmException | InvalidKeySpecException ex) {
+			throw new LogicException(
+					"Error. Unable to hash password!", ex);
 		} finally {
 			pool.releaseConnection(connection);
 		}
