@@ -28,7 +28,7 @@ public class NoCommand implements ICommand {
 	
 	@Override
 	public String execute(HttpServletRequest request) {
-		url = resBundle.getString("welcome");
+		url = BUNDLE.getString("welcome");
 		IssueLogic il = new IssueLogic();
 		List<Issue> recentIssuesList = new ArrayList<>();
 		String language = request.getParameter(PARAM_LANGUAGE);
@@ -40,7 +40,7 @@ public class NoCommand implements ICommand {
 		} catch (LogicException ex) {
 			LOG.error(ex.getMessage());
 			request.setAttribute("exception", ex);
-			url = resBundle.getString("error500");
+			url = BUNDLE.getString(ERROR);
 		}
 		/* putting the list of latest Issues into request */
 		request.setAttribute("issuesList", recentIssuesList);

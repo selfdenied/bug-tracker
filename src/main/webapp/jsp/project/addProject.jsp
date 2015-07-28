@@ -36,7 +36,7 @@
 			<rb:text message="feature_name" locale="${locale}" />
 			<br>  
 			<input type="text" name="projectName" size="50" maxlength="50" 
-			pattern="[A-Za-zА-Яа-яЁё0-9| -]{1,50}" required="required">
+			pattern="[A-Za-zА-Яа-яЁё0-9 \\.\\-]{1,50}" required="required">
 			<br>
 			<br>
 			<rb:text message="project_description" locale="${locale}" />

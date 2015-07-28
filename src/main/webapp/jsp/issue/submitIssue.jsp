@@ -62,7 +62,7 @@ table, th, td {
 			<rb:text message="summary_2" locale="${locale}" />
 			<br>  
 			<input type="text" name="summary" size="30" maxlength="100" 
-			pattern="[A-Za-zА-Яа-яЁё0-9| .,!?]{1,100}" required="required">
+			pattern="[A-Za-zА-Яа-яЁё0-9 \\.,!?:;\\-]{1,100}" required="required">
 			<br>
 			<br>
 			<rb:text message="description_2" locale="${locale}" />

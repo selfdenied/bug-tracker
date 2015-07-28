@@ -39,7 +39,7 @@
 			<rb:text message="feature_name" locale="${locale}" />
 			<br>
 			<input type="text" name="buildName" maxlength="50"
-			pattern="[A-Za-zА-Яа-яЁё0-9| .]{1,50}" required="required">
+			pattern="[A-Za-zА-Яа-яЁё0-9 \\.\\-]{1,50}" required="required">
 			<br>
 			<br>
 			<input type="submit" value="<rb:text message='add_button' locale='${locale}' />">		

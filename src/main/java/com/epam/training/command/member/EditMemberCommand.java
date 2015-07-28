@@ -9,6 +9,7 @@ import com.epam.training.bean.Member;
 import com.epam.training.command.ICommand;
 import com.epam.training.exception.LogicException;
 import com.epam.training.logic.MemberLogic;
+import com.epam.training.util.Validator;
 
 /**
  * Class {@code EditMemberCommand} allows to edit existing Members data.
@@ -28,7 +29,7 @@ public class EditMemberCommand implements ICommand {
 
 	@Override
 	public String execute(HttpServletRequest request) {
-		url = resBundle.getString("edit_member");
+		url = BUNDLE.getString("edit_member");
 		String firstName = request.getParameter(PARAM_MEMBER_FNAME);
 		String userID = request.getParameter(PARAM_USER_ID);
 
@@ -36,6 +37,7 @@ public class EditMemberCommand implements ICommand {
 			String login = request.getParameter(PARAM_MEMBER_LOGIN);
 			if (checkLoginFree(request, login)) {
 				HttpSession session = request.getSession(false);
+				Member currMember = (Member) session.getAttribute("member");
 				String lastName = request.getParameter(PARAM_MEMBER_LNAME);
 				String role = request.getParameter(PARAM_MEMBER_ADMIN);
 				Member member = initMemberData(firstName, lastName, login,
@@ -43,7 +45,10 @@ public class EditMemberCommand implements ICommand {
 				request.setAttribute("dataUpdated", true);
 				request.setAttribute("formNotFilled", false);
 				updateMember(request, member, userID);
-				session.setAttribute("member", member);
+				if (currMember.getId() == Integer.parseInt(userID)) {
+					member.setId(currMember.getId());
+					session.setAttribute("member", member);
+				}
 			} else {
 				request.setAttribute("userID", userID);
 				request.setAttribute("loginExists", true);
@@ -59,17 +64,17 @@ public class EditMemberCommand implements ICommand {
 	/* method updates existing Member data */
 	private void updateMember(HttpServletRequest request, Member member,
 			String userID) {
-		boolean errorFree = false;
 		MemberLogic ml = new MemberLogic();
 
-		try {
-			errorFree = ml.updateMemberData(member, Integer.parseInt(userID));
-		} catch (LogicException ex) {
-			LOG.error(ex.getMessage());
-			request.setAttribute("exception", ex);
-			url = resBundle.getString("error500");
-		}
-		if (!errorFree) {
+		if (Validator.validateMember(member)) {
+			try {
+				ml.updateMemberData(member, Integer.parseInt(userID));
+			} catch (LogicException ex) {
+				LOG.error(ex.getMessage());
+				request.setAttribute("exception", ex);
+				url = BUNDLE.getString(ERROR);
+			}
+		} else {
 			request.setAttribute("userID", userID);
 			request.setAttribute("dataUpdated", false);
 			request.setAttribute("dataUpdateError", true);
@@ -89,7 +94,7 @@ public class EditMemberCommand implements ICommand {
 		} catch (LogicException ex) {
 			LOG.error(ex.getMessage());
 			request.setAttribute("exception", ex);
-			url = resBundle.getString("error500");
+			url = BUNDLE.getString(ERROR);
 		}
 		return loginFree;
 	}

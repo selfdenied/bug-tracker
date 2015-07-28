@@ -9,6 +9,7 @@ import com.epam.training.command.ICommand;
 import com.epam.training.exception.LogicException;
 import com.epam.training.logic.FeatureLogic;
 import com.epam.training.logic.featuretype.FeatureType;
+import com.epam.training.util.Validator;
 
 /**
  * Class {@code EditFeatureCommand} allows to edit Features' (Statuses,
@@ -27,7 +28,7 @@ public class EditFeatureCommand implements ICommand {
 
 	@Override
 	public String execute(HttpServletRequest request) {
-		url = resBundle.getString("edit_feature");
+		url = BUNDLE.getString("edit_feature");
 		String feature = request.getParameter(PARAM_FEATURE);
 		String featureID = request.getParameter(PARAM_FEATURE_ID);
 		String featureName = request.getParameter(PARAM_FEATURE_NAME);
@@ -50,17 +51,17 @@ public class EditFeatureCommand implements ICommand {
 	/* method updates Feature's data */
 	private void updateFeature(HttpServletRequest request, Feature ft,
 			FeatureType type, int id) {
-		boolean errorFree = false;
 		FeatureLogic fl = new FeatureLogic();
 
-		try {
-			errorFree = fl.updateFeature(ft, type, id);
-		} catch (LogicException ex) {
-			LOG.error(ex.getMessage());
-			request.setAttribute("exception", ex);
-			url = resBundle.getString("error500");
-		}
-		if (!errorFree) {
+		if (Validator.validateFeature(ft)) {
+			try {
+				fl.updateFeature(ft, type, id);
+			} catch (LogicException ex) {
+				LOG.error(ex.getMessage());
+				request.setAttribute("exception", ex);
+				url = BUNDLE.getString(ERROR);
+			}
+		} else {
 			String feature = request.getParameter(PARAM_FEATURE);
 			String featureID = request.getParameter(PARAM_FEATURE_ID);
 			setAttrsToRequest(request, feature, featureID);

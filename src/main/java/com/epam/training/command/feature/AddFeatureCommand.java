@@ -9,6 +9,7 @@ import com.epam.training.command.ICommand;
 import com.epam.training.exception.LogicException;
 import com.epam.training.logic.FeatureLogic;
 import com.epam.training.logic.featuretype.FeatureType;
+import com.epam.training.util.Validator;
 
 /**
  * Class {@code AddFeatureCommand} allows to add new Features (Resolutions,
@@ -26,7 +27,7 @@ public class AddFeatureCommand implements ICommand {
 
 	@Override
 	public String execute(HttpServletRequest request) {
-		url = resBundle.getString("add_feature");
+		url = BUNDLE.getString("add_feature");
 		String feature = request.getParameter(PARAM_FEATURE);
 		String featureName = request.getParameter(PARAM_FEATURE_NAME);
 		FeatureType type = FeatureType.valueOf(feature.toUpperCase());
@@ -53,17 +54,17 @@ public class AddFeatureCommand implements ICommand {
 	/* method adds new feature to the database */
 	private void addNewFeature(HttpServletRequest request, Feature ft,
 			FeatureType type) {
-		boolean errorFree = false;
 		FeatureLogic fl = new FeatureLogic();
 
-		try {
-			errorFree = fl.addNewFeature(ft, type);
-		} catch (LogicException ex) {
-			LOG.error(ex.getMessage());
-			request.setAttribute("exception", ex);
-			url = resBundle.getString("error500");
-		}
-		if (!errorFree) {
+		if (Validator.validateFeature(ft)) {
+			try {
+				fl.addNewFeature(ft, type);
+			} catch (LogicException ex) {
+				LOG.error(ex.getMessage());
+				request.setAttribute("exception", ex);
+				url = BUNDLE.getString(ERROR);
+			}
+		} else {
 			String feature = request.getParameter(PARAM_FEATURE);
 			request.setAttribute("feature", feature);
 			request.setAttribute("newFeatureAdded", false);
@@ -87,7 +88,7 @@ public class AddFeatureCommand implements ICommand {
 		} catch (LogicException ex) {
 			LOG.error(ex.getMessage());
 			request.setAttribute("exception", ex);
-			url = resBundle.getString("error500");
+			url = BUNDLE.getString(ERROR);
 		}
 		return nameFree;
 	}

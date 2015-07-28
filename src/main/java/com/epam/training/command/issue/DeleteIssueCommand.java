@@ -27,7 +27,7 @@ public class DeleteIssueCommand implements ICommand {
 
 	@Override
 	public String execute(HttpServletRequest request) {
-		url = resBundle.getString("delete_issue");
+		url = BUNDLE.getString("delete_issue");
 		String issueID = request.getParameter(PARAM_ISSUE_ID);
 		
 		if (issueID != null) {
@@ -43,21 +43,14 @@ public class DeleteIssueCommand implements ICommand {
 	
 	/* method deletes existing Issue from the database */
 	private void deleteIssue(HttpServletRequest request, String issueID) {
-		boolean errorFree = false;
 		IssueLogic il = new IssueLogic();
 		
 		try {
-			errorFree = il.deleteIssue(Integer.parseInt(issueID));
+			il.deleteIssue(Integer.parseInt(issueID));
 		} catch (LogicException ex) {
 			LOG.error(ex.getMessage());
 			request.setAttribute("exception", ex);
-			url = resBundle.getString("error500");
-		}
-		if (!errorFree) {
-			request.setAttribute("listOfIssues", listOfIssues(request));
-			request.setAttribute("issueDeleted", false);
-			request.setAttribute("issueDeleteError", true);
-			request.setAttribute("formNotFilled", true);
+			url = BUNDLE.getString(ERROR);
 		}
 	}
 	
@@ -71,7 +64,7 @@ public class DeleteIssueCommand implements ICommand {
 		} catch (LogicException ex) {
 			LOG.error(ex.getMessage());
 			request.setAttribute("exception", ex);
-			url = resBundle.getString("error500");
+			url = BUNDLE.getString(ERROR);
 		}
 		return listOfIssues;
 	}

@@ -32,13 +32,13 @@
 				<rb:text message="name" locale="${locale}" /> 
 				<br>
 				<input type="text" name="firstName" maxlength="50" 
-				pattern="[A-Za-zА-Яа-яЁё| -]{1,50}" required="required">
+				pattern="[A-Za-zА-Яа-яЁё '\\-]{1,50}" required="required">
 				<br>
 				<br>
 				<rb:text message="last_name" locale="${locale}" /> 
 				<br>
 				<input type="text" name="lastName" maxlength="50" 
-				pattern="[A-Za-zА-Яа-яЁё| -]{1,50}" required="required">
+				pattern="[A-Za-zА-Яа-яЁё '\\-]{1,50}" required="required">
 				<br>
 				<br>
 				<rb:text message="e-mail" locale="${locale}" /> 

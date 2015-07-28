@@ -7,6 +7,7 @@ import org.apache.log4j.Logger;
 import com.epam.training.command.ICommand;
 import com.epam.training.exception.LogicException;
 import com.epam.training.logic.MemberLogic;
+import com.epam.training.util.Validator;
 
 /**
  * Class {@code EditUserPassCommand} updates the password of a Member with the
@@ -25,7 +26,7 @@ public class EditUserPassCommand implements ICommand {
 
 	@Override
 	public String execute(HttpServletRequest request) {
-		url = resBundle.getString("change_user_pass");
+		url = BUNDLE.getString("change_user_pass");
 		String userID = request.getParameter(PARAM_USER_ID);
 		String password = request.getParameter(PARAM_PASS);
 		String passwordConfirm = request.getParameter(PARAM_PASS_CONFIRM);
@@ -50,17 +51,17 @@ public class EditUserPassCommand implements ICommand {
 	/* supplementary method that updates Member's password */
 	private void updatePass(HttpServletRequest request, String password, 
 			int memberID) {
-		boolean errorFree = false;
 		MemberLogic ml = new MemberLogic();
 		
-		try {
-			errorFree = ml.updateMemberPass(password, memberID);
-		} catch (LogicException ex) {
-			LOG.error(ex.getMessage());
-			request.setAttribute("exception", ex);
-			url = resBundle.getString("error500");
-		}
-		if (!errorFree) {
+		if (Validator.validatePassword(password)) {
+			try {
+				ml.updateMemberPass(password, memberID);
+			} catch (LogicException ex) {
+				LOG.error(ex.getMessage());
+				request.setAttribute("exception", ex);
+				url = BUNDLE.getString(ERROR);
+			}
+		} else {
 			String userID = request.getParameter(PARAM_USER_ID);
 			request.setAttribute("userID", userID);
 			request.setAttribute("passChanged", false);

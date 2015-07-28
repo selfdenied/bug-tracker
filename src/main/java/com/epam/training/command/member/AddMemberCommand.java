@@ -8,6 +8,8 @@ import com.epam.training.bean.Member;
 import com.epam.training.command.ICommand;
 import com.epam.training.exception.LogicException;
 import com.epam.training.logic.MemberLogic;
+import static com.epam.training.util.Validator.validateMember;
+import static com.epam.training.util.Validator.validatePassword;
 
 /**
  * Class {@code AddMemberCommand} allows to add new Members to the database.
@@ -28,7 +30,7 @@ public class AddMemberCommand implements ICommand {
 
 	@Override
 	public String execute(HttpServletRequest request) {
-		url = resBundle.getString("add_member");
+		url = BUNDLE.getString("add_member");
 		String firstName = request.getParameter(PARAM_MEMBER_FNAME);
 
 		if (firstName != null) {
@@ -55,17 +57,18 @@ public class AddMemberCommand implements ICommand {
 
 	/* method adds new Member to the database */
 	private void addNewMember(HttpServletRequest request, Member member) {
-		boolean errorFree = false;
 		MemberLogic ml = new MemberLogic();
+		String password = member.getPassword();
 
-		try {
-			errorFree = ml.addNewMember(member);
-		} catch (LogicException ex) {
-			LOG.error(ex.getMessage());
-			request.setAttribute("exception", ex);
-			url = resBundle.getString("error500");
-		}
-		if (!errorFree) {
+		if (validateMember(member) && validatePassword(password)) {
+			try {
+				ml.addNewMember(member);
+			} catch (LogicException ex) {
+				LOG.error(ex.getMessage());
+				request.setAttribute("exception", ex);
+				url = BUNDLE.getString(ERROR);
+			}
+		} else {
 			request.setAttribute("newMemberAdded", false);
 			request.setAttribute("memberAddError", true);
 			request.setAttribute("formNotFilled", true);
@@ -84,7 +87,7 @@ public class AddMemberCommand implements ICommand {
 		} catch (LogicException ex) {
 			LOG.error(ex.getMessage());
 			request.setAttribute("exception", ex);
-			url = resBundle.getString("error500");
+			url = BUNDLE.getString(ERROR);
 		}
 		return loginFree;
 	}

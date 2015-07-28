@@ -25,7 +25,7 @@ public class IssueInfoCommand implements ICommand {
 	
 	@Override
 	public String execute(HttpServletRequest request) {
-		url = resBundle.getString("issue_info");
+		url = BUNDLE.getString("issue_info");
 		IssueLogic issueLogic = new IssueLogic();
 		Issue issueToView = null;
 		int issueID = Integer.parseInt(request.getParameter(PARAM_ISSUE_ID));
@@ -36,7 +36,7 @@ public class IssueInfoCommand implements ICommand {
 		} catch (LogicException ex) {
 			LOG.error(ex.getMessage());
 			request.setAttribute("exception", ex);
-			url = resBundle.getString("error500");
+			url = BUNDLE.getString(ERROR);
 		}
 		/* putting the selected Issue into request */
 		request.setAttribute("issueToView", issueToView);

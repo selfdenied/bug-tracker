@@ -27,7 +27,7 @@ public class ListProjectsCommand implements ICommand {
 
 	@Override
 	public String execute(HttpServletRequest request) {
-		url = resBundle.getString("list_projects");
+		url = BUNDLE.getString("list_projects");
 		ProjectLogic pl = new ProjectLogic();
 		List<Project> listOfProjects = new ArrayList<>();
 
@@ -36,7 +36,7 @@ public class ListProjectsCommand implements ICommand {
 		} catch (LogicException ex) {
 			LOG.error(ex.getMessage());
 			request.setAttribute("exception", ex);
-			url = resBundle.getString("error500");
+			url = BUNDLE.getString(ERROR);
 		}
 		request.setAttribute("listOfProjects", listOfProjects);
 		return url;

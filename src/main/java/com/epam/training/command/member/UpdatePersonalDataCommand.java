@@ -9,6 +9,7 @@ import com.epam.training.bean.Member;
 import com.epam.training.command.ICommand;
 import com.epam.training.exception.LogicException;
 import com.epam.training.logic.MemberLogic;
+import com.epam.training.util.Validator;
 
 /**
  * Class {@code UpdatePersonalDataCommand} allows to update Member's (either
@@ -28,7 +29,7 @@ public class UpdatePersonalDataCommand implements ICommand {
 
 	@Override
 	public String execute(HttpServletRequest request) {
-		url = resBundle.getString("update_pers_data");
+		url = BUNDLE.getString("update_pers_data");
 		String firstName = request.getParameter(PARAM_FIRST_NAME);
 		String lastName = request.getParameter(PARAM_LAST_NAME);
 		String login = request.getParameter(PARAM_LOGIN);
@@ -56,17 +57,17 @@ public class UpdatePersonalDataCommand implements ICommand {
 
 	/* supplementary method that updates Member's pers. data */
 	private void updateData(HttpServletRequest request, Member member, int id) {
-		boolean errorFree = false;
 		MemberLogic ml = new MemberLogic();
 
-		try {
-			errorFree = ml.updateMemberData(member, id);
-		} catch (LogicException ex) {
-			LOG.error(ex.getMessage());
-			request.setAttribute("exception", ex);
-			url = resBundle.getString("error500");
-		}
-		if (!errorFree) {
+		if (Validator.validateMember(member)) {
+			try {
+				ml.updateMemberData(member, id);
+			} catch (LogicException ex) {
+				LOG.error(ex.getMessage());
+				request.setAttribute("exception", ex);
+				url = BUNDLE.getString(ERROR);
+			}
+		} else {
 			request.setAttribute("dataUpdated", false);
 			request.setAttribute("dataChangeError", true);
 			request.setAttribute("formNotFilled", true);
@@ -85,7 +86,7 @@ public class UpdatePersonalDataCommand implements ICommand {
 		} catch (LogicException ex) {
 			LOG.error(ex.getMessage());
 			request.setAttribute("exception", ex);
-			url = resBundle.getString("error500");
+			url = BUNDLE.getString(ERROR);
 		}
 		return loginFree;
 	}

@@ -114,12 +114,6 @@
 		</div>
 	</c:if>
 	
-	<c:if test="${issueDeleteError}">
-		<div class="form3">
-			<rb:text message="error_message_1" locale="${locale}" />
-		</div>
-	</c:if>
-	
 	<br>
 	
 	<jsp:include page="/jsp/common/fragment/footer.jsp"></jsp:include>

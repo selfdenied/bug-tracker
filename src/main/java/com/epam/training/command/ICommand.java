@@ -15,7 +15,8 @@ import javax.servlet.http.HttpServletRequest;
  */
 public interface ICommand {
 	/* needed to get JSP URLs from a properties file */
-	ResourceBundle resBundle = ResourceBundle.getBundle("jspURLs");
+	ResourceBundle BUNDLE = ResourceBundle.getBundle("jspURLs");
+	String ERROR = "error500";
 
 	/**
 	 * Method is called by a a Servlet (Controller) in order to process the

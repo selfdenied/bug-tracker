@@ -15,6 +15,7 @@ import com.epam.training.command.ICommand;
 import com.epam.training.exception.LogicException;
 import com.epam.training.logic.FeatureLogic;
 import com.epam.training.logic.IssueLogic;
+import com.epam.training.util.Validator;
 
 /**
  * Class {@code CloseIssueCommand} allows to close the existing Issue with some
@@ -39,7 +40,7 @@ public class CloseIssueCommand implements ICommand {
 
 	@Override
 	public String execute(HttpServletRequest request) {
-		url = resBundle.getString("close_issue");
+		url = BUNDLE.getString("close_issue");
 		String summary = request.getParameter(PARAM_SUMMARY);
 		String issueID = request.getParameter(PARAM_ISSUE_ID);
 
@@ -53,7 +54,7 @@ public class CloseIssueCommand implements ICommand {
 			} catch (LogicException ex) {
 				LOG.error(ex.getMessage());
 				request.setAttribute("exception", ex);
-				url = resBundle.getString("error500");
+				url = BUNDLE.getString(ERROR);
 			}
 		} else {
 			setFieldsToRequest(request);
@@ -65,11 +66,10 @@ public class CloseIssueCommand implements ICommand {
 	/* method updates existing Issue data */
 	private void updateIssue(HttpServletRequest request, Issue issue,
 			String issueID) throws LogicException {
-		boolean errorFree = false;
-		IssueLogic il = new IssueLogic();
-		errorFree = il.updateIssue(issue, Integer.parseInt(issueID));
-
-		if (!errorFree) {
+		if (Validator.validateIssue(issue)) {
+			IssueLogic il = new IssueLogic();
+			il.updateIssue(issue, Integer.parseInt(issueID));
+		} else {
 			setFieldsToRequest(request);
 			request.setAttribute("issueUpdated", false);
 			request.setAttribute("issueUpdateError", true);
@@ -99,7 +99,7 @@ public class CloseIssueCommand implements ICommand {
 		} catch (LogicException ex) {
 			LOG.error(ex.getMessage());
 			request.setAttribute("exception", ex);
-			url = resBundle.getString("error500");
+			url = BUNDLE.getString(ERROR);
 		}
 	}
 

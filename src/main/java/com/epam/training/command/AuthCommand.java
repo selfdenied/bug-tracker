@@ -28,7 +28,7 @@ public class AuthCommand implements ICommand {
 
 	@Override
 	public String execute(HttpServletRequest request) {
-		url = resBundle.getString("welcome");
+		url = BUNDLE.getString("welcome");
 		MemberLogic memberLogic = new MemberLogic();
 		IssueLogic il = new IssueLogic();
 		String login = request.getParameter(PARAM_LOGIN);
@@ -52,7 +52,7 @@ public class AuthCommand implements ICommand {
 		} catch (LogicException ex) {
 			LOG.error(ex.getMessage());
 			request.setAttribute("exception", ex);
-			url = resBundle.getString("error500");
+			url = BUNDLE.getString(ERROR);
 		}
 		return url;
 	}
@@ -62,9 +62,9 @@ public class AuthCommand implements ICommand {
 		String url;
 
 		if (isAdmin) {
-			url = resBundle.getString("admin");
+			url = BUNDLE.getString("admin");
 		} else {
-			url = resBundle.getString("user");
+			url = BUNDLE.getString("user");
 		}
 		return url;
 	}

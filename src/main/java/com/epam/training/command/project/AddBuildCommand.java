@@ -12,6 +12,7 @@ import com.epam.training.command.ICommand;
 import com.epam.training.command.feature.AddFeatureCommand;
 import com.epam.training.exception.LogicException;
 import com.epam.training.logic.ProjectLogic;
+import com.epam.training.util.Validator;
 
 /**
  * Class {@code AddBuildCommand} allows to add new Builds of the given Project
@@ -29,7 +30,7 @@ public class AddBuildCommand implements ICommand {
 
 	@Override
 	public String execute(HttpServletRequest request) {
-		url = resBundle.getString("add_build");
+		url = BUNDLE.getString("add_build");
 		String buildName = request.getParameter(PARAM_BUILD_NAME);
 		String projectID = request.getParameter(PARAM_PROJECT_ID);
 
@@ -53,17 +54,17 @@ public class AddBuildCommand implements ICommand {
 
 	/* method adds new Build to the database */
 	private void addNewBuild(HttpServletRequest request, Build build) {
-		boolean errorFree = false;
 		ProjectLogic pl = new ProjectLogic();
 
-		try {
-			errorFree = pl.addNewBuild(build);
-		} catch (LogicException ex) {
-			LOG.error(ex.getMessage());
-			request.setAttribute("exception", ex);
-			url = resBundle.getString("error500");
-		}
-		if (!errorFree) {
+		if (Validator.validateBuild(build)) {
+			try {
+				pl.addNewBuild(build);
+			} catch (LogicException ex) {
+				LOG.error(ex.getMessage());
+				request.setAttribute("exception", ex);
+				url = BUNDLE.getString(ERROR);
+			}
+		} else {
 			String projectID = request.getParameter(PARAM_PROJECT_ID);
 			request.setAttribute("projectID", projectID);
 			request.setAttribute("newBuildAdded", false);
@@ -88,7 +89,7 @@ public class AddBuildCommand implements ICommand {
 		} catch (LogicException ex) {
 			LOG.error(ex.getMessage());
 			request.setAttribute("exception", ex);
-			url = resBundle.getString("error500");
+			url = BUNDLE.getString(ERROR);
 		}
 		return nameFree;
 	}

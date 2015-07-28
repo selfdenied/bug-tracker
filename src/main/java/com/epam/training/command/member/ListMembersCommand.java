@@ -26,7 +26,7 @@ public class ListMembersCommand implements ICommand {
 
 	@Override
 	public String execute(HttpServletRequest request) {
-		url = resBundle.getString("list_members");
+		url = BUNDLE.getString("list_members");
 		MemberLogic ml = new MemberLogic();
 		List<Member> listOfMembers = new ArrayList<>();
 
@@ -35,7 +35,7 @@ public class ListMembersCommand implements ICommand {
 		} catch (LogicException ex) {
 			LOG.error(ex.getMessage());
 			request.setAttribute("exception", ex);
-			url = resBundle.getString("error500");
+			url = BUNDLE.getString(ERROR);
 		}
 		request.setAttribute("listOfMembers", listOfMembers);
 		return url;

@@ -9,6 +9,7 @@ import com.epam.training.bean.Member;
 import com.epam.training.command.ICommand;
 import com.epam.training.exception.LogicException;
 import com.epam.training.logic.MemberLogic;
+import com.epam.training.util.Validator;
 
 /**
  * Class {@code UpdatePassCommand} updates the password of a Member.
@@ -26,7 +27,7 @@ public class UpdatePassCommand implements ICommand {
 
 	@Override
 	public String execute(HttpServletRequest request) {
-		url = resBundle.getString("update_pass");
+		url = BUNDLE.getString("update_pass");
 		String password = request.getParameter(PARAM_PASS);
 		String passwordConfirm = request.getParameter(PARAM_PASS_CONFIRM);
 		
@@ -49,17 +50,17 @@ public class UpdatePassCommand implements ICommand {
 	
 	/* supplementary method that updates Member's password */
 	private void updatePass(HttpServletRequest request, String password, int memberID) {
-		boolean errorFree = false;
 		MemberLogic ml = new MemberLogic();
 		
-		try {
-			errorFree = ml.updateMemberPass(password, memberID);
-		} catch (LogicException ex) {
-			LOG.error(ex.getMessage());
-			request.setAttribute("exception", ex);
-			url = resBundle.getString("error500");
-		}
-		if (!errorFree) {
+		if (Validator.validatePassword(password)) {
+			try {
+				ml.updateMemberPass(password, memberID);
+			} catch (LogicException ex) {
+				LOG.error(ex.getMessage());
+				request.setAttribute("exception", ex);
+				url = BUNDLE.getString(ERROR);
+			}
+		} else {
 			request.setAttribute("passChanged", false);
 			request.setAttribute("passChangeError", true);
 			request.setAttribute("formNotFilled", true);

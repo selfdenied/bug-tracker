@@ -14,6 +14,7 @@ import com.epam.training.command.ICommand;
 import com.epam.training.exception.LogicException;
 import com.epam.training.logic.MemberLogic;
 import com.epam.training.logic.ProjectLogic;
+import com.epam.training.util.Validator;
 
 /**
  * Class {@code EditProjectCommand} allows to edit the data of existing
@@ -33,7 +34,7 @@ public class EditProjectCommand implements ICommand {
 
 	@Override
 	public String execute(HttpServletRequest request) {
-		url = resBundle.getString("edit_project");
+		url = BUNDLE.getString("edit_project");
 		String projectID = request.getParameter(PARAM_PROJECT_ID);
 		String projectName = request.getParameter(PARAM_PROJECT_NAME);
 		String projectDesc = request.getParameter(PARAM_PROJECT_DESC);
@@ -58,17 +59,17 @@ public class EditProjectCommand implements ICommand {
 	/* method updates existing Project's data */
 	private void updateProject(HttpServletRequest request, Project project,
 			String projectID) {
-		boolean errorFree = false;
 		ProjectLogic pl = new ProjectLogic();
 
-		try {
-			errorFree = pl.updateProject(project, Integer.parseInt(projectID));
-		} catch (LogicException ex) {
-			LOG.error(ex.getMessage());
-			request.setAttribute("exception", ex);
-			url = resBundle.getString("error500");
-		}
-		if (!errorFree) {
+		if (Validator.validateProject(project)) {
+			try {
+				pl.updateProject(project, Integer.parseInt(projectID));
+			} catch (LogicException ex) {
+				LOG.error(ex.getMessage());
+				request.setAttribute("exception", ex);
+				url = BUNDLE.getString(ERROR);
+			}
+		} else {
 			setAttrsToRequest(request, projectID);
 			request.setAttribute("projectDataUpdated", false);
 			request.setAttribute("projectUpdateError", true);
@@ -85,7 +86,7 @@ public class EditProjectCommand implements ICommand {
 		} catch (LogicException ex) {
 			LOG.error(ex.getMessage());
 			request.setAttribute("exception", ex);
-			url = resBundle.getString("error500");
+			url = BUNDLE.getString(ERROR);
 		}
 		return listOfMembers;
 	}
@@ -101,7 +102,7 @@ public class EditProjectCommand implements ICommand {
 		} catch (LogicException ex) {
 			LOG.error(ex.getMessage());
 			request.setAttribute("exception", ex);
-			url = resBundle.getString("error500");
+			url = BUNDLE.getString(ERROR);
 		}
 		return listOfBuilds;
 	}
@@ -115,7 +116,7 @@ public class EditProjectCommand implements ICommand {
 		} catch (LogicException ex) {
 			LOG.error(ex.getMessage());
 			request.setAttribute("exception", ex);
-			url = resBundle.getString("error500");
+			url = BUNDLE.getString(ERROR);
 		}
 		request.setAttribute("projectID", projectID);
 		request.setAttribute("name", project.getProjectName());

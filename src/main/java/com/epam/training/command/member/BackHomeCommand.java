@@ -40,7 +40,7 @@ public class BackHomeCommand implements ICommand {
 		} catch (LogicException ex) {
 			LOG.error(ex.getMessage());
 			request.setAttribute("exception", ex);
-			url = resBundle.getString("error500");
+			url = BUNDLE.getString(ERROR);
 		}
 		request.setAttribute("assignedIssuesList", issuesList);
 		return url;
@@ -51,9 +51,9 @@ public class BackHomeCommand implements ICommand {
 		String url;
 
 		if (isAdmin) {
-			url = resBundle.getString("admin");
+			url = BUNDLE.getString("admin");
 		} else {
-			url = resBundle.getString("user");
+			url = BUNDLE.getString("user");
 		}
 		return url;
 	}

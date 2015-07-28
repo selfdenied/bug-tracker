@@ -13,6 +13,7 @@ import com.epam.training.command.ICommand;
 import com.epam.training.exception.LogicException;
 import com.epam.training.logic.FeatureLogic;
 import com.epam.training.logic.IssueLogic;
+import com.epam.training.util.Validator;
 
 import static com.epam.training.logic.featuretype.FeatureType.*;
 
@@ -37,7 +38,7 @@ public class SubmitIssueCommand implements ICommand {
 
 	@Override
 	public String execute(HttpServletRequest request) {
-		url = resBundle.getString("add_issue");
+		url = BUNDLE.getString("add_issue");
 		String summary = request.getParameter(PARAM_SUMMARY);
 
 		if (summary != null) {
@@ -50,7 +51,7 @@ public class SubmitIssueCommand implements ICommand {
 			} catch (LogicException ex) {
 				LOG.error(ex.getMessage());
 				request.setAttribute("exception", ex);
-				url = resBundle.getString("error500");
+				url = BUNDLE.getString(ERROR);
 			}
 		} else {
 			setFieldsToRequest(request);
@@ -62,11 +63,10 @@ public class SubmitIssueCommand implements ICommand {
 	/* method adds new Issue to the database */
 	private void addIssue(HttpServletRequest request, Issue issue)
 			throws LogicException {
-		boolean errorFree = false;
-		IssueLogic il = new IssueLogic();
-		errorFree = il.addNewIssue(issue);
-
-		if (!errorFree) {
+		if (Validator.validateIssue(issue)) {
+			IssueLogic il = new IssueLogic();
+			il.addNewIssue(issue);
+		} else {
 			setFieldsToRequest(request);
 			request.setAttribute("newIssueAdded", false);
 			request.setAttribute("issueAddError", true);
@@ -91,7 +91,7 @@ public class SubmitIssueCommand implements ICommand {
 		} catch (LogicException ex) {
 			LOG.error(ex.getMessage());
 			request.setAttribute("exception", ex);
-			url = resBundle.getString("error500");
+			url = BUNDLE.getString(ERROR);
 		}
 	}
 

@@ -88,7 +88,7 @@ table, th, td {
 			<rb:text message="summary_2" locale="${locale}" />
 			<br>  
 			<input type="text" name="summary" size="50" maxlength="100" value="${summary}"
-			pattern="[A-Za-zА-Яа-яЁё0-9| .,!?]{1,100}" required="required" 
+			pattern="[A-Za-zА-Яа-яЁё0-9 \\.,!?:;\\-]{1,100}" required="required" 
 			disabled="disabled" id="summary">
 			<br>
 			<br>

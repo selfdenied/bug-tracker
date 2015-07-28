@@ -36,12 +36,12 @@
 			<rb:text message="new_password" locale="${locale}" /> 
 			<br>
 			<input type="password" name="newPassword" maxlength="20" 
-			pattern="[A-Za-z0-9|@._-]{5,20}" required ="required">
+			pattern="[A-Za-z0-9@\\._\\-]{5,20}" required ="required">
 			<br>
 			<rb:text message="confirm_password" locale="${locale}" />
 			<br>
 			<input type="password" name="newPasswordConfirm" maxlength="20" 
-			pattern="[A-Za-z0-9|@._-]{5,20}" required ="required">
+			pattern="[A-Za-z0-9@\\._\\-]{5,20}" required ="required">
 			<br>
 			<br>
 			<input type="submit" value="<rb:text message='update_button' locale='${locale}' />">		

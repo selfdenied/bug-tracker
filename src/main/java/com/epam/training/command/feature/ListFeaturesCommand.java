@@ -28,7 +28,7 @@ public class ListFeaturesCommand implements ICommand {
 
 	@Override
 	public String execute(HttpServletRequest request) {
-		url = resBundle.getString("list_features");
+		url = BUNDLE.getString("list_features");
 		FeatureLogic fl = new FeatureLogic();
 		List<Feature> listOfFeatures = new ArrayList<>();
 		String feature = request.getParameter(PARAM_FEATURE);
@@ -39,7 +39,7 @@ public class ListFeaturesCommand implements ICommand {
 		} catch (LogicException ex) {
 			LOG.error(ex.getMessage());
 			request.setAttribute("exception", ex);
-			url = resBundle.getString("error500");
+			url = BUNDLE.getString(ERROR);
 		}
 		request.setAttribute("feature", feature);
 		request.setAttribute("listOfFeatures", listOfFeatures);

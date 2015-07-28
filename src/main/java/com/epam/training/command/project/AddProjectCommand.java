@@ -14,6 +14,7 @@ import com.epam.training.command.ICommand;
 import com.epam.training.exception.LogicException;
 import com.epam.training.logic.MemberLogic;
 import com.epam.training.logic.ProjectLogic;
+import com.epam.training.util.Validator;
 
 /**
  * Class {@code AddProjectCommand} allows to add new Projects to the database.
@@ -31,7 +32,7 @@ public class AddProjectCommand implements ICommand {
 
 	@Override
 	public String execute(HttpServletRequest request) {
-		url = resBundle.getString("add_project");
+		url = BUNDLE.getString("add_project");
 		String projectName = request.getParameter(PARAM_PROJECT_NAME);
 		String projectDesc = request.getParameter(PARAM_PROJECT_DESC);
 		String projectManager = request.getParameter(PARAM_PROJECT_MANAGER);
@@ -62,17 +63,17 @@ public class AddProjectCommand implements ICommand {
 
 	/* method adds new Project to the database */
 	private void addNewProject(HttpServletRequest request, Project project) {
-		boolean errorFree = false;
 		ProjectLogic pl = new ProjectLogic();
 
-		try {
-			errorFree = pl.addNewProject(project);
-		} catch (LogicException ex) {
-			LOG.error(ex.getMessage());
-			request.setAttribute("exception", ex);
-			url = resBundle.getString("error500");
-		}
-		if (!errorFree) {
+		if (Validator.validateProject(project)) {
+			try {
+				pl.addNewProject(project);
+			} catch (LogicException ex) {
+				LOG.error(ex.getMessage());
+				request.setAttribute("exception", ex);
+				url = BUNDLE.getString(ERROR);
+			}
+		} else {
 			request.setAttribute("managersList", membersList(request));
 			request.setAttribute("newProjectAdded", false);
 			request.setAttribute("projectAddError", true);
@@ -82,17 +83,17 @@ public class AddProjectCommand implements ICommand {
 
 	/* method adds new Build to the database */
 	private void addNewBuild(HttpServletRequest request, String projectName) {
-		boolean errorFree = false;
 		ProjectLogic pl = new ProjectLogic();
 
-		try {
-			errorFree = pl.addNewBuild(initBuild(pl, projectName));
-		} catch (LogicException ex) {
-			LOG.error(ex.getMessage());
-			request.setAttribute("exception", ex);
-			url = resBundle.getString("error500");
-		}
-		if (!errorFree) {
+		if (Validator.validateBuild(initBuild(request, pl, projectName))) {
+			try {
+				pl.addNewBuild(initBuild(request, pl, projectName));
+			} catch (LogicException ex) {
+				LOG.error(ex.getMessage());
+				request.setAttribute("exception", ex);
+				url = BUNDLE.getString(ERROR);
+			}
+		} else {
 			request.setAttribute("managersList", membersList(request));
 			request.setAttribute("newProjectAdded", false);
 			request.setAttribute("projectAddError", true);
@@ -116,7 +117,7 @@ public class AddProjectCommand implements ICommand {
 		} catch (LogicException ex) {
 			LOG.error(ex.getMessage());
 			request.setAttribute("exception", ex);
-			url = resBundle.getString("error500");
+			url = BUNDLE.getString(ERROR);
 		}
 		return nameFree;
 	}
@@ -131,18 +132,24 @@ public class AddProjectCommand implements ICommand {
 		} catch (LogicException ex) {
 			LOG.error(ex.getMessage());
 			request.setAttribute("exception", ex);
-			url = resBundle.getString("error500");
+			url = BUNDLE.getString(ERROR);
 		}
 		return listOfMembers;
 	}
 
 	/* method initializes defaultBuild */
-	private Build initBuild(ProjectLogic pl, String projectName)
-			throws LogicException {
+	private Build initBuild(HttpServletRequest request,	
+			ProjectLogic pl, String projectName) {
 		Build build = new Build();
 		Project project = new Project();
 		build.setBuildName("вер.0.0.1-SNAPSHOT");
-		project.setId(pl.findProjectID(projectName));
+		try {
+			project.setId(pl.findProjectID(projectName));
+		} catch (LogicException ex) {
+			LOG.error(ex.getMessage());
+			request.setAttribute("exception", ex);
+			url = BUNDLE.getString(ERROR);
+		}
 		build.setProject(project);
 		return build;
 	}

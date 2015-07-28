@@ -26,7 +26,7 @@ public class ListIssuesCommand implements ICommand {
 
 	@Override
 	public String execute(HttpServletRequest request) {
-		url = resBundle.getString("list_issues");
+		url = BUNDLE.getString("list_issues");
 		IssueLogic il = new IssueLogic();
 		List<Issue> listOfIssues = new ArrayList<>();
 
@@ -35,7 +35,7 @@ public class ListIssuesCommand implements ICommand {
 		} catch (LogicException ex) {
 			LOG.error(ex.getMessage());
 			request.setAttribute("exception", ex);
-			url = resBundle.getString("error500");
+			url = BUNDLE.getString(ERROR);
 		}
 		request.setAttribute("listOfIssues", listOfIssues);
 		return url;

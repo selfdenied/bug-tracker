@@ -18,7 +18,7 @@
 			<rb:text message="password" locale="${locale}" /> 
 			<br>
 			<input type="password" name="password" maxlength="20" size="30" 
-			pattern="[A-Za-z0-9|@._-]{5,20}" required="required">
+			pattern="[A-Za-z0-9@\\._\\-]{5,20}" required="required">
 			<br> <br>
 			<input type="submit" value = "<rb:text message='enter' locale='${locale}' />">		
 		</form>

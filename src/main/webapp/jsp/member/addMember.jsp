@@ -44,13 +44,13 @@
 			<rb:text message="name" locale="${locale}" />
 			<br>  
 			<input type="text" name="firstName" maxlength="50" 
-			pattern="[A-Za-zА-Яа-яЁё| -]{1,50}" required="required">
+			pattern="[A-Za-zА-Яа-яЁё '\\-]{1,50}" required="required">
 			<br>
 			<br>
 			<rb:text message="last_name" locale="${locale}" />
 			<br> 
 			<input type="text" name="lastName" maxlength="50" 
-			pattern="[A-Za-zА-Яа-яЁё| -]{1,50}" required="required">
+			pattern="[A-Za-zА-Яа-яЁё '\\-]{1,50}" required="required">
 			<br>
 			<br>
 			<rb:text message="e-mail" locale="${locale}" /> 
@@ -70,13 +70,13 @@
 			<rb:text message="password" locale="${locale}" />
 			<br>
 			<input type="password" name="pass" maxlength="20" 
-			pattern="[A-Za-z0-9|@._-]{5,20}" required="required">
+			pattern="[A-Za-z0-9@\\._\\-]{5,20}" required="required">
 			<br>
 			<br>
 			<rb:text message="confirm_password" locale="${locale}" />
 			<br>
 			<input type="password" name="passConf" maxlength="20" 
-			pattern="[A-Za-z0-9|@._-]{5,20}" required="required">
+			pattern="[A-Za-z0-9@\\._\\-]{5,20}" required="required">
 			<br>
 			<br>
 			<input type="submit" value="<rb:text message='add_button' locale='${locale}' />">		
