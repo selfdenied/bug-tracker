@@ -1,6 +1,6 @@
 package com.epam.training.command.issue;
 
-import static com.epam.training.logic.featuretype.FeatureType.*;
+import static com.epam.training.logic.FeatureType.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,9 +12,9 @@ import org.apache.log4j.Logger;
 
 import com.epam.training.bean.*;
 import com.epam.training.command.ICommand;
-import com.epam.training.exception.LogicException;
 import com.epam.training.logic.FeatureLogic;
 import com.epam.training.logic.IssueLogic;
+import com.epam.training.logic.LogicException;
 import com.epam.training.util.Validator;
 
 /**
@@ -34,29 +34,28 @@ public class ReopenIssueCommand implements ICommand {
 	private static final String PARAM_PRIORITY = "priority";
 	private static final String PARAM_PROJECT = "project";
 	private static final String PARAM_BUILD = "build";
-	private String url;
 
 	@Override
 	public String execute(HttpServletRequest request) {
-		url = BUNDLE.getString("reopen_issue");
+		String url = BUNDLE.getString("reopen_issue");
 		String summary = request.getParameter(PARAM_SUMMARY);
 		String issueID = request.getParameter(PARAM_ISSUE_ID);
 
-		if (summary != null) {
-			Issue issue = new Issue();
-			request.setAttribute("issueUpdated", true);
-			request.setAttribute("formNotFilled", false);
-			try {
+		try {
+			if (summary != null) {
+				Issue issue = new Issue();
+				request.setAttribute("issueUpdated", true);
+				request.setAttribute("formNotFilled", false);
 				issue = initIssue(request, issueID);
 				updateIssue(request, issue, issueID);
-			} catch (LogicException ex) {
-				LOG.error(ex.getMessage());
-				request.setAttribute("exception", ex);
-				url = BUNDLE.getString(ERROR);
+			} else {
+				setFieldsToRequest(request);
+				request.setAttribute("formNotFilled", true);
 			}
-		} else {
-			setFieldsToRequest(request);
-			request.setAttribute("formNotFilled", true);
+		} catch (LogicException ex) {
+			LOG.error(ex.getMessage());
+			request.setAttribute("exception", ex);
+			url = BUNDLE.getString(ERROR);
 		}
 		return url;
 	}
@@ -79,25 +78,20 @@ public class ReopenIssueCommand implements ICommand {
 	 * method sets the lists of Types, Statuses, Builds, etc. as the
 	 * corresponding attributes to request
 	 */
-	private void setFieldsToRequest(HttpServletRequest request) {
+	private void setFieldsToRequest(HttpServletRequest request) 
+			throws LogicException {
 		IssueLogic il = new IssueLogic();
 		FeatureLogic fl = new FeatureLogic();
 		List<Feature> statuses = new ArrayList<>();
 		String issueID = request.getParameter(PARAM_ISSUE_ID);
 
-		try {
-			il.setFieldsToRequest(request);
-			Issue issue = il.issueToView(Integer.parseInt(issueID));
-			statuses.add(fl.findFeature(STATUS, 5));
-			statuses.add(fl.findFeature(STATUS, 6));
-			request.setAttribute("issueID", issueID);
-			request.setAttribute("statuses", statuses);
-			setOtherIssueFields(request, issue);
-		} catch (LogicException ex) {
-			LOG.error(ex.getMessage());
-			request.setAttribute("exception", ex);
-			url = BUNDLE.getString(ERROR);
-		}
+		il.setFieldsToRequest(request);
+		Issue issue = il.issueToView(Integer.parseInt(issueID));
+		statuses.add(fl.findFeature(STATUS, 5));
+		statuses.add(fl.findFeature(STATUS, 6));
+		request.setAttribute("issueID", issueID);
+		request.setAttribute("statuses", statuses);
+		setOtherIssueFields(request, issue);
 	}
 
 	/* method initializes Issue fields */

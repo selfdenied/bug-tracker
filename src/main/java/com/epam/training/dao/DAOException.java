@@ -1,4 +1,4 @@
-package com.epam.training.exception;
+package com.epam.training.dao;
 
 /**
  * Class {@code DAOException} represents a general DAO exception. It should wrap

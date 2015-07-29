@@ -8,8 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.log4j.Logger;
 
 import com.epam.training.bean.Issue;
-import com.epam.training.exception.LogicException;
 import com.epam.training.logic.IssueLogic;
+import com.epam.training.logic.LogicException;
 
 /**
  * Class {@code ChangeLanguageCommand} allows to switch between Russian and
@@ -23,11 +23,10 @@ import com.epam.training.logic.IssueLogic;
 public class ChangeLanguageCommand implements ICommand {
 	private static final Logger LOG = Logger.getLogger(ChangeLanguageCommand.class);
 	private static final String PARAM_LANGUAGE = "lang";
-	private String url;
 	
 	@Override
 	public String execute(HttpServletRequest request) {
-		url = BUNDLE.getString("welcome");
+		String url = BUNDLE.getString("welcome");
 		IssueLogic il = new IssueLogic();
 		List<Issue> recentIssuesList = new ArrayList<>();
 		String language = request.getParameter(PARAM_LANGUAGE);
@@ -35,7 +34,7 @@ public class ChangeLanguageCommand implements ICommand {
 		try {
 			recentIssuesList = il.recentIssuesList();
 		} catch (LogicException ex) {
-			LOG.error(ex.getMessage());
+			LOG.error(ex);
 			request.setAttribute("exception", ex);
 			url = BUNDLE.getString(ERROR);
 		}

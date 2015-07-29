@@ -14,10 +14,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.epam.training.bean.Member;
 
-import static com.epam.training.filter.type.ClientCommandType.*;
-
-import com.epam.training.filter.type.ClientType;
-
 /**
  * Class {@code ServletSecurityFilter} is a Filter that prohibits access to some
  * of the commands via controller servlet (with parameters inserted into GET
@@ -78,6 +74,7 @@ public class ServletSecurityFilter implements Filter {
 		String action = request.getParameter("action");
 
 		if (badClientRequest(httpRequest, clientType, action)) {
+			httpRequest.getSession().invalidate();
 			httpResponse.sendRedirect(httpRequest.getContextPath() + indexPath);
 			return;
 		}
@@ -113,8 +110,8 @@ public class ServletSecurityFilter implements Filter {
 	private boolean badClientRequest(HttpServletRequest req, ClientType type,
 			String action) throws ServletException, IOException {
 		boolean badRequest = false;
-		Set<String> userCommands = getUserCommands();
-		Set<String> guestCommands = getGuestCommands();
+		Set<String> userCommands = ClientCommandType.getUserCommands();
+		Set<String> guestCommands = ClientCommandType.getGuestCommands();
 
 		switch (type) {
 		case GUEST:

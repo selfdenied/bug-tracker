@@ -47,6 +47,8 @@
 	</div>	
 	</c:if>
 	
+	<br>
+	
 	<c:if test="${newBuildAdded}">
 		<div class="form4">
 			<rb:text message="data_added" locale="${locale}" />

@@ -9,8 +9,8 @@ import org.apache.log4j.Logger;
 
 import com.epam.training.bean.Issue;
 import com.epam.training.command.ICommand;
-import com.epam.training.exception.LogicException;
 import com.epam.training.logic.IssueLogic;
+import com.epam.training.logic.LogicException;
 
 /**
  * Class {@code ListIssuesCommand} allows to view the list of Issues available
@@ -22,18 +22,17 @@ import com.epam.training.logic.IssueLogic;
  */
 public class ListIssuesCommand implements ICommand {
 	private static final Logger LOG = Logger.getLogger(ListIssuesCommand.class);
-	private String url;
 
 	@Override
 	public String execute(HttpServletRequest request) {
-		url = BUNDLE.getString("list_issues");
+		String url = BUNDLE.getString("list_issues");
 		IssueLogic il = new IssueLogic();
 		List<Issue> listOfIssues = new ArrayList<>();
 
 		try {
 			listOfIssues = il.allIssueList();
 		} catch (LogicException ex) {
-			LOG.error(ex.getMessage());
+			LOG.error(ex);
 			request.setAttribute("exception", ex);
 			url = BUNDLE.getString(ERROR);
 		}

@@ -68,6 +68,12 @@
 			<rb:text message="data_updated" locale="${locale}" />
 		</div>
 	</c:if>
+	
+	<c:if test="${featureNameExists}">
+		<div class="form3">
+			<rb:text message="feature_name_exists" locale="${locale}" />
+		</div>
+	</c:if>
 		
 	<c:if test="${featureNameChangeError}">
 		<div class="form3">

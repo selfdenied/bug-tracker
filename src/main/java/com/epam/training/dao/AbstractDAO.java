@@ -8,7 +8,6 @@ import java.util.List;
 import org.apache.log4j.Logger;
 
 import com.epam.training.bean.Entity;
-import com.epam.training.exception.DAOException;
 
 /**
  * Abstract class {@code AbstractDAO} is a generic class that contains methods

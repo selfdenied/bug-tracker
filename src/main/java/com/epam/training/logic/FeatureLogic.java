@@ -9,10 +9,8 @@ import java.util.List;
 import com.epam.training.bean.Feature;
 import com.epam.training.connection.ConnectionPool;
 import com.epam.training.dao.AbstractDAO;
+import com.epam.training.dao.DAOException;
 import com.epam.training.dao.factory.AbstractDAOFactory;
-import com.epam.training.exception.DAOException;
-import com.epam.training.exception.LogicException;
-import com.epam.training.logic.featuretype.FeatureType;
 
 /**
  * Class {@code FeatureLogic} contains various methods that use DAO layer to

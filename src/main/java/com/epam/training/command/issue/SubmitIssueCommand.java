@@ -10,12 +10,12 @@ import org.apache.log4j.Logger;
 
 import com.epam.training.bean.*;
 import com.epam.training.command.ICommand;
-import com.epam.training.exception.LogicException;
 import com.epam.training.logic.FeatureLogic;
 import com.epam.training.logic.IssueLogic;
+import com.epam.training.logic.LogicException;
 import com.epam.training.util.Validator;
 
-import static com.epam.training.logic.featuretype.FeatureType.*;
+import static com.epam.training.logic.FeatureType.*;
 
 /**
  * Class {@code SubmitIssueCommand} allows to report new Issues.
@@ -34,28 +34,27 @@ public class SubmitIssueCommand implements ICommand {
 	private static final String PARAM_PROJECT = "project";
 	private static final String PARAM_BUILD = "build";
 	private static final String PARAM_ASSIGNEE = "assignee";
-	private String url;
 
 	@Override
 	public String execute(HttpServletRequest request) {
-		url = BUNDLE.getString("add_issue");
+		String url = BUNDLE.getString("add_issue");
 		String summary = request.getParameter(PARAM_SUMMARY);
 
-		if (summary != null) {
-			Issue issue = new Issue();
-			request.setAttribute("newIssueAdded", true);
-			request.setAttribute("formNotFilled", false);
-			try {
+		try {
+			if (summary != null) {
+				Issue issue = new Issue();
+				request.setAttribute("newIssueAdded", true);
+				request.setAttribute("formNotFilled", false);
 				issue = initIssue(request);
 				addIssue(request, issue);
-			} catch (LogicException ex) {
-				LOG.error(ex.getMessage());
-				request.setAttribute("exception", ex);
-				url = BUNDLE.getString(ERROR);
+			} else {
+				setFieldsToRequest(request);
+				request.setAttribute("formNotFilled", true);
 			}
-		} else {
-			setFieldsToRequest(request);
-			request.setAttribute("formNotFilled", true);
+		} catch (LogicException ex) {
+			LOG.error(ex);
+			request.setAttribute("exception", ex);
+			url = BUNDLE.getString(ERROR);
 		}
 		return url;
 	}
@@ -78,21 +77,16 @@ public class SubmitIssueCommand implements ICommand {
 	 * method sets the lists of Types, Statuses, Builds, etc. as the
 	 * corresponding attributes to request
 	 */
-	private void setFieldsToRequest(HttpServletRequest request) {
+	private void setFieldsToRequest(HttpServletRequest request) 
+			throws LogicException {
 		IssueLogic il = new IssueLogic();
 		FeatureLogic fl = new FeatureLogic();
 		List<Feature> statuses = new ArrayList<>();
 
-		try {
-			il.setFieldsToRequest(request);
-			statuses.add(fl.findFeature(STATUS, 1));
-			statuses.add(fl.findFeature(STATUS, 2));
-			request.setAttribute("statuses", statuses);
-		} catch (LogicException ex) {
-			LOG.error(ex.getMessage());
-			request.setAttribute("exception", ex);
-			url = BUNDLE.getString(ERROR);
-		}
+		il.setFieldsToRequest(request);
+		statuses.add(fl.findFeature(STATUS, 1));
+		statuses.add(fl.findFeature(STATUS, 2));
+		request.setAttribute("statuses", statuses);
 	}
 
 	/* method initializes Issue fields */

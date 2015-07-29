@@ -60,21 +60,21 @@
 	<br>
 	
 	<c:if test="${newFeatureAdded}">
-	<div class="form4">
-		<rb:text message="data_added" locale="${locale}" />
-	</div>
+		<div class="form4">
+			<rb:text message="data_added" locale="${locale}" />
+		</div>
 	</c:if>
 		
-	<c:if test="${requestScope.featureNameExists}">
-	<div class="form3">
-		<rb:text message="feature_name_exists" locale="${locale}" />
-	</div>
+	<c:if test="${featureNameExists}">
+		<div class="form3">
+			<rb:text message="feature_name_exists" locale="${locale}" />
+		</div>
 	</c:if>
 		
-	<c:if test="${requestScope.featureAddError}">
-	<div class="form3">
-		<rb:text message="error_message_2" locale="${locale}" />
-	</div>
+	<c:if test="${featureAddError}">
+		<div class="form3">
+			<rb:text message="error_message_2" locale="${locale}" />
+		</div>
 	</c:if>
 	
 	<br>

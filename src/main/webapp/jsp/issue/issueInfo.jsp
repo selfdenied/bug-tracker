@@ -95,6 +95,8 @@
 		<a href="${base}?lang=${locale}"><rb:text message="back_message" locale="${locale}" /></a>
 	</h2>
 	
+	<br>
+	
 	<jsp:include page="/jsp/common/fragment/footer.jsp"></jsp:include>
 	
 </body>

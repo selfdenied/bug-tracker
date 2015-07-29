@@ -74,6 +74,8 @@
 	</div>
 	</c:if>
 	
+	<br>
+	
 	<c:if test="${projectDataUpdated}">
 		<div class="form4">
 			<rb:text message="data_updated" locale="${locale}" />

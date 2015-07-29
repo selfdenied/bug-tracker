@@ -1,4 +1,4 @@
-package com.epam.training.logic.featuretype;
+package com.epam.training.logic;
 
 /**
  * Enum {@code FeatureType} represents a list of Feature types available in the

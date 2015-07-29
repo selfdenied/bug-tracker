@@ -140,6 +140,8 @@ table, th, td {
 	
 	</c:if>
 	
+	<br>
+	
 	<c:if test="${newIssueAdded}">
 		<div class="form4">
 			<rb:text message="data_added" locale="${locale}" />

@@ -11,8 +11,8 @@ import org.apache.log4j.Logger;
 import com.epam.training.bean.Issue;
 import com.epam.training.bean.Member;
 import com.epam.training.command.ICommand;
-import com.epam.training.exception.LogicException;
 import com.epam.training.logic.IssueLogic;
+import com.epam.training.logic.LogicException;
 
 /**
  * Class {@code BackHomeCommand} redirects the request back to the start of the
@@ -25,7 +25,6 @@ import com.epam.training.logic.IssueLogic;
 public class BackHomeCommand implements ICommand {
 	private static final Logger LOG = Logger.getLogger(BackHomeCommand.class);
 	private static final String PARAM_MEMBER = "member";
-	private String url;
 
 	@Override
 	public String execute(HttpServletRequest request) {
@@ -33,12 +32,12 @@ public class BackHomeCommand implements ICommand {
 		List<Issue> issuesList = new ArrayList<>();
 		HttpSession session = request.getSession(false);
 		Member member = (Member) session.getAttribute(PARAM_MEMBER);
-		url = findProperURL(member.isAdmin());
+		String url = findProperURL(member.isAdmin());
 				
 		try {
 			issuesList = il.assignedIssues(member.getId());
 		} catch (LogicException ex) {
-			LOG.error(ex.getMessage());
+			LOG.error(ex);
 			request.setAttribute("exception", ex);
 			url = BUNDLE.getString(ERROR);
 		}

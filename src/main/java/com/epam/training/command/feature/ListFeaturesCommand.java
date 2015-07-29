@@ -9,9 +9,9 @@ import org.apache.log4j.Logger;
 
 import com.epam.training.bean.Feature;
 import com.epam.training.command.ICommand;
-import com.epam.training.exception.LogicException;
 import com.epam.training.logic.FeatureLogic;
-import com.epam.training.logic.featuretype.FeatureType;
+import com.epam.training.logic.FeatureType;
+import com.epam.training.logic.LogicException;
 
 /**
  * Class {@code ListFeaturesCommand} allows to view the list of Features
@@ -24,11 +24,10 @@ import com.epam.training.logic.featuretype.FeatureType;
 public class ListFeaturesCommand implements ICommand {
 	private static final Logger LOG = Logger.getLogger(ListFeaturesCommand.class);
 	private static final String PARAM_FEATURE = "feature";
-	private String url;
 
 	@Override
 	public String execute(HttpServletRequest request) {
-		url = BUNDLE.getString("list_features");
+		String url = BUNDLE.getString("list_features");
 		FeatureLogic fl = new FeatureLogic();
 		List<Feature> listOfFeatures = new ArrayList<>();
 		String feature = request.getParameter(PARAM_FEATURE);
@@ -37,7 +36,7 @@ public class ListFeaturesCommand implements ICommand {
 		try {
 			listOfFeatures = fl.featuresList(featureType);
 		} catch (LogicException ex) {
-			LOG.error(ex.getMessage());
+			LOG.error(ex);
 			request.setAttribute("exception", ex);
 			url = BUNDLE.getString(ERROR);
 		}

@@ -53,30 +53,35 @@ public class HashPassword {
 	/* Returns a salted PBKDF2 hash of the password. */
 	private static String createHash(char[] password)
 			throws NoSuchAlgorithmException, InvalidKeySpecException {
-		// Generate a random salt
+		/* Generate a random salt */
 		SecureRandom random = new SecureRandom();
 		byte[] salt = new byte[SALT_BYTE_SIZE];
 		random.nextBytes(salt);
-
-		// Hash the password
+		/* Hash the password */
 		byte[] hash = pbkdf2(password, salt, PBKDF2_ITERATIONS, HASH_BYTE_SIZE);
-		// format iterations:salt:hash
+		/* format 'iterations:salt:hash' */
 		return PBKDF2_ITERATIONS + ":" + toHex(salt) + ":" + toHex(hash);
 	}
 
 	/* Validates a password using a hash. */
 	private static boolean validatePassword(char[] password, String correctHash)
 			throws NoSuchAlgorithmException, InvalidKeySpecException {
-		// Decode the hash into its parameters
+		/* Decode the hash into its parameters */
 		String[] params = correctHash.split(":");
 		int iterations = Integer.parseInt(params[ITERATION_INDEX]);
 		byte[] salt = fromHex(params[SALT_INDEX]);
 		byte[] hash = fromHex(params[PBKDF2_INDEX]);
-		// Compute the hash of the provided password, using the same salt,
-		// iteration count, and hash length
+
+		/*
+		 * Compute the hash of the provided password, using the same salt,
+		 * iteration count, and hash length
+		 */
 		byte[] testHash = pbkdf2(password, salt, iterations, hash.length);
-		// Compare the hashes in constant time. The password is correct if
-		// both hashes match.
+
+		/*
+		 * Compare the hashes in constant time. The password is correct if both
+		 * hashes match.
+		 */
 		return slowEquals(hash, testHash);
 	}
 
@@ -87,8 +92,10 @@ public class HashPassword {
 	 */
 	private static boolean slowEquals(byte[] a, byte[] b) {
 		int diff = a.length ^ b.length;
-		for (int i = 0; i < a.length && i < b.length; i++)
+
+		for (int i = 0; i < a.length && i < b.length; i++) {
 			diff |= a[i] ^ b[i];
+		}
 		return diff == 0;
 	}
 
@@ -104,8 +111,7 @@ public class HashPassword {
 	private static byte[] fromHex(String hex) {
 		byte[] binary = new byte[hex.length() / 2];
 		for (int i = 0; i < binary.length; i++) {
-			binary[i] = (byte) Integer.parseInt(
-					hex.substring(2 * i, 2 * i + 2), 16);
+			binary[i] = (byte) Integer.parseInt(hex.substring(2 * i, 2 * i + 2), 16);
 		}
 		return binary;
 	}
@@ -115,9 +121,11 @@ public class HashPassword {
 		BigInteger bi = new BigInteger(1, array);
 		String hex = bi.toString(16);
 		int paddingLength = (array.length * 2) - hex.length();
-		if (paddingLength > 0)
+		
+		if (paddingLength > 0) {
 			return String.format("%0" + paddingLength + "d", 0) + hex;
-		else
+		} else {
 			return hex;
+		}
 	}
 }

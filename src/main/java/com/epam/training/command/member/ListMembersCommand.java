@@ -9,7 +9,7 @@ import org.apache.log4j.Logger;
 
 import com.epam.training.bean.Member;
 import com.epam.training.command.ICommand;
-import com.epam.training.exception.LogicException;
+import com.epam.training.logic.LogicException;
 import com.epam.training.logic.MemberLogic;
 
 /**
@@ -22,18 +22,17 @@ import com.epam.training.logic.MemberLogic;
  */
 public class ListMembersCommand implements ICommand {
 	private static final Logger LOG = Logger.getLogger(ListMembersCommand.class);
-	private String url;
 
 	@Override
 	public String execute(HttpServletRequest request) {
-		url = BUNDLE.getString("list_members");
+		String url = BUNDLE.getString("list_members");
 		MemberLogic ml = new MemberLogic();
 		List<Member> listOfMembers = new ArrayList<>();
 
 		try {
 			listOfMembers = ml.membersList();
 		} catch (LogicException ex) {
-			LOG.error(ex.getMessage());
+			LOG.error(ex);
 			request.setAttribute("exception", ex);
 			url = BUNDLE.getString(ERROR);
 		}

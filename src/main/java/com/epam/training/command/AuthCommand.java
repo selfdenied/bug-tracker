@@ -6,8 +6,8 @@ import javax.servlet.http.HttpSession;
 import org.apache.log4j.Logger;
 
 import com.epam.training.bean.Member;
-import com.epam.training.exception.LogicException;
 import com.epam.training.logic.IssueLogic;
+import com.epam.training.logic.LogicException;
 import com.epam.training.logic.MemberLogic;
 
 /**
@@ -24,11 +24,10 @@ public class AuthCommand implements ICommand {
 	private static final String PARAM_LANGUAGE = "lang";
 	private static final String PARAM_LOGIN = "login";
 	private static final String PARAM_PASSWORD = "password";
-	private String url;
 
 	@Override
 	public String execute(HttpServletRequest request) {
-		url = BUNDLE.getString("welcome");
+		String url = BUNDLE.getString("welcome");
 		MemberLogic memberLogic = new MemberLogic();
 		IssueLogic il = new IssueLogic();
 		String login = request.getParameter(PARAM_LOGIN);
@@ -50,7 +49,7 @@ public class AuthCommand implements ICommand {
 				request.setAttribute("issuesList", il.recentIssuesList());
 			}
 		} catch (LogicException ex) {
-			LOG.error(ex.getMessage());
+			LOG.error(ex);
 			request.setAttribute("exception", ex);
 			url = BUNDLE.getString(ERROR);
 		}

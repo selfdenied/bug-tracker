@@ -6,8 +6,9 @@ import org.apache.log4j.Logger;
 
 import com.epam.training.bean.Member;
 import com.epam.training.command.ICommand;
-import com.epam.training.exception.LogicException;
+import com.epam.training.logic.LogicException;
 import com.epam.training.logic.MemberLogic;
+
 import static com.epam.training.util.Validator.validateMember;
 import static com.epam.training.util.Validator.validatePassword;
 
@@ -26,28 +27,33 @@ public class AddMemberCommand implements ICommand {
 	private static final String PARAM_MEMBER_ADMIN = "admin";
 	private static final String PARAM_MEMBER_PASS = "pass";
 	private static final String PARAM_MEMBER_PASS_CONF = "passConf";
-	private String url;
 
 	@Override
 	public String execute(HttpServletRequest request) {
-		url = BUNDLE.getString("add_member");
+		String url = BUNDLE.getString("add_member");
 		String firstName = request.getParameter(PARAM_MEMBER_FNAME);
 
 		if (firstName != null) {
 			String login = request.getParameter(PARAM_MEMBER_LOGIN);
 			String pass = request.getParameter(PARAM_MEMBER_PASS);
 			String passConf = request.getParameter(PARAM_MEMBER_PASS_CONF);
-			if (checkLoginFree(request, login) && pass.equals(passConf)) {
-				String lastName = request.getParameter(PARAM_MEMBER_LNAME);
-				String role = request.getParameter(PARAM_MEMBER_ADMIN);
-				Member member = initMemberData(firstName, lastName, login,
-						pass, Boolean.parseBoolean(role));
-				request.setAttribute("newMemberAdded", true);
-				request.setAttribute("formNotFilled", false);
-				addNewMember(request, member);
-			} else {
-				request.setAttribute("dataError", true);
-				request.setAttribute("formNotFilled", true);
+			try {
+				if (checkLoginFree(request, login) && pass.equals(passConf)) {
+					String lastName = request.getParameter(PARAM_MEMBER_LNAME);
+					String role = request.getParameter(PARAM_MEMBER_ADMIN);
+					Member member = initMemberData(firstName, lastName, login,
+							pass, Boolean.parseBoolean(role));
+					request.setAttribute("newMemberAdded", true);
+					request.setAttribute("formNotFilled", false);
+					addNewMember(request, member);
+				} else {
+					request.setAttribute("dataError", true);
+					request.setAttribute("formNotFilled", true);
+				}
+			} catch (LogicException ex) {
+				LOG.error(ex);
+				request.setAttribute("exception", ex);
+				url = BUNDLE.getString(ERROR);
 			}
 		} else {
 			request.setAttribute("formNotFilled", true);
@@ -56,18 +62,13 @@ public class AddMemberCommand implements ICommand {
 	}
 
 	/* method adds new Member to the database */
-	private void addNewMember(HttpServletRequest request, Member member) {
-		MemberLogic ml = new MemberLogic();
+	private void addNewMember(HttpServletRequest request, Member member) 
+			throws LogicException {
 		String password = member.getPassword();
 
 		if (validateMember(member) && validatePassword(password)) {
-			try {
-				ml.addNewMember(member);
-			} catch (LogicException ex) {
-				LOG.error(ex.getMessage());
-				request.setAttribute("exception", ex);
-				url = BUNDLE.getString(ERROR);
-			}
+			MemberLogic ml = new MemberLogic();
+			ml.addNewMember(member);
 		} else {
 			request.setAttribute("newMemberAdded", false);
 			request.setAttribute("memberAddError", true);
@@ -77,19 +78,10 @@ public class AddMemberCommand implements ICommand {
 
 	/* supplementary method that checks if the entered login is free */
 	private boolean checkLoginFree(HttpServletRequest request, 
-			String login) {
-		boolean loginFree = false;
+			String login) throws LogicException {
 		MemberLogic ml = new MemberLogic();
-
-		try {
-			Member member = ml.findMemberByLogin(login);
-			loginFree = (member == null);
-		} catch (LogicException ex) {
-			LOG.error(ex.getMessage());
-			request.setAttribute("exception", ex);
-			url = BUNDLE.getString(ERROR);
-		}
-		return loginFree;
+		Member member = ml.findMemberByLogin(login);
+		return (member == null);
 	}
 
 	/* method initializes Member's data */

@@ -10,7 +10,7 @@ import com.epam.training.bean.Build;
 import com.epam.training.bean.Project;
 import com.epam.training.command.ICommand;
 import com.epam.training.command.feature.AddFeatureCommand;
-import com.epam.training.exception.LogicException;
+import com.epam.training.logic.LogicException;
 import com.epam.training.logic.ProjectLogic;
 import com.epam.training.util.Validator;
 
@@ -26,24 +26,29 @@ public class AddBuildCommand implements ICommand {
 	private static final Logger LOG = Logger.getLogger(AddFeatureCommand.class);
 	private static final String PARAM_PROJECT_ID = "projectID";
 	private static final String PARAM_BUILD_NAME = "buildName";
-	private String url;
 
 	@Override
 	public String execute(HttpServletRequest request) {
-		url = BUNDLE.getString("add_build");
+		String url = BUNDLE.getString("add_build");
 		String buildName = request.getParameter(PARAM_BUILD_NAME);
 		String projectID = request.getParameter(PARAM_PROJECT_ID);
 
 		if (buildName != null) {
-			if (buildNameFree(request, buildName, Integer.parseInt(projectID))) {
-				Build build = initBuild(buildName, projectID);
-				request.setAttribute("newBuildAdded", true);
-				request.setAttribute("formNotFilled", false);
-				addNewBuild(request, build);
-			} else {
-				request.setAttribute("projectID", projectID);
-				request.setAttribute("buildNameExists", true);
-				request.setAttribute("formNotFilled", true);
+			try {
+				if (buildNameFree(request, buildName, Integer.parseInt(projectID))) {
+					Build build = initBuild(buildName, projectID);
+					request.setAttribute("newBuildAdded", true);
+					request.setAttribute("formNotFilled", false);
+					addNewBuild(request, build);
+				} else {
+					request.setAttribute("projectID", projectID);
+					request.setAttribute("buildNameExists", true);
+					request.setAttribute("formNotFilled", true);
+				}
+			} catch (LogicException ex) {
+				LOG.error(ex);
+				request.setAttribute("exception", ex);
+				url = BUNDLE.getString(ERROR);
 			}
 		} else {
 			request.setAttribute("projectID", projectID);
@@ -53,17 +58,11 @@ public class AddBuildCommand implements ICommand {
 	}
 
 	/* method adds new Build to the database */
-	private void addNewBuild(HttpServletRequest request, Build build) {
-		ProjectLogic pl = new ProjectLogic();
-
+	private void addNewBuild(HttpServletRequest request, Build build) 
+			throws LogicException {
 		if (Validator.validateBuild(build)) {
-			try {
-				pl.addNewBuild(build);
-			} catch (LogicException ex) {
-				LOG.error(ex.getMessage());
-				request.setAttribute("exception", ex);
-				url = BUNDLE.getString(ERROR);
-			}
+			ProjectLogic pl = new ProjectLogic();
+			pl.addNewBuild(build);
 		} else {
 			String projectID = request.getParameter(PARAM_PROJECT_ID);
 			request.setAttribute("projectID", projectID);
@@ -75,21 +74,15 @@ public class AddBuildCommand implements ICommand {
 
 	/* method checks if the Build name exists for the given Project */
 	private boolean buildNameFree(HttpServletRequest request, String buildName, 
-			int projectID) {
+			int projectID) throws LogicException {
 		boolean nameFree = true;
 		ProjectLogic pl = new ProjectLogic();
+		List<Build> buildsList = pl.buildsList(projectID);
 
-		try {
-			List<Build> buildsList = pl.buildsList(projectID);
-			for (Build build : buildsList) {
-				if (build.getBuildName().equals(buildName)) {
-					nameFree = false;
-				}
+		for (Build build : buildsList) {
+			if (build.getBuildName().equals(buildName)) {
+				nameFree = false;
 			}
-		} catch (LogicException ex) {
-			LOG.error(ex.getMessage());
-			request.setAttribute("exception", ex);
-			url = BUNDLE.getString(ERROR);
 		}
 		return nameFree;
 	}

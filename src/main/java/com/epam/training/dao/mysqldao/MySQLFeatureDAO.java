@@ -10,7 +10,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import com.epam.training.bean.Feature;
 import com.epam.training.dao.AbstractDAO;
-import com.epam.training.exception.DAOException;
+import com.epam.training.dao.DAOException;
 
 /**
  * Abstract class {@code MySQLFeatureDAO} contains methods allowing to extract

@@ -10,7 +10,7 @@ import org.apache.log4j.Logger;
 import com.epam.training.bean.Project;
 import com.epam.training.command.ICommand;
 import com.epam.training.command.feature.ListFeaturesCommand;
-import com.epam.training.exception.LogicException;
+import com.epam.training.logic.LogicException;
 import com.epam.training.logic.ProjectLogic;
 
 /**
@@ -23,18 +23,17 @@ import com.epam.training.logic.ProjectLogic;
  */
 public class ListProjectsCommand implements ICommand {
 	private static final Logger LOG = Logger.getLogger(ListFeaturesCommand.class);
-	private String url;
 
 	@Override
 	public String execute(HttpServletRequest request) {
-		url = BUNDLE.getString("list_projects");
+		String url = BUNDLE.getString("list_projects");
 		ProjectLogic pl = new ProjectLogic();
 		List<Project> listOfProjects = new ArrayList<>();
 
 		try {
 			listOfProjects = pl.projectsList();
 		} catch (LogicException ex) {
-			LOG.error(ex.getMessage());
+			LOG.error(ex);
 			request.setAttribute("exception", ex);
 			url = BUNDLE.getString(ERROR);
 		}

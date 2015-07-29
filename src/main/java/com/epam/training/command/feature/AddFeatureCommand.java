@@ -6,9 +6,9 @@ import org.apache.log4j.Logger;
 
 import com.epam.training.bean.Feature;
 import com.epam.training.command.ICommand;
-import com.epam.training.exception.LogicException;
 import com.epam.training.logic.FeatureLogic;
-import com.epam.training.logic.featuretype.FeatureType;
+import com.epam.training.logic.FeatureType;
+import com.epam.training.logic.LogicException;
 import com.epam.training.util.Validator;
 
 /**
@@ -23,26 +23,31 @@ public class AddFeatureCommand implements ICommand {
 	private static final Logger LOG = Logger.getLogger(AddFeatureCommand.class);
 	private static final String PARAM_FEATURE = "feature";
 	private static final String PARAM_FEATURE_NAME = "featureName";
-	private String url;
 
 	@Override
 	public String execute(HttpServletRequest request) {
-		url = BUNDLE.getString("add_feature");
+		String url = BUNDLE.getString("add_feature");
 		String feature = request.getParameter(PARAM_FEATURE);
 		String featureName = request.getParameter(PARAM_FEATURE_NAME);
 		FeatureType type = FeatureType.valueOf(feature.toUpperCase());
 
 		if (featureName != null) {
-			if (checkNameFree(request, featureName, type)) {
-				Feature ft = new Feature();
-				ft.setFeatureName(featureName);
-				request.setAttribute("newFeatureAdded", true);
-				request.setAttribute("formNotFilled", false);
-				addNewFeature(request, ft, type);
-			} else {
-				request.setAttribute("feature", feature);
-				request.setAttribute("featureNameExists", true);
-				request.setAttribute("formNotFilled", true);
+			try {
+				if (checkNameFree(request, featureName, type)) {
+					Feature ft = new Feature();
+					ft.setFeatureName(featureName);
+					request.setAttribute("newFeatureAdded", true);
+					request.setAttribute("formNotFilled", false);
+					addNewFeature(request, ft, type);
+				} else {
+					request.setAttribute("feature", feature);
+					request.setAttribute("featureNameExists", true);
+					request.setAttribute("formNotFilled", true);
+				}
+			} catch (LogicException ex) {
+				LOG.error(ex);
+				request.setAttribute("exception", ex);
+				url = BUNDLE.getString(ERROR);
 			}
 		} else {
 			request.setAttribute("feature", feature);
@@ -53,17 +58,10 @@ public class AddFeatureCommand implements ICommand {
 
 	/* method adds new feature to the database */
 	private void addNewFeature(HttpServletRequest request, Feature ft,
-			FeatureType type) {
-		FeatureLogic fl = new FeatureLogic();
-
+			FeatureType type) throws LogicException {
 		if (Validator.validateFeature(ft)) {
-			try {
-				fl.addNewFeature(ft, type);
-			} catch (LogicException ex) {
-				LOG.error(ex.getMessage());
-				request.setAttribute("exception", ex);
-				url = BUNDLE.getString(ERROR);
-			}
+			FeatureLogic fl = new FeatureLogic();
+			fl.addNewFeature(ft, type);
 		} else {
 			String feature = request.getParameter(PARAM_FEATURE);
 			request.setAttribute("feature", feature);
@@ -74,21 +72,15 @@ public class AddFeatureCommand implements ICommand {
 	}
 
 	/* method checks if such Feature name already exists */
-	private boolean checkNameFree(HttpServletRequest request, 
-			String featureName, FeatureType type) {
+	private boolean checkNameFree(HttpServletRequest request,
+			String featureName, FeatureType type) throws LogicException {
 		boolean nameFree = true;
 		FeatureLogic fl = new FeatureLogic();
 
-		try {
-			for (Feature feature : fl.featuresList(type)) {
-				if (feature.getFeatureName().equals(featureName)) {
-					nameFree = false;
-				}
+		for (Feature feature : fl.featuresList(type)) {
+			if (feature.getFeatureName().equals(featureName)) {
+				nameFree = false;
 			}
-		} catch (LogicException ex) {
-			LOG.error(ex.getMessage());
-			request.setAttribute("exception", ex);
-			url = BUNDLE.getString(ERROR);
 		}
 		return nameFree;
 	}

@@ -1,4 +1,4 @@
-package com.epam.training.filter.type;
+package com.epam.training.filter;
 
 /**
  * Enum {@code ClientType} contains the list of all Client types (roles)

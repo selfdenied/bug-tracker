@@ -10,10 +10,9 @@ import com.epam.training.bean.Build;
 import com.epam.training.bean.Project;
 import com.epam.training.connection.ConnectionPool;
 import com.epam.training.dao.AbstractDAO;
+import com.epam.training.dao.DAOException;
 import com.epam.training.dao.factory.AbstractDAOFactory;
 import com.epam.training.dao.mysqldao.MySQLBuildDAO;
-import com.epam.training.exception.DAOException;
-import com.epam.training.exception.LogicException;
 
 /**
  * Class {@code ProjectLogic} contains various methods that use DAO layer to

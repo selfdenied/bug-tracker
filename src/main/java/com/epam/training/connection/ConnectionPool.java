@@ -147,13 +147,22 @@ public class ConnectionPool {
 		ClassLoader cl = Thread.currentThread().getContextClassLoader();
 		InputStream is = cl.getResourceAsStream(PROP_FILE_NAME + ".properties");
 		
-		if (is != null) {
-			prop.load(is); // loads properties using InputStream
-		} else {
-			LOG.fatal("Error. Unable to find " + PROP_FILE_NAME + " file!");
-			throw new RuntimeException("Missing " + PROP_FILE_NAME + " file");
+		try {
+			if (is != null) {
+				prop.load(is); // loads properties using InputStream
+			} else {
+				LOG.fatal("Error. Unable to find " + PROP_FILE_NAME + " file!");
+				throw new RuntimeException("Missing " + PROP_FILE_NAME + " file");
+			}
+		} finally {
+			try {
+				if (is != null) {
+					is.close(); // closing the InputStream
+				}
+			} catch (IOException ex) {
+				LOG.error("Error. Unable to close input stream!");
+			}
 		}
-		is.close(); // closing the InputStream
 		Class.forName(rb.getString("driver"));
 		/* gets connection using the url and properties loaded from file */
 		connection = DriverManager.getConnection(rb.getString("url"), prop);

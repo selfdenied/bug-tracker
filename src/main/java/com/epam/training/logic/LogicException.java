@@ -1,4 +1,4 @@
-package com.epam.training.exception;
+package com.epam.training.logic;
 
 /**
  * Class {@code LogicException} represents a general Logic exception.

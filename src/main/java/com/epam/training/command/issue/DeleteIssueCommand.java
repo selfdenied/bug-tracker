@@ -9,8 +9,8 @@ import org.apache.log4j.Logger;
 
 import com.epam.training.bean.Issue;
 import com.epam.training.command.ICommand;
-import com.epam.training.exception.LogicException;
 import com.epam.training.logic.IssueLogic;
+import com.epam.training.logic.LogicException;
 
 /**
  * Class {@code DeleteIssueCommand} allows to delete Issues submitted to the
@@ -23,49 +23,42 @@ import com.epam.training.logic.IssueLogic;
 public class DeleteIssueCommand implements ICommand {
 	private static final Logger LOG = Logger.getLogger(DeleteIssueCommand.class);
 	private static final String PARAM_ISSUE_ID = "issueID";
-	private String url;
 
 	@Override
 	public String execute(HttpServletRequest request) {
-		url = BUNDLE.getString("delete_issue");
+		String url = BUNDLE.getString("delete_issue");
 		String issueID = request.getParameter(PARAM_ISSUE_ID);
 		
-		if (issueID != null) {
-			request.setAttribute("issueDeleted", true);
-			request.setAttribute("formNotFilled", false);
-			deleteIssue(request, issueID);
-		} else {
-			request.setAttribute("listOfIssues", listOfIssues(request));
-			request.setAttribute("formNotFilled", true);
+		try {
+			if (issueID != null) {
+				request.setAttribute("issueDeleted", true);
+				request.setAttribute("formNotFilled", false);
+				deleteIssue(request, issueID);
+			} else {
+				request.setAttribute("listOfIssues", listOfIssues(request));
+				request.setAttribute("formNotFilled", true);
+			}
+		} catch (LogicException ex) {
+			LOG.error(ex);
+			request.setAttribute("exception", ex);
+			url = BUNDLE.getString(ERROR);
 		}
 		return url;
 	}
 	
 	/* method deletes existing Issue from the database */
-	private void deleteIssue(HttpServletRequest request, String issueID) {
+	private void deleteIssue(HttpServletRequest request, String issueID) 
+			throws LogicException {
 		IssueLogic il = new IssueLogic();
-		
-		try {
-			il.deleteIssue(Integer.parseInt(issueID));
-		} catch (LogicException ex) {
-			LOG.error(ex.getMessage());
-			request.setAttribute("exception", ex);
-			url = BUNDLE.getString(ERROR);
-		}
+		il.deleteIssue(Integer.parseInt(issueID));
 	}
 	
 	/* method returns the list of Issues submitted to the app */
-	private List<Issue> listOfIssues(HttpServletRequest request) {
+	private List<Issue> listOfIssues(HttpServletRequest request) 
+			throws LogicException {
 		IssueLogic il = new IssueLogic();
 		List<Issue> listOfIssues = new ArrayList<>();
-		
-		try {
-			listOfIssues = il.allIssueList();
-		} catch (LogicException ex) {
-			LOG.error(ex.getMessage());
-			request.setAttribute("exception", ex);
-			url = BUNDLE.getString(ERROR);
-		}
+		listOfIssues = il.allIssueList();
 		return listOfIssues;
 	}
 }

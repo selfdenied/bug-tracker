@@ -166,6 +166,8 @@ table, th, td {
 	
 	</c:if>
 	
+	<br>
+	
 	<c:if test="${issueUpdated}">
 		<div class="form4">
 			<rb:text message="data_updated" locale="${locale}" />

@@ -1,4 +1,4 @@
-package com.epam.training.filter.type;
+package com.epam.training.filter;
 
 import java.util.Collections;
 import java.util.HashSet;

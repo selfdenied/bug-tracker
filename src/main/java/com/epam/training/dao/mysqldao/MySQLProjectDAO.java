@@ -10,7 +10,7 @@ import java.util.List;
 import com.epam.training.bean.Member;
 import com.epam.training.bean.Project;
 import com.epam.training.dao.AbstractDAO;
-import com.epam.training.exception.DAOException;
+import com.epam.training.dao.DAOException;
 
 /**
  * Class {@code MySQLProjectDAO} contains methods allowing to extract

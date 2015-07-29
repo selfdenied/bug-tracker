@@ -5,7 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.log4j.Logger;
 
 import com.epam.training.command.ICommand;
-import com.epam.training.exception.LogicException;
+import com.epam.training.logic.LogicException;
 import com.epam.training.logic.MemberLogic;
 import com.epam.training.util.Validator;
 
@@ -22,11 +22,10 @@ public class EditUserPassCommand implements ICommand {
 	private static final String PARAM_USER_ID = "userID";
 	private static final String PARAM_PASS = "newPassword";
 	private static final String PARAM_PASS_CONFIRM = "newPasswordConfirm";
-	private String url;
 
 	@Override
 	public String execute(HttpServletRequest request) {
-		url = BUNDLE.getString("change_user_pass");
+		String url = BUNDLE.getString("change_user_pass");
 		String userID = request.getParameter(PARAM_USER_ID);
 		String password = request.getParameter(PARAM_PASS);
 		String passwordConfirm = request.getParameter(PARAM_PASS_CONFIRM);
@@ -35,7 +34,13 @@ public class EditUserPassCommand implements ICommand {
 			if (password.equals(passwordConfirm)) {
 				request.setAttribute("passChanged", true);
 				request.setAttribute("formNotFilled", false);
-				updatePass(request, password, Integer.parseInt(userID));
+				try {
+					updatePass(request, password, Integer.parseInt(userID));
+				} catch (LogicException ex) {
+					LOG.error(ex);
+					request.setAttribute("exception", ex);
+					url = BUNDLE.getString(ERROR);
+				}
 			} else {
 				request.setAttribute("userID", userID);
 				request.setAttribute("passNotEqual", true);
@@ -50,17 +55,10 @@ public class EditUserPassCommand implements ICommand {
 	
 	/* supplementary method that updates Member's password */
 	private void updatePass(HttpServletRequest request, String password, 
-			int memberID) {
-		MemberLogic ml = new MemberLogic();
-		
+			int memberID) throws LogicException {
 		if (Validator.validatePassword(password)) {
-			try {
-				ml.updateMemberPass(password, memberID);
-			} catch (LogicException ex) {
-				LOG.error(ex.getMessage());
-				request.setAttribute("exception", ex);
-				url = BUNDLE.getString(ERROR);
-			}
+			MemberLogic ml = new MemberLogic();
+			ml.updateMemberPass(password, memberID);
 		} else {
 			String userID = request.getParameter(PARAM_USER_ID);
 			request.setAttribute("userID", userID);

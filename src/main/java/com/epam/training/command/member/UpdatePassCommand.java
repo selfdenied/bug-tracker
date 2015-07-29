@@ -7,7 +7,7 @@ import org.apache.log4j.Logger;
 
 import com.epam.training.bean.Member;
 import com.epam.training.command.ICommand;
-import com.epam.training.exception.LogicException;
+import com.epam.training.logic.LogicException;
 import com.epam.training.logic.MemberLogic;
 import com.epam.training.util.Validator;
 
@@ -23,11 +23,10 @@ public class UpdatePassCommand implements ICommand {
 	private static final String PARAM_MEMBER = "member";
 	private static final String PARAM_PASS = "newPassword";
 	private static final String PARAM_PASS_CONFIRM = "newPasswordConfirm";
-	private String url;
 
 	@Override
 	public String execute(HttpServletRequest request) {
-		url = BUNDLE.getString("update_pass");
+		String url = BUNDLE.getString("update_pass");
 		String password = request.getParameter(PARAM_PASS);
 		String passwordConfirm = request.getParameter(PARAM_PASS_CONFIRM);
 		
@@ -37,7 +36,13 @@ public class UpdatePassCommand implements ICommand {
 				Member member = (Member) session.getAttribute(PARAM_MEMBER);
 				request.setAttribute("passChanged", true);
 				request.setAttribute("formNotFilled", false);
-				updatePass(request, password, member.getId());
+				try {
+					updatePass(request, password, member.getId());
+				} catch (LogicException ex) {
+					LOG.error(ex);
+					request.setAttribute("exception", ex);
+					url = BUNDLE.getString(ERROR);
+				}
 			} else {
 				request.setAttribute("passNotEqual", true);
 				request.setAttribute("formNotFilled", true);
@@ -49,17 +54,11 @@ public class UpdatePassCommand implements ICommand {
 	}
 	
 	/* supplementary method that updates Member's password */
-	private void updatePass(HttpServletRequest request, String password, int memberID) {
-		MemberLogic ml = new MemberLogic();
-		
+	private void updatePass(HttpServletRequest request, String password, int memberID) 
+			throws LogicException {
 		if (Validator.validatePassword(password)) {
-			try {
-				ml.updateMemberPass(password, memberID);
-			} catch (LogicException ex) {
-				LOG.error(ex.getMessage());
-				request.setAttribute("exception", ex);
-				url = BUNDLE.getString(ERROR);
-			}
+			MemberLogic ml = new MemberLogic();
+			ml.updateMemberPass(password, memberID);
 		} else {
 			request.setAttribute("passChanged", false);
 			request.setAttribute("passChangeError", true);

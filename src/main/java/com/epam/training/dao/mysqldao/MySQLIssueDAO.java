@@ -15,8 +15,8 @@ import java.util.List;
 import com.epam.training.bean.Issue;
 import com.epam.training.bean.Member;
 import com.epam.training.dao.AbstractDAO;
+import com.epam.training.dao.DAOException;
 import com.epam.training.dao.factory.AbstractDAOFactory;
-import com.epam.training.exception.DAOException;
 
 import static com.epam.training.dao.factory.DAOFactoryType.MYSQL;
 
