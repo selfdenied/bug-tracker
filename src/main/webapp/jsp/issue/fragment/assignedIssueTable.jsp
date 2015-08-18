@@ -3,11 +3,19 @@
 <%@ taglib prefix="rb" uri="customtags"%>
 <!DOCTYPE html>
 
-<h2 class="maintable">
+<h2 class="redC">
 <rb:text message="assigned_to_message" locale="${locale}" />
 </h2>
 <div>
-<table>
+
+<c:choose>
+<c:when test="${sessionScope.member.admin}">
+	<table>
+</c:when>
+<c:otherwise>
+	<table id="default">
+</c:otherwise>
+</c:choose>
 		<tr align="center">
 			<td><b>ID</b></td>
 			<td><b><rb:text message="priority" locale="${locale}" /></b></td>
@@ -39,5 +47,5 @@
 			<td><c:out value="${issue.summary}"></c:out></td>
 		</tr>
 		</c:forEach>
-</table>
+	</table>
 </div>

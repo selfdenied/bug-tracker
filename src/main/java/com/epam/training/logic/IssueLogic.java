@@ -178,7 +178,7 @@ public class IssueLogic {
 	/**
 	 * Method adds new Issue to the database.
 	 * 
-	 * @param Issue
+	 * @param issue
 	 *            new Issue
 	 * 
 	 * @return {@code true} when new Issue was successfully added and
@@ -204,7 +204,7 @@ public class IssueLogic {
 	/**
 	 * Method updates existing Issue data.
 	 * 
-	 * @param Issue
+	 * @param issue
 	 *            new Issue
 	 * @param issueID
 	 *            the ID of the Issue

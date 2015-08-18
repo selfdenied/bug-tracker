@@ -14,19 +14,19 @@
 	
 	<c:if test="${formNotFilled}">
 	<div class="form5">
-		<span style="color:red"><rb:text message="admin_projects" locale="${locale}" /></span>
+		<span id="red"><rb:text message="admin_projects" locale="${locale}" /></span>
 		<rb:text message="edit_existing_record" locale="${locale}" />
-		<span style="color:blue">
+		<span id="black">
 		(<rb:text message="project_id" locale="${locale}" /> <c:out value="${projectID}"></c:out>)
 		</span>
 	</div>
 	
 	<br>
 	
-	<div class="form">
-		<span><rb:text message="enter_project_data" locale="${locale}" /></span>
+	<div class="blackC">
+		<span id="black17"><rb:text message="enter_project_data" locale="${locale}" /></span>
 		<br>
-		<span style="color:blue; font-size:16px">
+		<span id="blue16">
 		<rb:text message="empty_fields_message" locale="${locale}" />
 		</span> 
 	</div>
@@ -38,25 +38,28 @@
 			<input type="HIDDEN" name="action" value="editProject">
 			<input type="HIDDEN" name="projectID" value="${projectID}">
 			<rb:text message="feature_name" locale="${locale}" />
+			<br>
+			<span id="tinyRed"><rb:text message="max_50" locale="${locale}" /></span>
 			<br>  
 			<input type="text" name="projectName" size="50" maxlength="50" 
 			pattern="[A-Za-zА-Яа-яЁё0-9 \\.\\-]{1,50}" value="${name}" required="required">
 			<br>
 			<br>
 			<rb:text message="project_description" locale="${locale}" />
+			<br>
+			<span id="tinyRed"><rb:text message="max_1000" locale="${locale}" /></span>
 			<br> 
-			<textarea name="projectDescription" rows="3" cols="40" maxlength="1000" 
-			required="required">${desc}</textarea>
+			<textarea name="projectDescription" maxlength="1000" required="required">${desc}</textarea>
 			<br>
 			<br>
 			<rb:text message="available_builds" locale="${locale}" /> 
 			<br>
+			<br>
 				<c:forEach var="build" items="${buildsList}">
 					<li>
-					<span style="font-size:17px"><c:out value="${build.buildName}"></c:out></span>
+					<span id="red"><c:out value="${build.buildName}"></c:out></span>
 					</li>
 				</c:forEach>
-			<br>
 			<br>
 			<rb:text message="manager" locale="${locale}" />: 
 			<select name="projectManager" required="required">

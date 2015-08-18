@@ -83,7 +83,7 @@ public class ProjectLogic {
 	/**
 	 * Method adds new Build to the database.
 	 * 
-	 * @param Build
+	 * @param build
 	 *            new Build
 	 * 
 	 * @return {@code true} when new Build was successfully added and
@@ -109,7 +109,7 @@ public class ProjectLogic {
 	/**
 	 * Method adds new Project to the database.
 	 * 
-	 * @param Project
+	 * @param project
 	 *            new Project
 	 * 
 	 * @return {@code true} when new Project was successfully added and
@@ -135,7 +135,7 @@ public class ProjectLogic {
 	/**
 	 * Method updates existing Project data.
 	 * 
-	 * @param Project
+	 * @param project
 	 *            new Project
 	 * @param projectID
 	 *            the ID of the Project

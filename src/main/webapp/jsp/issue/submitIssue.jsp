@@ -7,32 +7,16 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel='stylesheet' href='css/style.css' type='text/css'/>
 <script src="<c:url value='js/issue.js' />"></script>
-<style>
-table, th, td {
-	width:100%;
-    border: none;
-    border-collapse: collapse;
-    background-color: white;
-}
-</style>
 <title><rb:text message="submit_issue" locale="${locale}" /></title>
 </head>
 <body>
 
-	<c:if test="${!sessionScope.member.admin}">
-		<h2 class="usermenu">
-			<a href="controller?action=listIssues">
-				<rb:text message="to_issues_list" locale="${locale}" />
-			</a>
-		</h2>
-	</c:if>
-	
 	<rb:header role="${sessionScope.member.admin}" />
 	
 	<c:if test="${formNotFilled}">
 	
 	<div class="form5">
-		<span style="color:red">
+		<span id="red">
 			<rb:text message="issues_2" locale="${locale}" />
 		</span>
 		<rb:text message="add_new_record" locale="${locale}" />
@@ -41,17 +25,13 @@ table, th, td {
 	<br>
 	
 	<div class="form">
-		<span>
+		<span id="black17">
 			<rb:text message="enter_issue_data" locale="${locale}" />
 		</span>
 		<br>
-		<span style="color:green; font-size:16px">
+		<span id="green16">
 			<rb:text message="issue_message" locale="${locale}" />
 		</span>
-		<br>
-		<span style="color:blue; font-size:16px">
-			<rb:text message="empty_fields_message" locale="${locale}" />
-		</span> 
 	</div>
 	
 	<br>
@@ -59,16 +39,19 @@ table, th, td {
 	<div class="form">
 		<form method="post">
 			<input type="HIDDEN" name="action" value="submitIssue">
-			<rb:text message="summary_2" locale="${locale}" />
+			<rb:text message="summary" locale="${locale}" />
+			<br>
+			<span id="tinyRed"><rb:text message="max_100" locale="${locale}" /></span>
 			<br>  
 			<input type="text" name="summary" size="30" maxlength="100" 
 			pattern="[A-Za-zА-Яа-яЁё0-9 \\.,!?:;\\-]{1,100}" required="required">
 			<br>
 			<br>
-			<rb:text message="description_2" locale="${locale}" />
+			<rb:text message="description" locale="${locale}" />
+			<br>
+			<span id="tinyRed"><rb:text message="max_1000" locale="${locale}" /></span>
 			<br> 
-			<textarea name="desc" rows="3" cols="30" maxlength="1000" 
-			required="required"></textarea>
+			<textarea name="desc" maxlength="1000" required="required"></textarea>
 			<br>
 			<br>
 			<rb:text message="status" locale="${locale}" />
@@ -108,10 +91,10 @@ table, th, td {
 			<br>
 			<br>
 			<rb:text message="build" locale="${locale}" />
-			<table>
+			<table id="build">
 			<c:forEach var="listElement" items="${listOfBuilds}">
-			<tr id="${listElement[0].project.id}" style="visibility:collapse">
-				<td>
+			<tr id="${listElement[0].project.id}" class="collapse">
+				<td id="build">
 				<select name="build" id="select${listElement[0].project.id}" disabled="disabled">
 					<option></option>
 					<c:forEach var="build" items="${listElement}">

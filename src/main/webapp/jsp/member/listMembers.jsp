@@ -12,12 +12,12 @@
 
 	<rb:header role="${sessionScope.member.admin}" />
 	
-	<h2 class="maintable">
-		<span style="color:red">
+	<h2 class="blackC">
+		<span id="red">
 		<rb:text message="members" locale="${locale}" />
 		</span><rb:text message="registered_message" locale="${locale}" />
 	</h2>
-	<h3 style="color:black; text-align:center">
+	<h3 class="blueC">
 		<rb:text message="edit_record_message" locale="${locale}" />
 	</h3>
 	<div>
@@ -43,7 +43,7 @@
 			<td>
 				<c:choose>
 					<c:when test="${member.admin}">
-						<span style="color:#FFA500">
+						<span id="orange">
 						<rb:text message="admin_2" locale="${locale}" />
 						</span>
 					</c:when>
@@ -52,10 +52,12 @@
 					</c:otherwise>
 				</c:choose>
 			</td>
-			<td>
-			<a href="${base}?action=changeUserPassword&amp;userID=${member.id}">
-			<rb:text message="change" locale="${locale}" />
-			</a>
+			<td>	
+				<form action="controller" method="post">
+				<input type="HIDDEN" name="action" value="changeUserPassword">
+				<input type="HIDDEN" name="userID" value="${member.id}">
+				<input type="submit" value = "<rb:text message='change' locale='${locale}' />">		
+				</form>
 			</td>
 		</tr>
 		</c:forEach>

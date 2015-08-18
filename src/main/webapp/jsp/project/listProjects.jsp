@@ -15,12 +15,12 @@
 	<c:choose>
 	
 	<c:when test="${not empty listOfProjects}">
-		<h2 class="maintable">
-			<span style="color:red">
+		<h2 class="blackC">
+			<span id="red">
 			<rb:text message="projects" locale="${locale}" />
 			</span><rb:text message="available_message_3" locale="${locale}" />
 		</h2>
-		<h3 style="color:black; text-align:center">
+		<h3 class="blueC">
 			<rb:text message="edit_record_message" locale="${locale}" />
 		</h3>
 		<div>
@@ -46,9 +46,11 @@
 				<c:out value="${project.manager.lastName}"></c:out>
 				</td>
 				<td>
-				<a href="${base}?action=addBuild&amp;projectID=${project.id}">
-				<rb:text message="add_new_message" locale="${locale}" />
-				</a>
+					<form action="controller" method="post">
+					<input type="HIDDEN" name="action" value="addBuild">
+					<input type="HIDDEN" name="projectID" value="${project.id}">
+					<input type="submit" value = "<rb:text message='add_new_message' locale='${locale}' />">		
+					</form>
 				</td>
 			</tr>
 			</c:forEach>
@@ -57,7 +59,7 @@
 	</c:when>
 	
 	<c:otherwise>
-		<h2 style="color:blue">
+		<h2 id="red">
 			<rb:text message="projects_list_empty" locale="${locale}" />
 		</h2>
 	</c:otherwise>

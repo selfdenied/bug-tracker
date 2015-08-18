@@ -3,7 +3,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 
-<h2 class="maintable">
+<h2 class="redC">
 <rb:text message="issues_list" locale="${locale}" />
 </h2>
 <div>

@@ -46,9 +46,12 @@ public class HeaderTag extends TagSupport {
 			}
 			pageContext.include("/jsp/member/fragment/greeting.jsp");
 			pageContext.include("/jsp/member/fragment/accessMode.jsp");
-			pageContext.getOut().write("<br><br>");
+			pageContext.getOut().write("<br>");
+			if (!admin) {
+				pageContext.include("/jsp/common/fragment/userMenu.jsp");
+			}
 			pageContext.include("/jsp/common/fragment/smallMenu.jsp");
-			pageContext.getOut().write("<br><br>");
+			pageContext.getOut().write("<br>");
 		} catch (ServletException ex) {
 			throw new JspException("Error. Unable to handle tag!", ex);
 		} catch (IOException ex) {

@@ -17,12 +17,12 @@
 	<c:choose>
 	
 	<c:when test="${not empty listOfIssues}">
-		<h2 class="maintable">
-			<span style="color:red">
+		<h2 class="blackC">
+			<span id="red">
 			<rb:text message="issues" locale="${locale}" />
 			</span><rb:text message="available_message_3" locale="${locale}" />
 		</h2>
-		<h3 style="color:black; text-align:center">
+		<h3 class="blueC">
 			<rb:text message="delete_record_message" locale="${locale}" />
 		</h3>
 		
@@ -99,7 +99,7 @@
 	</c:when>
 
 	<c:otherwise>
-		<h2 style="color:red; text-align:center">
+		<h2 class="redC">
 			<rb:text message="issues_list_empty" locale="${locale}" />
 		</h2>	
 	</c:otherwise>

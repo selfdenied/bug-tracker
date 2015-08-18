@@ -14,24 +14,22 @@
 	
 	<c:if test="${formNotFilled}">
 	<div class="form5">
-		<span style="color:red"><rb:text message="members_2" locale="${locale}" /></span>
+		<span id="red"><rb:text message="members_2" locale="${locale}" /></span>
 		<rb:text message="add_new_record" locale="${locale}" />
 	</div>
 	
 	<br>
 	
-	<div class="form">
-		<span>
+	<div class="blackC">
+		<span id="black17">
 		<rb:text message="enter_member_data" locale="${locale}" />
 		</span>
 		<br>
-		<span style="color:red; font-size:17px">
-		<rb:text message="pass_message_2" locale="${locale}" />
-		<br>
+		<span id="red17">
 		<rb:text message="max_symbols_message" locale="${locale}" />
 		</span>
-		<br> 
-		<span style="color:blue; font-size:16px">
+		<br>
+		<span id="blue16">
 		<rb:text message="empty_fields_message" locale="${locale}" />
 		</span> 
 	</div>
@@ -72,6 +70,7 @@
 			<input type="password" name="pass" maxlength="20" 
 			pattern="[A-Za-z0-9@\\._\\-]{5,20}" required="required">
 			<br>
+			<span id="tinyRed"><rb:text message="pass_message_2" locale="${locale}" /></span>
 			<br>
 			<rb:text message="confirm_password" locale="${locale}" />
 			<br>

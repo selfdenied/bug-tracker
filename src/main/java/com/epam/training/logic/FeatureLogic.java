@@ -86,7 +86,7 @@ public class FeatureLogic {
 	 * 
 	 * @param featureType
 	 *            the selected type of Feature
-	 * @param feature
+	 * @param ft
 	 *            new Feature
 	 * @return {@code true} when new Feature was successfully added and
 	 *         {@code false} otherwise
@@ -114,7 +114,7 @@ public class FeatureLogic {
 	 * 
 	 * @param featureType
 	 *            the selected type of Feature
-	 * @param feature
+	 * @param ft
 	 *            new Feature
 	 * @param id
 	 *            Feature's ID

@@ -9,7 +9,7 @@
 <title><rb:text message="issue_info" locale="${locale}" /></title>
 </head>
 <body>
-	<h1 class="maintable">
+	<h1 class="blackC">
 		<rb:text message="issue_data" locale="${locale}" />
 	</h1>
 		
@@ -91,8 +91,11 @@
 	<br>
 	<br>
 	
-	<h2 class="maintable">
-		<a href="${base}?lang=${locale}"><rb:text message="back_message" locale="${locale}" /></a>
+	<h2 class="blackC">
+		<form action="controller" method="post">
+			<input type="HIDDEN" name="lang" value="${locale}">
+			<input type="submit" value = "<rb:text message='back_message' locale='${locale}' />">		
+		</form>
 	</h2>
 	
 	<br>

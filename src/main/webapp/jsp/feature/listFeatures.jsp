@@ -15,34 +15,41 @@
 	<c:choose>
 	
 	<c:when test="${not empty listOfFeatures}">
-		<h2 class="maintable">
+		<h2 class="blackC">
 			<c:choose>
 			
 			<c:when test="${feature == 'status'}">
-			<span style="color:red"><rb:text message="admin_statuses" locale="${locale}" /></span>
+			<span id="red"><rb:text message="admin_statuses" locale="${locale}" /></span>
 			</c:when>
 			
 			<c:when test="${feature == 'resolution'}">
-			<span style="color:red"><rb:text message="admin_resolutions" locale="${locale}" /></span>
+			<span id="red"><rb:text message="admin_resolutions" locale="${locale}" /></span>
 			</c:when>
 			
 			<c:when test="${feature == 'type'}">
-			<span style="color:red"><rb:text message="admin_types" locale="${locale}" /></span>
+			<span id="red"><rb:text message="admin_types" locale="${locale}" /></span>
 			</c:when>
 			
 			<c:when test="${feature == 'priority'}">
-			<span style="color:red"><rb:text message="admin_priorities" locale="${locale}" /></span>
+			<span id="red"><rb:text message="admin_priorities" locale="${locale}" /></span>
 			</c:when>
 			
 			</c:choose>
 			<rb:text message="available_message" locale="${locale}" />
 		</h2>
 		
-		<c:if test="${feature != 'status'}">
-			<h3 style="color:black; text-align:center">
+		<c:choose>
+		<c:when test="${feature != 'status'}">
+			<h3 class="blueC">
 				<rb:text message="edit_record_message" locale="${locale}" />
 			</h3>
-		</c:if>
+		</c:when>
+		<c:otherwise>
+			<h3>
+			<br>
+			</h3>
+		</c:otherwise>
+		</c:choose>
 		
 		<div>
 		<table>
@@ -72,7 +79,7 @@
 	</c:when>
 	
 	<c:otherwise>
-		<h2 style="color:blue">
+		<h2 id="red">
 			<rb:text message="features_list_empty" locale="${locale}" />
 		</h2>
 	</c:otherwise>

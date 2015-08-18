@@ -14,16 +14,16 @@
 	
 	<c:if test="${formNotFilled}">
 	<div class="form5">
-		<span style="color:red"><rb:text message="admin_projects" locale="${locale}" /></span>
+		<span id="red"><rb:text message="admin_projects" locale="${locale}" /></span>
 		<rb:text message="add_new_record" locale="${locale}" />
 	</div>
 	
 	<br>
 	
-	<div class="form">
-		<span><rb:text message="enter_project_data" locale="${locale}" /></span>
+	<div class="blackC">
+		<span id="black17"><rb:text message="enter_project_data" locale="${locale}" /></span>
 		<br>
-		<span style="color:blue; font-size:16px">
+		<span id="blue16">
 		<rb:text message="empty_fields_message" locale="${locale}" />
 		</span> 
 	</div>
@@ -34,15 +34,18 @@
 		<form method="post">
 			<input type="HIDDEN" name="action" value="addProject">
 			<rb:text message="feature_name" locale="${locale}" />
-			<br>  
+			<br>
+			<span id="tinyRed"><rb:text message="max_50" locale="${locale}" /></span>
+			<br>
 			<input type="text" name="projectName" size="50" maxlength="50" 
 			pattern="[A-Za-zА-Яа-яЁё0-9 \\.\\-]{1,50}" required="required">
 			<br>
 			<br>
 			<rb:text message="project_description" locale="${locale}" />
+			<br>
+			<span id="tinyRed"><rb:text message="max_1000" locale="${locale}" /></span>
 			<br> 
-			<textarea name="projectDescription" rows="3" cols="40" maxlength="1000" 
-			required="required"></textarea>
+			<textarea name="projectDescription" maxlength="1000" required="required"></textarea>
 			<br>
 			<br>
 			<rb:text message="build" locale="${locale}" />: 

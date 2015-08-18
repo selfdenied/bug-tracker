@@ -14,26 +14,26 @@
 	
 	<c:if test="${formNotFilled}">
 	<div class="form5">
-		<span style="color:red"><rb:text message="members_2" locale="${locale}" /></span>
+		<span id="red"><rb:text message="members_2" locale="${locale}" /></span>
 		<rb:text message="edit_existing_record" locale="${locale}" />
 		<br>
-		<span style="color:blue">
-		<rb:text message="user_id" locale="${locale}" /> <c:out value="${userID}"></c:out>
+		<span id="black">
+		(<rb:text message="user_id" locale="${locale}" /> <c:out value="${userID}"></c:out>)
 		</span>
 	</div>
 	
 	<br>
 	
-	<div class="form">
-		<span>
+	<div class="blackC">
+		<span id="black17">
 		<rb:text message="enter_member_data" locale="${locale}" />
 		</span>
 		<br>
-		<span style="color:red; font-size:17px">
+		<span id="red17">
 		<rb:text message="max_symbols_message" locale="${locale}" />
 		</span>
 		<br> 
-		<span style="color:blue; font-size:16px">
+		<span id="blue16">
 		<rb:text message="empty_fields_message" locale="${locale}" />
 		</span> 
 	</div>

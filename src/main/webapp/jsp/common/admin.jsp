@@ -14,7 +14,7 @@
 		
 	<c:choose>
 		<c:when test="${empty assignedIssuesList}">
-			<h2 style="color:red; text-align:center">
+			<h2 class="redC">
 			<rb:text message="assigned_issues_empty" locale="${locale}" />
 			</h2>
 		</c:when>

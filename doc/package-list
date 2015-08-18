@@ -1,0 +1,17 @@
+com.epam.training.bean
+com.epam.training.command
+com.epam.training.command.factory
+com.epam.training.command.feature
+com.epam.training.command.issue
+com.epam.training.command.member
+com.epam.training.command.project
+com.epam.training.connection
+com.epam.training.dao
+com.epam.training.dao.factory
+com.epam.training.dao.mysqldao
+com.epam.training.filter
+com.epam.training.listener
+com.epam.training.logic
+com.epam.training.servlet
+com.epam.training.tag
+com.epam.training.util

@@ -49,7 +49,7 @@ public abstract class Validator {
 	/**
 	 * Validates the entered Member's data.
 	 * 
-	 * @param Member
+	 * @param member
 	 *            the Member who's data needs validation
 	 * @return {@code true} when Member's data passes validation and
 	 *         {@code false} otherwise
@@ -70,7 +70,7 @@ public abstract class Validator {
 	/**
 	 * Validates the entered Build's data.
 	 * 
-	 * @param Build
+	 * @param build
 	 *            the Build which data needs validation
 	 * @return {@code true} when Build's data passes validation and
 	 *         {@code false} otherwise
@@ -87,7 +87,7 @@ public abstract class Validator {
 	/**
 	 * Validates the entered Project's data.
 	 * 
-	 * @param Project
+	 * @param project
 	 *            the Project which data needs validation
 	 * @return {@code true} when Project's data passes validation and
 	 *         {@code false} otherwise
@@ -108,7 +108,7 @@ public abstract class Validator {
 	/**
 	 * Validates the entered Feature's data.
 	 * 
-	 * @param Feature
+	 * @param feature
 	 *            the Feature which data needs validation
 	 * @return {@code true} when Feature's data passes validation and
 	 *         {@code false} otherwise
@@ -125,7 +125,7 @@ public abstract class Validator {
 	/**
 	 * Validates the entered Issue's data.
 	 * 
-	 * @param Issue
+	 * @param issue
 	 *            the Issue which data needs validation
 	 * @return {@code true} when Issue's data passes validation and
 	 *         {@code false} otherwise

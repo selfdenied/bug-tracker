@@ -11,10 +11,10 @@
 <body>
 
 	<rb:header role="${sessionScope.member.admin}" />
-		
+
 	<c:choose>
 		<c:when test="${empty assignedIssuesList}">
-			<h2 style="color:red; text-align:center">
+			<h2 class="redC">
 			<rb:text message="assigned_issues_empty" locale="${locale}" />
 			</h2>
 		</c:when>
@@ -22,17 +22,6 @@
 			<jsp:include page="/jsp/issue/fragment/assignedIssueTable.jsp"></jsp:include>
 		</c:otherwise>
 	</c:choose>
-		
-	<br>
-		
-	<h2 style="text-align:center">
-	<a href="${base}?action=submitIssue">
-	<rb:text message="submit_issue" locale="${locale}" />
-	</a> | 
-	<a href="${base}?action=listIssues">
-	<rb:text message="search_issues" locale="${locale}" />
-	</a>
-	</h2>
 		
 	<br>
 		

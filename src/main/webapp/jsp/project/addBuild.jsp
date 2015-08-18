@@ -14,19 +14,19 @@
 	
 	<c:if test="${formNotFilled}">
 	<div class="form5">
-		<span style="color:red"><rb:text message="builds" locale="${locale}" /></span>
+		<span id="red"><rb:text message="builds" locale="${locale}" /></span>
 		<rb:text message="add_new_record" locale="${locale}" />
-		<span style="color:blue">
+		<span id="black">
 		(<rb:text message="project_id" locale="${locale}" /> <c:out value="${projectID}"></c:out>)
 		</span>	
 	</div>
 	
 	<br>
 	
-	<div class="form">
-		<span><rb:text message="enter_build_name" locale="${locale}" /></span>
+	<div class="blackC">
+		<span id="black17"><rb:text message="enter_build_name" locale="${locale}" /></span>
 		<br>
-		<span style="color:blue; font-size:16px">
+		<span id="blue16">
 		<rb:text message="empty_fields_message" locale="${locale}" />
 		</span> 
 	</div>
@@ -40,6 +40,8 @@
 			<br>
 			<input type="text" name="buildName" maxlength="50"
 			pattern="[A-Za-zА-Яа-яЁё0-9 \\.\\-]{1,50}" required="required">
+			<br>
+			<span id="tinyRed"><rb:text message="max_50" locale="${locale}" /></span>
 			<br>
 			<br>
 			<input type="submit" value="<rb:text message='add_button' locale='${locale}' />">		

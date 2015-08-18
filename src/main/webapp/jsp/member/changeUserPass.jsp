@@ -13,16 +13,16 @@
 	<rb:header role="${sessionScope.member.admin}" />
 		
 	<c:if test="${formNotFilled}">
-		<div class="form5">
+		<div class="form2">
 			<rb:text message="user_id" locale="${locale}" /> <c:out value="${userID}"></c:out>
 		</div>
 	
 		<br>
 	
-		<div class="form2">
+		<div class="form">
 			<span><rb:text message="pass_message" locale="${locale}" /></span>
 			<br>
-			<span style="color:blue; font-size:17px">
+			<span id="blue16">
 			<rb:text message="pass_message_2" locale="${locale}" />
 			</span> 
 		</div>

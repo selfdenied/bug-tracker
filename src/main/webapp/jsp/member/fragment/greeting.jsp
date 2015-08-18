@@ -5,7 +5,7 @@
 
 	<h1>
 		<rb:text message="welcome_message_2" locale="${locale}" />
-		<span style="color:blue"> 
+		<span id="red"> 
 		<c:out value='${sessionScope.member.firstName} ${sessionScope.member.lastName}'></c:out>
 		</span>
 	</h1>

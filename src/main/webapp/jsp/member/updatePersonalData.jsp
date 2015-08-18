@@ -16,11 +16,11 @@
 		<div class="form">
 			<span><rb:text message="enter_newdata_message" locale="${locale}" /></span>
 			<br>
-			<span style="color:red; font-size:17px">
+			<span id="red17">
 			<rb:text message="max_symbols_message" locale="${locale}" />
 			</span>
 			<br>
-			<span style="color:blue; font-size:17px">
+			<span id="blue16">
 			<rb:text message="empty_fields_message" locale="${locale}" />
 			</span> 
 		</div>

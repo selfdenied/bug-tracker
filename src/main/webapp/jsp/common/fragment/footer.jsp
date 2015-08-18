@@ -7,5 +7,5 @@
 	<br> 
 	<rb:text message="page_encoding" locale="${locale}" /> <b>${pageContext.request.characterEncoding}</b>
 	<br>
-	<em><rb:text message="email_message" locale="${locale}" /></em> <b>${initParam.adminEmail}</b>
+	<rb:text message="email_message" locale="${locale}" /> <b>${initParam.adminEmail}</b>
 </p>

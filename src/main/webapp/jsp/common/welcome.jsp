@@ -12,23 +12,21 @@
 	
 	<jsp:include page="/jsp/common/fragment/header.jsp"></jsp:include>
 	
-	<h1 style="text-align: center; color: blue">
+	<h1 class="blackC">
 		<rb:text message="welcome_message" locale="${locale}" />
 	</h1>
 
 	<jsp:include page="fragment/authForm.jsp"></jsp:include>
 
-	<br>
-
 	<c:if test="${authFailed == true}">
-		<div style="color: red">
+		<div id="red">
 			<rb:text message="auth_incorrect_message" locale="${locale}" />
 		</div>
 	</c:if>
 
 	<c:choose>
 		<c:when test="${empty issuesList}">
-			<h2 style="color:red; text-align:center">
+			<h2 class="redC">
 				<rb:text message="issues_list_empty" locale="${locale}" />
 			</h2>
 		</c:when>

@@ -153,7 +153,7 @@ public class MemberLogic {
 	/**
 	 * Method updates Member's data
 	 * 
-	 * @param Member
+	 * @param member
 	 *            com.epam.training.bean.Member
 	 * @param memberID
 	 *            Member's ID
@@ -180,7 +180,7 @@ public class MemberLogic {
 	/**
 	 * Method adds new Member to the database
 	 * 
-	 * @param Member
+	 * @param member
 	 *            com.epam.training.bean.Member
 	 *            
 	 * @return {@code true} when Member was successfully added and {@code false}

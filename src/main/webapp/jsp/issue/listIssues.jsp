@@ -10,30 +10,29 @@
 </head>
 <body>
 
-	<c:if test="${!sessionScope.member.admin}">
-		<h2 class="usermenu">
-			<a href="controller?action=submitIssue">
-				<rb:text message="submit_issue" locale="${locale}" />
-			</a>
-		</h2>
-	</c:if>
-	
 	<rb:header role="${sessionScope.member.admin}" />
 
 	<c:choose>
 	
 	<c:when test="${not empty listOfIssues}">
-		<h2 class="maintable">
-			<span style="color:red">
+		<h2 class="blackC">
+			<span id="red">
 			<rb:text message="issues" locale="${locale}" />
 			</span><rb:text message="available_message_3" locale="${locale}" />
 		</h2>
-		<h3 style="color:black; text-align:center">
+		<h3 class="blueC">
 			<rb:text message="edit_record_message" locale="${locale}" />
 		</h3>
 		
 		<div>
+		<c:choose>
+		<c:when test="${sessionScope.member.admin}">
 		<table>
+		</c:when>
+		<c:otherwise>
+		<table id="default">
+		</c:otherwise>
+		</c:choose>
 			<tr align="center">
 				<td><b>ID</b></td>
 				<td><b><rb:text message="created_date" locale="${locale}"/></b></td>
@@ -48,6 +47,7 @@
 				<td><b><rb:text message="project" locale="${locale}"/></b></td>
 				<td><b><rb:text message="build" locale="${locale}"/></b></td>
 				<td><b><rb:text message="assignee" locale="${locale}"/></b></td>
+				<td></td>
 			</tr>
 			<c:forEach var='issue' items='${listOfIssues}'>
 			<tr align="center">
@@ -60,7 +60,7 @@
 						</a>
 					</c:when>
 					<c:otherwise>
-						<c:out value="${issue.id}"></c:out>
+						<span id="red"><c:out value="${issue.id}"></c:out></span>
 					</c:otherwise>
 					</c:choose>
 				</td>
@@ -113,20 +113,22 @@
 						<c:out value="${issue.assignee.lastName}"></c:out></td>
 					</c:otherwise>
 					</c:choose>
-					<c:if test="${issue.status.id == 3 || issue.status.id == 4}">
 					<td>
-						<a href="${base}?action=closeIssue&amp;issueID=${issue.id}">
-							<rb:text message="close" locale="${locale}"/>
-						</a>
-					</td>
+					<c:if test="${issue.status.id == 3 || issue.status.id == 4}">
+						<form action="controller" method="post">
+						<input type="HIDDEN" name="action" value="closeIssue">
+						<input type="HIDDEN" name="issueID" value="${issue.id}">
+						<input type="submit" value = "<rb:text message='close' locale='${locale}' />">		
+						</form>
 					</c:if>
 					<c:if test="${issue.status.id == 5}">
-					<td>
-						<a href="${base}?action=reopenIssue&amp;issueID=${issue.id}">
-							<rb:text message="reopen" locale="${locale}"/>
-						</a>
-					</td>
-					</c:if>				
+						<form action="controller" method="post">
+						<input type="HIDDEN" name="action" value="reopenIssue">
+						<input type="HIDDEN" name="issueID" value="${issue.id}">
+						<input type="submit" value = "<rb:text message='reopen' locale='${locale}' />">		
+						</form>
+					</c:if>
+					</td>			
 			</tr>
 			</c:forEach>
 		</table>
@@ -135,7 +137,7 @@
 	</c:when>
 
 	<c:otherwise>
-		<h2 style="color:red; text-align:center">
+		<h2 class="redC">
 			<rb:text message="issues_list_empty" locale="${locale}" />
 		</h2>	
 	</c:otherwise>

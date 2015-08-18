@@ -17,29 +17,29 @@
 		<c:choose>
 			
 		<c:when test="${feature == 'resolution'}">
-		<span style="color:red"><rb:text message="admin_resolutions" locale="${locale}" /></span>
+		<span id="red"><rb:text message="admin_resolutions" locale="${locale}" /></span>
 		</c:when>
 			
 		<c:when test="${feature == 'type'}">
-		<span style="color:red"><rb:text message="admin_types" locale="${locale}" /></span>
+		<span id="red"><rb:text message="admin_types" locale="${locale}" /></span>
 		</c:when>
 			
 		<c:when test="${feature == 'priority'}">
-		<span style="color:red"><rb:text message="admin_priorities" locale="${locale}" /></span>
+		<span id="red"><rb:text message="admin_priorities" locale="${locale}" /></span>
 		</c:when>
 		</c:choose>
 		<rb:text message="edit_existing_record" locale="${locale}" />
-		<span style="color:blue">
+		<span id="black">
 		(<rb:text message="id" locale="${locale}" /> <c:out value="${featureID}"></c:out>)
 		</span>
 	</div>
 	
 	<br>
 	
-	<div class="form">
-		<span><rb:text message="enter_feature_name" locale="${locale}" /></span>
+	<div class="blackC">
+		<span id="black17"><rb:text message="enter_feature_name" locale="${locale}" /></span>
 		<br>
-		<span style="color:blue; font-size:16px">
+		<span id="blue16">
 		<rb:text message="empty_fields_message" locale="${locale}" />
 		</span> 
 	</div>
@@ -51,6 +51,8 @@
 			<input type="HIDDEN" name="feature" value="${feature}">
 			<input type="HIDDEN" name="featureID" value="${featureID}">
 			<rb:text message="feature_name" locale="${locale}" />
+			<br>
+			<span id="tinyRed"><rb:text message="max_50" locale="${locale}" /></span>
 			<br>
 			<input type="text" name="featureName" maxlength="50" 
 			pattern="[A-Za-zА-Яа-яЁё0-9 \\.\\-]{1,50}" required="required" >
