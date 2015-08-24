@@ -1,12 +1,13 @@
 @CHARSET "UTF-8";
 html {
 	background-color: #E9E7E4;
+	font-family: Tahoma,Verdana,Segoe,sans-serif;
 }
 html#error {
 	background-color: #FFFFFF;
+	font-family: Tahoma,Verdana,Segoe,sans-serif;
 }
 h1 {
-	font-family: Tahoma,Verdana,Segoe,sans-serif;
 	font-size: 24px;
 	font-style: normal;
 	font-variant: normal;
@@ -14,7 +15,6 @@ h1 {
 	line-height: 26.4px;
 }
 h2 {
-	font-family: Tahoma,Verdana,Segoe,sans-serif;
 	font-size: 19px;
 	font-style: normal;
 	font-variant: normal;
@@ -22,7 +22,6 @@ h2 {
 	line-height: 20.9px;
 }
 h3 {
-	font-family: Tahoma,Verdana,Segoe,sans-serif;
 	font-size: 14px;
 	font-style: normal;
 	font-variant: normal;
@@ -30,7 +29,6 @@ h3 {
 	line-height: 15.4px;
 }
 p {
-	font-family: Tahoma,Verdana,Segoe,sans-serif;
 	font-size: 14px;
 	font-style: normal;
 	font-variant: normal;
@@ -38,7 +36,6 @@ p {
 	line-height: 20px;
 }
 form {
-	font-family: Tahoma,Verdana,Segoe,sans-serif;
 	font-size: 14px;
 	font-style: normal;
 	font-variant: normal;
@@ -56,7 +53,6 @@ input[type=text]:focus, input[type=password]:focus, input[type=email]:focus {
 	border-color:#333; 
 }
 input[type=submit] {
-	font-family: Tahoma,Verdana,Segoe,sans-serif;
 	font-size: 14px;
 	padding:5px 15px; 
 	background:#990000; 
@@ -70,7 +66,6 @@ input[type=submit]:hover {
     background: #000066;
 }
 textarea {
-   font-family: Tahoma,Verdana,Segoe,sans-serif;
    font-size: 12px;
    resize: none;
    padding:4px;
@@ -86,7 +81,6 @@ select {
     border: solid 1px #E5E5E5; 
     outline: 0; 
     width: 170px;
-    font-family: Tahoma,Verdana,Segoe,sans-serif;
     font-size: 12px;
     background: -webkit-gradient(linear, left top, left 25, from(#FFFFFF), color-stop(4%, #EEEEEE), to(#FFFFFF)); 
     background: -moz-linear-gradient(top, #FFFFFF, #EEEEEE 1px, #FFFFFF 25px); 
@@ -94,7 +88,6 @@ select {
     -webkit-box-shadow: rgba(0,0,0, 0.1) 0px 0px 8px;
 } 
 blockquote {
-	font-family: Tahoma,Verdana,Segoe,sans-serif;
 	font-size: 21px;
 	font-style: normal;
 	font-variant: normal;
@@ -102,7 +95,6 @@ blockquote {
 	line-height: 30px;
 }
 pre {
-	font-family: Tahoma,Verdana,Segoe,sans-serif;
 	font-size: 13px;
 	font-style: normal;
 	font-variant: normal;
@@ -132,7 +124,6 @@ table {
 }
 table, th, td {
 	color: #333;
-	font-family: Tahoma,Verdana,Segoe,sans-serif;
 	font-size: 14px;
 	border-collapse:collapse; 
 	border-spacing: 0; 
@@ -176,14 +167,12 @@ table#build {
 	width:100%;
 }
 .form {
-	font-family: Tahoma,Verdana,Segoe,sans-serif;
 	width:84%;
 	text-align:center;
 	font-size:20px;
 	float:center;
 }
 .form2 {
-	font-family: Tahoma,Verdana,Segoe,sans-serif;
 	width:84%;
 	text-align:center;
 	font-size:20px;
@@ -191,7 +180,6 @@ table#build {
 	float:center;
 }
 .form3 {
-	font-family: Tahoma,Verdana,Segoe,sans-serif;
 	width:84%;
 	text-align:center;
 	font-size:18px;
@@ -199,7 +187,6 @@ table#build {
 	float:center;
 }
 .form4 {
-	font-family: Tahoma,Verdana,Segoe,sans-serif;
 	width:84%;
 	text-align:center;
 	font-size:22px;
@@ -207,7 +194,6 @@ table#build {
 	float:center;
 }
 .form5 {
-	font-family: Tahoma,Verdana,Segoe,sans-serif;
 	width:84%;
 	text-align:center;
 	font-size:20px;
@@ -217,77 +203,61 @@ table#build {
 	float:right; 
 }
 .error {
-	font-family: Tahoma,Verdana,Segoe,sans-serif;
 	text-align: center;
 }
 .error2 {
-	font-family: Tahoma,Verdana,Segoe,sans-serif;
 	text-align: center;
 	font-size: 20px;
 }
 .error3 {
-	font-family: Tahoma,Verdana,Segoe,sans-serif;
 	text-align: center;
 	font-size: 18px;
 }
 .blackC {
-	font-family: Tahoma,Verdana,Segoe,sans-serif;
 	text-align: center;
 	color: #262626;
 }
 .redC {
-	font-family: Tahoma,Verdana,Segoe,sans-serif;
 	text-align: center;
 	color: #990000;
 }
 .blueC {
-	font-family: Tahoma,Verdana,Segoe,sans-serif;
 	text-align: center;
 	color: #000066;
 }
 .centered {
-	font-family: Tahoma,Verdana,Segoe,sans-serif;
 	text-align: center;
 }
 #red {
-	font-family: Tahoma,Verdana,Segoe,sans-serif;
 	color: #990000;
 }
 #black {
-	font-family: Tahoma,Verdana,Segoe,sans-serif;
 	color: #262626;
 }
 #black16 {
-	font-family: Tahoma,Verdana,Segoe,sans-serif;
 	color: #262626;
 	font-size: 16px;
 }
 #black17 {
-	font-family: Tahoma,Verdana,Segoe,sans-serif;
 	color: #262626;
 	font-size: 17px;
 }
 #blue16 {
-	font-family: Tahoma,Verdana,Segoe,sans-serif;
 	color: #000066;
 	font-size: 16px;
 }
 #red17 {
-	font-family: Tahoma,Verdana,Segoe,sans-serif;
 	color: #990000;
 	font-size: 17px;
 }
 #orange {
-	font-family: Tahoma,Verdana,Segoe,sans-serif;
 	color: #FFA500;
 }
 #green16 {
-	font-family: Tahoma,Verdana,Segoe,sans-serif;
 	color: #006600;
 	font-size: 16px;
 }
 #tinyRed {
-	font-family: Tahoma,Verdana,Segoe,sans-serif;
 	color: #990000;
 	font-size: 10px;
 }
@@ -302,7 +272,6 @@ table#build {
   width: 16%;
 }
 #cssmenu li {
-  font-family: Tahoma,Verdana,Segoe,sans-serif;
   margin: 0;
   padding: 0;
   list-style: none;
