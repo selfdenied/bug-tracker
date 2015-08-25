@@ -15,7 +15,7 @@ import javax.crypto.spec.PBEKeySpec;
  * @author Vasili Andreev
  * @version 1.0
  */
-public class HashPassword {
+public abstract class HashPassword {
 	private static final String PBKDF2_ALGORITHM = "PBKDF2WithHmacSHA1";
 	private static final int SALT_BYTE_SIZE = 8;
 	private static final int HASH_BYTE_SIZE = 8;

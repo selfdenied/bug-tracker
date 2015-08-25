@@ -1,0 +1,11 @@
+2015-08-25 20:34:43 INFO  ConnectionPoolTest:27 - The ConnectionPool has been initialized: true
+2015-08-25 20:34:43 INFO  ConnectionPoolTest:38 - Connection has been taken from pool: true
+2015-08-25 20:34:50 INFO  HashPasswordTest:32 - Hash "1000:fc640e830f7b5bd1:340bcaa508920787" corresponds to password fdrt7980: true
+2015-08-25 20:34:54 INFO  ValidatorTest:44 - Correct password: fdrt7980 Validation result: true
+2015-08-25 20:34:54 INFO  ValidatorTest:44 - Correct password: 12qwaszx@d Validation result: true
+2015-08-25 20:34:54 INFO  ValidatorTest:44 - Correct password: dfre.123_gfty Validation result: true
+2015-08-25 20:34:54 INFO  ValidatorTest:44 - Correct password: gf45-ghyt Validation result: true
+2015-08-25 20:34:54 INFO  ValidatorTest:56 - Incorrect password: %*&&**()() Validation result: false
+2015-08-25 20:34:54 INFO  ValidatorTest:56 - Incorrect password: null Validation result: false
+2015-08-25 20:34:54 INFO  ValidatorTest:56 - Incorrect password:  Validation result: false
+2015-08-25 20:34:54 INFO  ValidatorTest:56 - Incorrect password: gshjbsjkcdscbsdhbcjkdscbhjdsbcjdbsdcb Validation result: false
